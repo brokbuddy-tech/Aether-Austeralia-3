@@ -1,0 +1,64 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-home",
+      "description": "Premium Hamptons style modern home",
+      "imageUrl": "https://picsum.photos/seed/aether1/1200/1600",
+      "imageHint": "Modern Coastal Architecture"
+    },
+    {
+      "id": "listing-1",
+      "description": "Modern coastal residence in Noosa",
+      "imageUrl": "https://picsum.photos/seed/aether2/800/600",
+      "imageHint": "Coastal Luxury Home"
+    },
+    {
+      "id": "listing-2",
+      "description": "Sleek apartment in Sydney Harbour",
+      "imageUrl": "https://picsum.photos/seed/aether3/800/600",
+      "imageHint": "Sydney Harbour Apartment"
+    },
+    {
+      "id": "listing-3",
+      "description": "Contemporary estate in Melbourne suburbs",
+      "imageUrl": "https://picsum.photos/seed/aether4/800/600",
+      "imageHint": "Contemporary Estate"
+    },
+    {
+      "id": "listing-4",
+      "description": "Rural retreat in Byron Bay",
+      "imageUrl": "https://picsum.photos/seed/aether5/800/600",
+      "imageHint": "Rural Byron Retreat"
+    },
+    {
+      "id": "listing-5",
+      "description": "Penthouse with city views in Brisbane",
+      "imageUrl": "https://picsum.photos/seed/aether6/800/600",
+      "imageHint": "Brisbane Penthouse"
+    },
+    {
+      "id": "listing-6",
+      "description": "Family home in Perth coastal area",
+      "imageUrl": "https://picsum.photos/seed/aether7/800/600",
+      "imageHint": "Perth Coastal Home"
+    },
+    {
+      "id": "insight-1",
+      "description": "Architectural detail of a modern staircase",
+      "imageUrl": "https://picsum.photos/seed/aether8/1200/800",
+      "imageHint": "Architectural Detail"
+    },
+    {
+      "id": "agent-bg",
+      "description": "Modern blurred office background",
+      "imageUrl": "https://picsum.photos/seed/aether9/1920/600",
+      "imageHint": "Modern Office"
+    },
+    {
+      "id": "testimonial-avatar",
+      "description": "Client profile picture",
+      "imageUrl": "https://picsum.photos/seed/aether-user1/100/100",
+      "imageHint": "Client Avatar"
+    }
+  ]
+}
