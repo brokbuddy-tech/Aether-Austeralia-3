@@ -59,6 +59,36 @@
       "description": "Client profile picture",
       "imageUrl": "https://picsum.photos/seed/aether-user1/100/100",
       "imageHint": "Client Avatar"
+    },
+    {
+      "id": "faq-image",
+      "description": "Modern interior living space",
+      "imageUrl": "https://picsum.photos/seed/faq-interior/800/1000",
+      "imageHint": "Luxury Interior"
+    },
+    {
+      "id": "contact-bg",
+      "description": "Luxury office or home interior for contact page",
+      "imageUrl": "https://picsum.photos/seed/contact-lux/1920/1080",
+      "imageHint": "Luxury Reception"
+    },
+    {
+      "id": "team-1",
+      "description": "Founder profile picture",
+      "imageUrl": "https://picsum.photos/seed/team1/600/800",
+      "imageHint": "Founder CEO"
+    },
+    {
+      "id": "team-2",
+      "description": "Director profile picture",
+      "imageUrl": "https://picsum.photos/seed/team2/600/800",
+      "imageHint": "Director Luxury"
+    },
+    {
+      "id": "team-3",
+      "description": "Head of Residential profile picture",
+      "imageUrl": "https://picsum.photos/seed/team3/600/800",
+      "imageHint": "Head Residential"
     }
   ]
 }

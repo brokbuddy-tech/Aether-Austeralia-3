@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function ContactPage() {
-  const contactImg = PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "";
+  const contactImg = PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl;
   const navLinks = [
     { name: 'Buy', href: '/buy' },
     { name: 'Rent', href: '/rent' },
@@ -49,14 +49,16 @@ export default function ContactPage() {
       {/* Hero Section with Background */}
       <section className="relative min-h-screen flex items-center justify-center py-32 px-6">
         <div className="absolute inset-0 z-0">
-          <Image 
-            src={contactImg}
-            alt="Vela Armon Contact"
-            fill
-            className="object-cover"
-            priority
-            data-ai-hint="Luxury Reception"
-          />
+          {contactImg && (
+            <Image 
+              src={contactImg}
+              alt="Vela Armon Contact"
+              fill
+              className="object-cover"
+              priority
+              data-ai-hint="Luxury Reception"
+            />
+          )}
           <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
         </div>
 
