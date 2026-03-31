@@ -55,17 +55,26 @@ export default function AboutPage() {
       {/* Logo Branding - Absolute but z-indexed */}
       <div className="absolute top-0 left-0 right-0 z-[90] px-6 py-6 flex justify-between items-center pointer-events-none">
         <Link href="/" className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
-          <span className="text-foreground">Vela</span> <span className="text-primary">Armon</span>
+          <span className="text-white">Vela</span> <span className="text-primary">Armon</span>
         </Link>
       </div>
 
       {/* Hero Section */}
-      <section className="pt-48 pb-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-6xl md:text-8xl font-headline font-extrabold uppercase mb-8 leading-[0.9]">
+      <section className="relative pt-64 pb-48 px-6 min-h-[80vh] flex items-center overflow-hidden">
+        <Image 
+           src={PlaceHolderImages.find(i => i.id === "hero-home")?.imageUrl || ""}
+           alt="Vela Armon Hero"
+           fill
+           className="object-cover"
+           priority
+           data-ai-hint="Luxury Estate"
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative max-w-7xl mx-auto z-10">
+          <h1 className="text-6xl md:text-8xl font-headline font-extrabold uppercase mb-8 leading-[0.9] text-white">
             The <span className="text-primary">Legacy</span> <br /> of Excellence.
           </h1>
-          <p className="text-xl font-light text-muted-foreground max-w-2xl mb-16 leading-relaxed">
+          <p className="text-xl font-light text-white/80 max-w-2xl mb-16 leading-relaxed">
             Vela Armon is Australia's premier real estate consultancy, dedicated to the curation of extraordinary residential and commercial opportunities.
           </p>
         </div>
@@ -90,7 +99,7 @@ export default function AboutPage() {
           </div>
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl">
              <Image 
-               src={PlaceHolderImages.find(i => i.id === "hero-home")?.imageUrl || ""}
+               src={PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || ""}
                alt="Vela Armon Heritage"
                fill
                className="object-cover"
