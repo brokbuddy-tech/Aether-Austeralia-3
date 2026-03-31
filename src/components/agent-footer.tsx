@@ -28,7 +28,7 @@ export function AgentFooter() {
             placeholder="Search by suburb, agent, or agency..."
             className="flex-1 px-8 py-5 rounded-full glass-light border-none focus:ring-1 focus:ring-primary text-foreground placeholder:text-muted-foreground"
           />
-          <Button className="rounded-full px-12 py-5 bg-primary hover:bg-primary/90 text-white font-bold h-auto uppercase tracking-widest text-xs transition-all shadow-xl">
+          <Button className="rounded-full px-12 py-5 bg-primary hover:bg-primary/90 active:bg-white active:text-primary text-white font-bold h-auto uppercase tracking-widest text-xs transition-all shadow-xl">
             Search
           </Button>
         </div>
