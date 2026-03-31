@@ -89,6 +89,18 @@
       "description": "Head of Residential profile picture",
       "imageUrl": "https://picsum.photos/seed/team3/600/800",
       "imageHint": "Head Residential"
+    },
+    {
+      "id": "team-4",
+      "description": "Senior Consultant profile picture",
+      "imageUrl": "https://picsum.photos/seed/team4/600/800",
+      "imageHint": "Senior Consultant"
+    },
+    {
+      "id": "team-5",
+      "description": "Property Advisor profile picture",
+      "imageUrl": "https://picsum.photos/seed/team5/600/800",
+      "imageHint": "Property Advisor"
     }
   ]
 }
