@@ -91,16 +91,11 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-background selection:bg-primary selection:text-white">
-      {/* Navigation - Minimal and Floating */}
-      <nav className="fixed top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center pointer-events-none">
+    <main className="min-h-screen bg-background selection:bg-primary selection:text-white relative">
+      {/* 1. Fixed Branding Overlay */}
+      <div className="fixed top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center pointer-events-none">
         <div className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
           <span className="text-white">Vela</span> <span className="text-primary">Armon</span>
-        </div>
-        <div className="hidden md:flex items-center gap-12 pointer-events-auto bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
-          {['Buy', 'Rent', 'Portfolio', 'Insights', 'Agent'].map((item) => (
-            <a key={item} href="#" className="text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors">{item}</a>
-          ))}
         </div>
         <div className="pointer-events-auto">
           <div className="w-10 h-10 flex flex-col items-end justify-center gap-1.5 cursor-pointer group">
@@ -109,12 +104,21 @@ export default function Home() {
             <div className="w-6 h-[2px] bg-foreground group-hover:w-10 transition-all" />
           </div>
         </div>
-      </nav>
+      </div>
 
-      {/* 1. Hero Section */}
+      {/* 2. Scrolling Navigation Links */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[90] hidden md:flex items-center gap-12 bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
+        {['Buy', 'Rent', 'Sold', 'Insights', 'Agent'].map((item) => (
+          <a key={item} href="#" className="text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors">
+            {item}
+          </a>
+        ))}
+      </div>
+
+      {/* Hero Section */}
       <HeroSection />
 
-      {/* 2. Property Grid */}
+      {/* Property Grid */}
       <section className="py-32 px-6 md:px-12 lg:px-24">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -137,12 +141,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Trust & Editorial */}
+      {/* Trust & Editorial */}
       <IntegritySuite />
       <MarketInsights />
       <TestimonialSlider />
 
-      {/* 4. Footer & Expert Advisor */}
+      {/* Footer & Expert Advisor */}
       <AgentFooter />
       <SiteFooter />
     </main>
