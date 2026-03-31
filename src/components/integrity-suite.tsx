@@ -29,14 +29,19 @@ export function IntegritySuite() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {items.map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center text-center group">
-              <div className="w-24 h-24 rounded-full border border-primary/20 flex items-center justify-center mb-8 transition-all duration-500 group-hover:bg-primary/5 group-hover:scale-110">
-                {item.icon}
+            <div 
+              key={idx} 
+              className="flex flex-col items-center text-center p-10 rounded-[2rem] glass-light border border-primary/5 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group"
+            >
+              <div className="w-20 h-20 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 transition-all duration-500 group-hover:bg-primary group-hover:rotate-[10deg]">
+                <div className="group-hover:text-white transition-colors duration-500">
+                  {item.icon}
+                </div>
               </div>
-              <h3 className="font-headline uppercase tracking-widest text-lg mb-4">{item.title}</h3>
-              <p className="text-muted-foreground font-light text-sm leading-relaxed max-w-xs">
+              <h3 className="font-headline uppercase tracking-widest text-lg mb-4 text-foreground">{item.title}</h3>
+              <p className="text-muted-foreground font-light text-sm leading-relaxed">
                 {item.description}
               </p>
             </div>
