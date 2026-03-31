@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { aiPoweredPropertySearch, type AiPoweredPropertySearchOutput } from "@/ai/flows/ai-powered-property-search-flow";
@@ -43,6 +43,7 @@ export function AISearchBar() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
+          <SlidersHorizontal className="text-primary w-4 h-4 opacity-40 cursor-pointer hover:opacity-100 transition-opacity hidden md:block" />
         </div>
         <Button 
           type="submit" 
