@@ -5,15 +5,25 @@ import { Search, Loader2, SlidersHorizontal, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { aiPoweredPropertySearch, type AiPoweredPropertySearchOutput } from "@/ai/flows/ai-powered-property-search-flow";
+import { useToast } from "@/hooks/use-toast";
 
 export function AISearchBar() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AiPoweredPropertySearchOutput | null>(null);
+  const { toast } = useToast();
 
   const handleSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!query.trim()) return;
+    
+    if (!query.trim()) {
+      toast({
+        title: "Query required",
+        description: "Please describe your ideal property first.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setLoading(true);
     try {
@@ -22,6 +32,11 @@ export function AISearchBar() {
       console.log("Search parameters extracted:", output);
     } catch (error) {
       console.error("Search failed:", error);
+      toast({
+        title: "Search failed",
+        description: "The AI was unable to process your request. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -57,10 +72,11 @@ export function AISearchBar() {
       {/* Explicit AI Search Button */}
       <div className="flex justify-center">
         <Button 
+          type="button"
           onClick={() => handleSearch()}
-          disabled={loading || !query.trim()}
+          disabled={loading}
           variant="outline"
-          className="rounded-full px-8 py-6 h-auto border-primary/20 hover:bg-primary hover:text-white text-primary font-bold uppercase tracking-[0.2em] text-[10px] group transition-all"
+          className="rounded-full px-8 py-6 h-auto border-primary/20 bg-transparent text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.2em] text-[10px] group transition-all"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -95,7 +111,7 @@ export function AISearchBar() {
                 {result.propertyType}
               </Badge>
             )}
-            {result.amenities?.map(a => (
+            {result.amenities && result.amenities.length > 0 && result.amenities.map(a => (
               <Badge key={a} variant="outline" className="px-4 py-2 rounded-full border-primary/20 text-primary bg-primary/5 font-medium uppercase tracking-widest text-[10px]">
                 {a}
               </Badge>
