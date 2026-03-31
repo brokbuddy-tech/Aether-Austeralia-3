@@ -60,7 +60,7 @@ export function AISearchBar() {
           onClick={() => handleSearch()}
           disabled={loading || !query.trim()}
           variant="outline"
-          className="rounded-full px-8 py-6 h-auto border-primary/20 hover:bg-primary/5 text-primary font-bold uppercase tracking-[0.2em] text-[10px] group transition-all"
+          className="rounded-full px-8 py-6 h-auto border-primary/20 hover:bg-primary hover:text-white text-primary font-bold uppercase tracking-[0.2em] text-[10px] group transition-all"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
