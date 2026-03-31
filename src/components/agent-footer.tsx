@@ -6,13 +6,16 @@ export function AgentFooter() {
   const bgImg = PlaceHolderImages.find(img => img.id === "agent-bg");
 
   return (
-    <section className="relative w-full py-32 overflow-hidden">
-      <Image
-        src={bgImg?.imageUrl || ""}
-        alt="Office Background"
-        fill
-        className="object-cover blur-sm opacity-50"
-      />
+    <section className="relative w-full py-32 overflow-hidden bg-muted">
+      {bgImg?.imageUrl ? (
+        <Image
+          src={bgImg.imageUrl}
+          alt="Office Background"
+          fill
+          className="object-cover blur-sm opacity-50"
+          data-ai-hint={bgImg.imageHint}
+        />
+      ) : null}
       <div className="absolute inset-0 bg-primary/10" />
       
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">

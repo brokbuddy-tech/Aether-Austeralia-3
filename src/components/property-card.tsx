@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Bed, Bath, Car, Maximize } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface PropertyProps {
   id: string;
@@ -14,6 +15,7 @@ interface PropertyProps {
   cars: number;
   area: number;
   imageUrl: string;
+  imageHint?: string;
   agentName: string;
 }
 
@@ -26,14 +28,17 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-        <Image
-          src={property.imageUrl}
-          alt={property.title}
-          fill
-          className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, 33vw"
-        />
+      <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-muted">
+        {property.imageUrl ? (
+          <Image
+            src={property.imageUrl}
+            alt={property.title}
+            fill
+            className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            data-ai-hint={property.imageHint}
+          />
+        ) : null}
         
         {/* Metadata Overlay */}
         <div className="absolute bottom-4 left-4 flex gap-3 z-10">
@@ -53,7 +58,10 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
 
         {/* Agent Name reveal on hover */}
         <div 
-          className={`absolute top-4 right-4 glass px-3 py-1 rounded transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+          className={cn(
+            "absolute top-4 right-4 glass px-3 py-1 rounded transition-opacity duration-300",
+            isHovered ? 'opacity-100' : 'opacity-0'
+          )}
         >
           <span className="text-white text-[10px] uppercase tracking-widest font-bold">{property.agentName}</span>
         </div>

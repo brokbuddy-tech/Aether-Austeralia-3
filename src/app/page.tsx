@@ -20,6 +20,7 @@ export default function Home() {
       cars: 2,
       area: 450,
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
+      imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
       agentName: "Sarah West",
     },
     {
@@ -32,6 +33,7 @@ export default function Home() {
       cars: 3,
       area: 320,
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
+      imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
       agentName: "Julian Vance",
     },
     {
@@ -44,6 +46,7 @@ export default function Home() {
       cars: 2,
       area: 550,
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
+      imageHint: PlaceHolderImages.find(i => i.id === "listing-3")?.imageHint || "",
       agentName: "Emma Clarke",
     },
     {
@@ -56,6 +59,7 @@ export default function Home() {
       cars: 4,
       area: 1200,
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
+      imageHint: PlaceHolderImages.find(i => i.id === "listing-4")?.imageHint || "",
       agentName: "Marcus Thorne",
     },
     {
@@ -68,6 +72,7 @@ export default function Home() {
       cars: 1,
       area: 180,
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
+      imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
       agentName: "Lara Croft",
     },
     {
@@ -80,6 +85,7 @@ export default function Home() {
       cars: 2,
       area: 390,
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
+      imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
       agentName: "David Perth",
     }
   ];

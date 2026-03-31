@@ -10,13 +10,16 @@ export function MarketInsights() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-24">
           {/* Left: Image */}
-          <div className="w-full md:w-1/2 aspect-[3/2] relative overflow-hidden rounded-2xl shadow-2xl">
-            <Image
-              src={insightImg?.imageUrl || ""}
-              alt="Architecture Detail"
-              fill
-              className="object-cover"
-            />
+          <div className="w-full md:w-1/2 aspect-[3/2] relative overflow-hidden rounded-2xl shadow-2xl bg-muted">
+            {insightImg?.imageUrl ? (
+              <Image
+                src={insightImg.imageUrl}
+                alt="Architecture Detail"
+                fill
+                className="object-cover"
+                data-ai-hint={insightImg.imageHint}
+              />
+            ) : null}
           </div>
           
           {/* Right: Text */}

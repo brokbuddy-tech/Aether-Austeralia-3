@@ -32,13 +32,16 @@ export function TestimonialSlider() {
             {testimonials.map((t, idx) => (
               <CarouselItem key={idx}>
                 <div className="glass-light p-12 md:p-20 rounded-[2rem] text-center shadow-xl border border-primary/5">
-                  <div className="relative w-16 h-16 mx-auto mb-8 rounded-full overflow-hidden border-2 border-primary/20">
-                    <Image
-                      src={userImg?.imageUrl || ""}
-                      alt="Client"
-                      fill
-                      className="object-cover"
-                    />
+                  <div className="relative w-16 h-16 mx-auto mb-8 rounded-full overflow-hidden border-2 border-primary/20 bg-muted">
+                    {userImg?.imageUrl ? (
+                      <Image
+                        src={userImg.imageUrl}
+                        alt="Client"
+                        fill
+                        className="object-cover"
+                        data-ai-hint={userImg.imageHint}
+                      />
+                    ) : null}
                   </div>
                   <blockquote className="text-2xl md:text-3xl font-editorial font-light italic text-foreground mb-8 leading-relaxed">
                     "{t.quote}"

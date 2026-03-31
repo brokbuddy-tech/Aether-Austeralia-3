@@ -16,6 +16,7 @@ export function HeroSection() {
           alt={heroImage?.description || "Hero Property"}
           className="w-full h-full"
           ratio={0.12}
+          imageHint={heroImage?.imageHint}
         />
       </div>
 
