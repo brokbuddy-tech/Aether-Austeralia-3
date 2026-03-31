@@ -108,7 +108,7 @@ export default function Home() {
 
       {/* 2. Scrolling Navigation Links */}
       <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[90] hidden md:flex items-center gap-12 bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
-        {['Buy', 'Rent', 'Sold', 'Insights', 'Agent'].map((item) => (
+        {['Buy', 'Rent', 'Sold', 'Commercial', 'Agent'].map((item) => (
           <a key={item} href="#" className="text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors">
             {item}
           </a>
