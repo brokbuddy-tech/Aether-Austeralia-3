@@ -58,8 +58,8 @@ export function TestimonialSlider() {
           <CarouselContent>
             {testimonials.map((t, idx) => (
               <CarouselItem key={idx}>
-                <div className="glass-light p-12 md:p-20 rounded-[2rem] text-center shadow-xl border border-primary/5">
-                  <div className="relative w-16 h-16 mx-auto mb-8 rounded-full overflow-hidden border-2 border-primary/20 bg-muted">
+                <div className="bg-white/30 backdrop-blur-xl p-12 md:p-20 rounded-[3rem] text-center shadow-2xl border border-white/40">
+                  <div className="relative w-16 h-16 mx-auto mb-8 rounded-full overflow-hidden border-2 border-white/50 bg-muted/20">
                     {userImg?.imageUrl ? (
                       <Image
                         src={userImg.imageUrl}
@@ -82,10 +82,10 @@ export function TestimonialSlider() {
             ))}
           </CarouselContent>
           <div className="hidden md:block">
-            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white border-primary/10 text-primary hover:bg-primary hover:text-white" />
-            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-white border-primary/10 text-primary hover:bg-primary hover:text-white" />
+            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white/40 backdrop-blur-sm border-white/20 text-primary hover:bg-primary hover:text-white transition-all" />
+            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-white/40 backdrop-blur-sm border-white/20 text-primary hover:bg-primary hover:text-white transition-all" />
           </div>
-        </Carousel>
+ Carousel       </Carousel>
       </div>
     </div>
   );
