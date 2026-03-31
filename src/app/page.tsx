@@ -5,6 +5,7 @@ import { PropertyCard } from "@/components/property-card";
 import { IntegritySuite } from "@/components/integrity-suite";
 import { MarketInsights } from "@/components/market-insights";
 import { TestimonialSlider } from "@/components/testimonial-slider";
+import { FAQSection } from "@/components/faq-section";
 import { AgentFooter } from "@/components/agent-footer";
 import { SiteFooter } from "@/components/site-footer";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -160,6 +161,9 @@ export default function Home() {
       <IntegritySuite />
       <MarketInsights />
       <TestimonialSlider />
+      
+      {/* FAQ Section */}
+      <FAQSection />
 
       {/* Footer & Expert Advisor */}
       <AgentFooter />

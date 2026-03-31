@@ -62,22 +62,10 @@
       "imageHint": "Client Avatar"
     },
     {
-      "id": "team-1",
-      "description": "Sarah West - Founder",
-      "imageUrl": "https://picsum.photos/seed/aether-team1/400/500",
-      "imageHint": "Professional Portrait"
-    },
-    {
-      "id": "team-2",
-      "description": "Julian Vance - Director",
-      "imageUrl": "https://picsum.photos/seed/aether-team2/400/500",
-      "imageHint": "Professional Portrait"
-    },
-    {
-      "id": "team-3",
-      "description": "Emma Clarke - Residential Head",
-      "imageUrl": "https://picsum.photos/seed/aether-team3/400/500",
-      "imageHint": "Professional Portrait"
+      "id": "faq-image",
+      "description": "Modern interior living space",
+      "imageUrl": "https://picsum.photos/seed/faq-interior/800/1000",
+      "imageHint": "Luxury Interior"
     }
   ]
 }
