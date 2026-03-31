@@ -6,7 +6,7 @@ export function SiteFooter() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="col-span-1 md:col-span-2">
           <div className="text-2xl font-headline font-extrabold tracking-tighter uppercase mb-6">
-            Aether <span className="text-primary">Australia</span>
+            Vela <span className="text-primary">Armon</span>
           </div>
           <p className="text-muted-foreground max-w-sm font-light leading-relaxed">
             Defining the benchmark for Australian real estate excellence through sophisticated design and unparalleled market intelligence.
@@ -28,7 +28,7 @@ export function SiteFooter() {
           <p className="text-[10px] text-muted-foreground/60 leading-relaxed uppercase tracking-wider font-bold">
             All data projections for 2026. <br />
             REIA/REIV Registered Partner. <br />
-            © 2024 Aether Australia. <br />
+            © 2024 Vela Armon. <br />
             All Rights Reserved.
           </p>
         </div>
