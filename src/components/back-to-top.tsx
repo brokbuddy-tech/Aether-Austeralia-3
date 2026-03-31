@@ -34,13 +34,13 @@ export function BackToTop() {
       variant="outline"
       size="icon"
       className={cn(
-        "fixed bottom-8 right-8 z-[100] rounded-full h-12 w-12 bg-white/80 backdrop-blur-sm border-primary/20 shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 group",
+        "fixed bottom-8 right-8 z-[100] rounded-full h-12 w-12 bg-white/80 backdrop-blur-sm border-primary/20 shadow-2xl transition-all duration-500 hover:scale-110 hover:bg-primary hover:border-primary active:scale-95 group",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
       )}
       onClick={scrollToTop}
       aria-label="Back to top"
     >
-      <ArrowUp className="w-5 h-5 text-primary transition-transform duration-300 group-hover:-translate-y-1" />
+      <ArrowUp className="w-5 h-5 text-primary transition-transform duration-300 group-hover:-translate-y-1 group-hover:text-white" />
     </Button>
   );
 }
