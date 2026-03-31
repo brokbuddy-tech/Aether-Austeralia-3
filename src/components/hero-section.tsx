@@ -37,14 +37,6 @@ export function HeroSection() {
           <AISearchBar />
         </div>
       </div>
-      
-      {/* Visual Marker for Premium Feeling */}
-      <div className="absolute bottom-10 left-[55%] -translate-x-1/2 hidden md:block">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-[1px] h-20 bg-primary/20" />
-          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary vertical-rl rotate-180">SCROLL</span>
-        </div>
-      </div>
     </section>
   );
 }
