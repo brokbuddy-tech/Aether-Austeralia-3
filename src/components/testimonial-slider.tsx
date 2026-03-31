@@ -1,9 +1,12 @@
+
 "use client";
 
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -13,21 +16,37 @@ export function TestimonialSlider() {
 
   const testimonials = [
     {
-      quote: "Aether transformed our search from a chore into a curated exploration. Their visual approach and local insight are unmatched in the Australian market.",
+      quote: "Vela Armon transformed our search from a chore into a curated exploration. Their visual approach and local insight are unmatched in the Australian market.",
       author: "Julian Vance",
       role: "Luxury Portfolio Client"
     },
     {
-      quote: "The professional integrity and technological edge that Aether brings to real estate is truly extraordinary. A high-end experience through and through.",
+      quote: "The professional integrity and technological edge that Vela Armon brings to real estate is truly extraordinary. A high-end experience through and through.",
       author: "Sarah Montgomery",
       role: "Property Investor"
+    },
+    {
+      quote: "The precision and professionalism of Vela Armon made our relocation to Sydney effortless. Truly the gold standard for luxury acquisitions.",
+      author: "Marcus & Elena Chen",
+      role: "Private Wealth Clients"
+    },
+    {
+      quote: "Their knowledge of off-market properties in the Noosa region is unparalleled. We found our dream home before it even hit the portals.",
+      author: "Dr. Robert Sterling",
+      role: "Retreat Owner"
     }
   ];
 
   return (
     <section className="py-24 px-6 bg-background">
-      <div className="max-w-4xl mx-auto">
-        <Carousel className="w-full">
+      <div className="max-w-4xl mx-auto relative px-12">
+        <Carousel 
+          className="w-full"
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+        >
           <CarouselContent>
             {testimonials.map((t, idx) => (
               <CarouselItem key={idx}>
@@ -54,6 +73,10 @@ export function TestimonialSlider() {
               </CarouselItem>
             ))}
           </CarouselContent>
+          <div className="hidden md:block">
+            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white border-primary/10 text-primary hover:bg-primary hover:text-white" />
+            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-white border-primary/10 text-primary hover:bg-primary hover:text-white" />
+          </div>
         </Carousel>
       </div>
     </section>
