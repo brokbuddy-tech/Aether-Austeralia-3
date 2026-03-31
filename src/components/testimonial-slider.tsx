@@ -1,6 +1,6 @@
-
 "use client";
 
+import * as React from "react";
 import {
   Carousel,
   CarouselContent,
@@ -10,9 +10,14 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import Autoplay from "embla-carousel-autoplay";
 
 export function TestimonialSlider() {
   const userImg = PlaceHolderImages.find(img => img.id === "testimonial-avatar");
+
+  const plugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
 
   const testimonials = [
     {
@@ -42,6 +47,9 @@ export function TestimonialSlider() {
       <div className="max-w-4xl mx-auto relative px-12">
         <Carousel 
           className="w-full"
+          plugins={[plugin.current]}
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
           opts={{
             align: "start",
             loop: true,
