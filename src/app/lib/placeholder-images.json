@@ -66,6 +66,12 @@
       "description": "Modern interior living space",
       "imageUrl": "https://picsum.photos/seed/faq-interior/800/1000",
       "imageHint": "Luxury Interior"
+    },
+    {
+      "id": "contact-bg",
+      "description": "Luxury office or home interior for contact page",
+      "imageUrl": "https://picsum.photos/seed/contact-lux/1920/1080",
+      "imageHint": "Luxury Reception"
     }
   ]
 }

@@ -9,6 +9,7 @@ import { FAQSection } from "@/components/faq-section";
 import { AgentFooter } from "@/components/agent-footer";
 import { SiteFooter } from "@/components/site-footer";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   // Mock property data based on requirements
@@ -109,13 +110,11 @@ export default function Home() {
         <Link href="/" className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
           <span className="text-white">Vela</span> <span className="text-primary">Armon</span>
         </Link>
-        <div className="pointer-events-auto">
-          <div className="w-10 h-10 flex flex-col items-end justify-center gap-1.5 cursor-pointer group">
-            <div className="w-8 h-[2px] bg-foreground group-hover:w-10 transition-all" />
-            <div className="w-10 h-[2px] bg-foreground" />
-            <div className="w-6 h-[2px] bg-foreground group-hover:w-10 transition-all" />
-          </div>
-        </div>
+        <Link href="/contact" className="pointer-events-auto">
+          <Button className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white font-bold h-10 uppercase tracking-[0.2em] text-[10px] shadow-lg">
+            Contact Us
+          </Button>
+        </Link>
       </div>
 
       {/* 2. Fixed Navigation Links - Sticky */}
