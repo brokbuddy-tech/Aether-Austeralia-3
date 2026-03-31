@@ -5,17 +5,17 @@ export function IntegritySuite() {
     {
       title: "Expert Advice",
       description: "Unparalleled market intelligence and strategic consultancy.",
-      icon: <ShieldCheck className="w-8 h-8 text-primary" />,
+      icon: ShieldCheck,
     },
     {
       title: "Marketing Excellence",
       description: "High-performance digital strategies that define luxury real estate.",
-      icon: <TrendingUp className="w-8 h-8 text-primary" />,
+      icon: TrendingUp,
     },
     {
       title: "Local Knowledge",
       description: "Deep-rooted expertise in Australia's most exclusive suburbs.",
-      icon: <MapPin className="w-8 h-8 text-primary" />,
+      icon: MapPin,
     },
   ];
 
@@ -30,22 +30,23 @@ export function IntegritySuite() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.map((item, idx) => (
-            <div 
-              key={idx} 
-              className="flex flex-col items-center text-center p-10 rounded-[2rem] glass-light border border-primary/5 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group"
-            >
-              <div className="w-20 h-20 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 transition-all duration-500 group-hover:bg-primary group-hover:rotate-[10deg]">
-                <div className="group-hover:text-white transition-colors duration-500">
-                  {item.icon}
+          {items.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <div 
+                key={idx} 
+                className="flex flex-col items-center text-center p-10 rounded-[2rem] glass-light border border-primary/5 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group"
+              >
+                <div className="w-20 h-20 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 transition-all duration-500 group-hover:bg-primary group-hover:rotate-[10deg]">
+                  <Icon className="w-8 h-8 text-primary transition-colors duration-500 group-hover:text-white" />
                 </div>
+                <h3 className="font-headline uppercase tracking-widest text-lg mb-4 text-foreground">{item.title}</h3>
+                <p className="text-muted-foreground font-light text-sm leading-relaxed">
+                  {item.description}
+                </p>
               </div>
-              <h3 className="font-headline uppercase tracking-widest text-lg mb-4 text-foreground">{item.title}</h3>
-              <p className="text-muted-foreground font-light text-sm leading-relaxed">
-                {item.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
