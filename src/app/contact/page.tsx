@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -39,6 +38,11 @@ export default function ContactPage() {
       <div className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center pointer-events-none">
         <Link href="/" className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
           <span className="text-foreground md:text-white">Vela</span> <span className="text-primary">Armon</span>
+        </Link>
+        <Link href="/contact" className="pointer-events-auto">
+          <Button className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white font-bold h-10 uppercase tracking-[0.2em] text-[10px] shadow-lg">
+            Contact Us
+          </Button>
         </Link>
       </div>
 
@@ -125,7 +129,7 @@ export default function ContactPage() {
                 <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Your Message</label>
                 <Textarea className="rounded-xl border-primary/10 min-h-[150px] focus:ring-primary resize-none" placeholder="How can we assist you?" />
               </div>
-              <Button className="w-full rounded-full py-7 bg-[#111111] hover:bg-black text-white font-bold uppercase tracking-[0.3em] text-[11px] h-auto shadow-xl transition-all hover:scale-[1.02]">
+              <Button className="w-full rounded-full py-7 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.3em] text-[11px] h-auto shadow-xl transition-all hover:scale-[1.02]">
                 Submit Inquiry
               </Button>
             </form>
