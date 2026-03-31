@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Search, Loader2, SlidersHorizontal } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { aiPoweredPropertySearch, type AiPoweredPropertySearchOutput } from "@/ai/flows/ai-powered-property-search-flow";
 
@@ -19,7 +18,6 @@ export function AISearchBar() {
     try {
       const output = await aiPoweredPropertySearch({ query });
       setResult(output);
-      // In a real app, this would trigger a filtering logic on a property list
       console.log("Search parameters extracted:", output);
     } catch (error) {
       console.error("Search failed:", error);
@@ -29,28 +27,28 @@ export function AISearchBar() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-4">
+    <div className="w-full max-w-3xl mx-auto space-y-4">
       <form 
         onSubmit={handleSearch}
         className="glass-light p-2 rounded-full flex items-center gap-2 shadow-2xl border border-white/40"
       >
-        <div className="flex-1 flex items-center px-4 gap-3">
-          <Search className="text-primary w-5 h-5 opacity-60" />
+        <div className="flex-1 flex items-center px-6 gap-3">
           <input
             type="text"
             placeholder="e.g., Modern 3-bed home with a pool in Noosa"
-            className="w-full bg-transparent border-none focus:ring-0 text-foreground placeholder:text-muted-foreground/60 text-sm md:text-base font-light"
+            className="w-full bg-transparent border-none focus:ring-0 text-foreground placeholder:text-muted-foreground/60 text-sm md:text-base font-light py-4"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <SlidersHorizontal className="text-primary w-4 h-4 opacity-40 cursor-pointer hover:opacity-100 transition-opacity hidden md:block" />
+          <SlidersHorizontal className="text-primary w-5 h-5 opacity-40 cursor-pointer hover:opacity-100 transition-opacity hidden md:block" />
         </div>
         <Button 
           type="submit" 
           disabled={loading}
-          className="rounded-full px-8 py-6 bg-primary hover:bg-primary/90 text-white font-bold transition-all"
+          size="icon"
+          className="rounded-full h-14 w-14 bg-primary hover:bg-primary/90 text-white shadow-lg transition-all shrink-0"
         >
-          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "SEARCH"}
+          {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Search className="w-6 h-6" />}
         </Button>
       </form>
       
