@@ -95,7 +95,7 @@ export default function Home() {
       {/* Navigation - Minimal and Floating */}
       <nav className="fixed top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center pointer-events-none">
         <div className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
-          Vela <span className="text-primary">Armon</span>
+          <span className="text-white">Vela</span> <span className="text-primary">Armon</span>
         </div>
         <div className="hidden md:flex items-center gap-12 pointer-events-auto bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
           {['Buy', 'Rent', 'Portfolio', 'Insights', 'Agent'].map((item) => (
