@@ -1,3 +1,5 @@
+
+import Link from "next/link";
 import { HeroSection } from "@/components/hero-section";
 import { PropertyCard } from "@/components/property-card";
 import { IntegritySuite } from "@/components/integrity-suite";
@@ -90,13 +92,22 @@ export default function Home() {
     }
   ];
 
+  const navLinks = [
+    { name: 'Buy', href: '/buy' },
+    { name: 'Rent', href: '/rent' },
+    { name: 'Sold', href: '/sold' },
+    { name: 'Commercial', href: '/commercial' },
+    { name: 'Agent', href: '/agent' },
+    { name: 'About Us', href: '/about' },
+  ];
+
   return (
     <main className="min-h-screen bg-background selection:bg-primary selection:text-white relative">
-      {/* 1. Absolute Branding Overlay */}
+      {/* 1. Absolute Branding Overlay - Scrolls with page */}
       <div className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center pointer-events-none">
-        <div className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
+        <Link href="/" className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
           <span className="text-white">Vela</span> <span className="text-primary">Armon</span>
-        </div>
+        </Link>
         <div className="pointer-events-auto">
           <div className="w-10 h-10 flex flex-col items-end justify-center gap-1.5 cursor-pointer group">
             <div className="w-8 h-[2px] bg-foreground group-hover:w-10 transition-all" />
@@ -106,12 +117,16 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2. Fixed Navigation Links */}
+      {/* 2. Fixed Navigation Links - Sticky */}
       <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[90] hidden md:flex items-center gap-12 bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
-        {['Buy', 'Rent', 'Sold', 'Commercial', 'Agent', 'About Us'].map((item) => (
-          <a key={item} href="#" className="text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors">
-            {item}
-          </a>
+        {navLinks.map((link) => (
+          <Link 
+            key={link.name} 
+            href={link.href} 
+            className="text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors"
+          >
+            {link.name}
+          </Link>
         ))}
       </div>
 
@@ -129,7 +144,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex gap-4">
-              <button className="px-8 py-3 rounded-full border border-primary/20 text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-primary hover:text-white transition-all">All Listings</button>
+              <Link href="/buy" className="px-8 py-3 rounded-full border border-primary/20 text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-primary hover:text-white transition-all">All Listings</Link>
             </div>
           </div>
           
