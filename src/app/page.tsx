@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { HeroSection } from "@/components/hero-section";
 import { PropertyCard } from "@/components/property-card";
@@ -159,7 +158,11 @@ export default function Home() {
       {/* Trust & Editorial */}
       <IntegritySuite />
       <MarketInsights />
-      <TestimonialSlider />
+      
+      {/* Testimonials */}
+      <section className="bg-background py-32">
+        <TestimonialSlider />
+      </section>
       
       {/* FAQ Section */}
       <FAQSection />

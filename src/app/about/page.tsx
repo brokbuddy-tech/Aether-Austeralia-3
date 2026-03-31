@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import { SiteFooter } from "@/components/site-footer";
@@ -36,6 +35,8 @@ export default function AboutPage() {
       imageId: "team-3"
     }
   ];
+
+  const testimonialBg = PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl;
 
   return (
     <main className="min-h-screen bg-background">
@@ -149,8 +150,18 @@ export default function AboutPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-muted/50">
-        <div className="max-w-7xl mx-auto py-24">
+      <section className="relative py-32 px-6 overflow-hidden">
+        {testimonialBg && (
+          <Image 
+            src={testimonialBg}
+            alt="Testimonials Background"
+            fill
+            className="object-cover opacity-20"
+            data-ai-hint="Luxury Interior"
+          />
+        )}
+        <div className="absolute inset-0 bg-muted/60 backdrop-blur-[2px]" />
+        <div className="relative max-w-7xl mx-auto z-10">
           <div className="text-center mb-12">
             <h2 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary">Voices of Confidence</h2>
           </div>

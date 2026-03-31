@@ -43,7 +43,7 @@ export function TestimonialSlider() {
   ];
 
   return (
-    <section className="py-24 px-6 bg-background">
+    <div className="w-full relative">
       <div className="max-w-4xl mx-auto relative px-12">
         <Carousel 
           className="w-full"
@@ -87,6 +87,6 @@ export function TestimonialSlider() {
           </div>
         </Carousel>
       </div>
-    </section>
+    </div>
   );
 }
