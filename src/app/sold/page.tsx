@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
+import { Button } from "@/components/ui/button";
 
 export default function SoldPage() {
   const navLinks = [
@@ -30,6 +31,11 @@ export default function SoldPage() {
       <div className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center pointer-events-none">
         <Link href="/" className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
           <span className="text-foreground">Vela</span> <span className="text-primary">Armon</span>
+        </Link>
+        <Link href="/contact" className="pointer-events-auto">
+          <Button className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white font-bold h-10 uppercase tracking-[0.2em] text-[10px] shadow-lg">
+            Contact Us
+          </Button>
         </Link>
       </div>
 
