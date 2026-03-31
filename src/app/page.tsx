@@ -92,8 +92,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background selection:bg-primary selection:text-white relative">
-      {/* 1. Fixed Branding Overlay */}
-      <div className="fixed top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center pointer-events-none">
+      {/* 1. Absolute Branding Overlay */}
+      <div className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center pointer-events-none">
         <div className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
           <span className="text-white">Vela</span> <span className="text-primary">Armon</span>
         </div>
