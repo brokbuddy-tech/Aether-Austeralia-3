@@ -176,7 +176,7 @@ export default function AboutPage() {
           <p className="text-muted-foreground text-lg font-light">Join the most exclusive real estate network in Australia.</p>
           <div className="flex flex-col md:flex-row gap-4 justify-center pt-8">
             <Button className="rounded-full px-12 py-6 bg-primary hover:bg-primary/90 text-white font-bold h-auto uppercase tracking-widest text-xs">Consult an Advisor</Button>
-            <Button variant="outline" className="rounded-full px-12 py-6 border-primary/20 hover:bg-primary/5 text-primary font-bold h-auto uppercase tracking-widest text-xs">View Listings</Button>
+            <Button variant="outline" className="rounded-full px-12 py-6 border-primary/20 hover:bg-primary hover:text-white text-primary font-bold h-auto uppercase tracking-widest text-xs">View Listings</Button>
           </div>
         </div>
       </section>
