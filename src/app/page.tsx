@@ -166,11 +166,13 @@ export default function Home() {
       {/* FAQ Section */}
       <FAQSection />
 
+      {/* Expert Advisor Footer */}
+      <AgentFooter />
+
       {/* Editorial & Market Analysis */}
       <MarketInsights />
       
-      {/* Footer & Expert Advisor */}
-      <AgentFooter />
+      {/* Footer Branding */}
       <SiteFooter />
     </main>
   );
