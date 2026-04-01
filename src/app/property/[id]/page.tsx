@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Building2 } from "lucide-react";
+import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Building2, Grid3X3 } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -161,6 +161,12 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
     notFound();
   }
 
+  const galleryImages = [
+    PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
+    PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "",
+    PlaceHolderImages.find(i => i.id === "faq-image")?.imageUrl || "",
+  ];
+
   const navLinks = [
     { name: 'Buy', href: '/buy' },
     { name: 'Rent', href: '/rent' },
@@ -215,7 +221,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
           </div>
 
           {/* Hero Image */}
-          <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] overflow-hidden shadow-2xl mb-16">
+          <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] overflow-hidden shadow-2xl mb-8">
             <Image 
               src={property.imageUrl}
               alt={property.title}
@@ -239,6 +245,29 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                 <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">Last Transaction</p>
                 <p className="text-3xl md:text-4xl font-headline font-extrabold text-primary">AUD ${property.price}</p>
               </div>
+            </div>
+          </div>
+
+          {/* Secondary Gallery */}
+          <div className="space-y-6 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {galleryImages.map((img, idx) => (
+                <div key={idx} className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-lg group">
+                  <Image 
+                    src={img}
+                    alt={`Gallery Image ${idx + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center pt-4">
+              <Button variant="outline" className="rounded-full px-10 py-6 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.3em] text-[10px] transition-all">
+                <Grid3X3 className="w-4 h-4 mr-3" />
+                View All Photos
+              </Button>
             </div>
           </div>
 
