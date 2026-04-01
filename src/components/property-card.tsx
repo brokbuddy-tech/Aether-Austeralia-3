@@ -18,7 +18,7 @@ interface PropertyProps {
   imageUrl: string;
   imageHint?: string;
   agentName: string;
-  tag?: "New Listing" | "Auction" | "Exclusive" | "For Sale" | "For Rent";
+  tag?: "New Listing" | "Auction" | "Exclusive" | "For Sale" | "For Rent" | "Sold" | "Record Price";
 }
 
 export function PropertyCard({ property }: { property: PropertyProps }) {
@@ -46,7 +46,11 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
         {/* Status Tag Overlay */}
         {property.tag && (
           <div className="absolute top-4 left-4 z-20">
-            <div className="glass px-3 py-1.5 rounded-full text-[9px] uppercase font-bold tracking-[0.2em] text-white border border-white/20">
+            <div className={cn(
+              "glass px-3 py-1.5 rounded-full text-[9px] uppercase font-bold tracking-[0.2em] text-white border border-white/20",
+              property.tag === "Sold" && "bg-black/60",
+              property.tag === "Record Price" && "bg-primary/80 border-primary/40"
+            )}>
               {property.tag}
             </div>
           </div>

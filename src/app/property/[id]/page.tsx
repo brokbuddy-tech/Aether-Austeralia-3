@@ -90,6 +90,34 @@ const properties = [
     imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
     agentName: "David Perth",
     description: "Perfectly positioned on the dunes of Cottesloe, this architectural masterpiece captures the raw beauty of the Indian Ocean. Designed by an award-winning firm, the home utilizes sustainable materials and smart-home technology to create a living experience that is both luxurious and responsible."
+  },
+  {
+    id: "s1",
+    title: "Noosa Waters Estate",
+    price: "5,800,000",
+    location: "Noosa Waters, QLD",
+    beds: 5,
+    baths: 4,
+    cars: 3,
+    area: 620,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
+    imageHint: "Luxury Waterfront Home",
+    agentName: "Sarah West",
+    description: "A landmark sale in Noosa Waters. This north-facing waterfront residence set a new standard for modern luxury in the region, featuring a 20m lap pool and bespoke boat mooring facilities."
+  },
+  {
+    id: "s2",
+    title: "Point Piper Skyhouse",
+    price: "24,500,000",
+    location: "Point Piper, NSW",
+    beds: 4,
+    baths: 5,
+    cars: 4,
+    area: 480,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
+    imageHint: "Ultra Luxury Apartment",
+    agentName: "Julian Vance",
+    description: "A record-breaking transaction for the Sydney Harbour market. This Point Piper penthouse represents the pinnacle of vertical living, offering unparalleled views and finishes of the highest international calibre."
   }
 ];
 
@@ -117,7 +145,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
           <Link 
             key={link.name} 
             href={link.href} 
-            className={`text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors ${link.name === 'Buy' ? 'text-primary' : ''}`}
+            className={`text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors ${link.name === 'Buy' || link.name === 'Sold' || link.name === 'Rent' ? 'text-primary' : ''}`}
           >
             {link.name}
           </Link>
@@ -175,7 +203,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                 </div>
               </div>
               <div className="glass-light p-8 rounded-3xl backdrop-blur-2xl border-white/20">
-                <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">Asking Price</p>
+                <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">Last Transaction</p>
                 <p className="text-3xl md:text-4xl font-headline font-extrabold text-primary">AUD ${property.price}</p>
               </div>
             </div>
@@ -232,7 +260,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                  <div className="flex flex-col items-center text-center space-y-6">
                     <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-primary/20 bg-muted">
                        <Image 
-                         src={PlaceHolderImages.find(i => i.id === (params.id === '1' ? 'team-1' : params.id === '2' ? 'team-2' : 'team-3'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl}
+                         src={PlaceHolderImages.find(i => i.id === (params.id === '1' || params.id === 's1' ? 'team-1' : params.id === '2' || params.id === 's2' ? 'team-2' : 'team-3'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl}
                          alt={property.agentName}
                          fill
                          className="object-cover"
@@ -245,10 +273,10 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                     </div>
                     <div className="w-full space-y-4 pt-8 border-t border-primary/5">
                       <Button className="w-full rounded-full py-7 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.3em] text-[10px] h-auto shadow-xl">
-                        Schedule Viewing
+                        Consult an Advisor
                       </Button>
                       <Button variant="outline" className="w-full rounded-full py-7 border-primary/20 text-primary font-bold uppercase tracking-[0.3em] text-[10px] h-auto">
-                        Inquire Privately
+                        View Portfolio
                       </Button>
                     </div>
                  </div>
