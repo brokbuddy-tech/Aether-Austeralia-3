@@ -128,12 +128,14 @@ export default function CommercialPage() {
           </div>
 
           <div className="mt-24 flex justify-center">
-            <Button 
-              variant="outline" 
-              className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
-            >
-              Consult an Advisor
-            </Button>
+            <Link href="/agent">
+              <Button 
+                variant="outline" 
+                className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
+              >
+                Consult an Advisor
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
