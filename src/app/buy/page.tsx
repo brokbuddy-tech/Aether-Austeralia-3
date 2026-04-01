@@ -138,6 +138,15 @@ export default function BuyPage() {
               <PropertyCard key={property.id} property={property} />
             ))}
           </div>
+
+          <div className="mt-24 flex justify-center">
+            <Button 
+              variant="outline" 
+              className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
+            >
+              View More Listings
+            </Button>
+          </div>
         </div>
       </section>
 
