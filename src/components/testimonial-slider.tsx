@@ -85,7 +85,7 @@ export function TestimonialSlider() {
             <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white/40 backdrop-blur-sm border-white/20 text-primary hover:bg-primary hover:text-white transition-all" />
             <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-white/40 backdrop-blur-sm border-white/20 text-primary hover:bg-primary hover:text-white transition-all" />
           </div>
- Carousel       </Carousel>
+        </Carousel>
       </div>
     </div>
   );

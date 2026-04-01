@@ -26,10 +26,15 @@ export function AISearchBar() {
     }
     
     setLoading(true);
+    setResult(null); // Clear previous result for feedback
     try {
       const output = await aiPoweredPropertySearch({ query });
       setResult(output);
-      console.log("Search parameters extracted:", output);
+      
+      toast({
+        title: "Search refined",
+        description: "AI has successfully parsed your property requirements.",
+      });
     } catch (error) {
       console.error("Search failed:", error);
       toast({
