@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Bed, Bath, Car, Maximize } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 
 interface PropertyProps {
   id: string;
@@ -19,7 +18,7 @@ interface PropertyProps {
   imageUrl: string;
   imageHint?: string;
   agentName: string;
-  tag?: "New Listing" | "Auction" | "Exclusive" | "For Sale";
+  tag?: "New Listing" | "Auction" | "Exclusive" | "For Sale" | "For Rent";
 }
 
 export function PropertyCard({ property }: { property: PropertyProps }) {
