@@ -92,6 +92,62 @@ const properties = [
     description: "Perfectly positioned on the dunes of Cottesloe, this architectural masterpiece captures the raw beauty of the Indian Ocean. Designed by an award-winning firm, the home utilizes sustainable materials and smart-home technology to create a living experience that is both luxurious and responsible."
   },
   {
+    id: "r1",
+    title: "Harbourfront Residence",
+    price: "2,850 / week",
+    location: "Darling Point, NSW",
+    beds: 3,
+    baths: 2,
+    cars: 2,
+    area: 210,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
+    agentName: "Julian Vance",
+    description: "A sophisticated harbourfront sanctuary in Darling Point. This residence offers sweeping water views, expansive living areas, and high-end finishes throughout. Perfect for those seeking a prestigious lifestyle in one of Sydney's most exclusive pockets."
+  },
+  {
+    id: "r2",
+    title: "Noosa Modern Sanctuary",
+    price: "1,950 / week",
+    location: "Noosa Heads, QLD",
+    beds: 4,
+    baths: 3,
+    cars: 2,
+    area: 380,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
+    agentName: "Sarah West",
+    description: "Immerse yourself in Noosa's natural beauty with this modern sanctuary. Designed for seamless indoor-outdoor living, the property features a private pool, chef's kitchen, and luxurious master suite. Experience the ultimate in coastal relaxation."
+  },
+  {
+    id: "r3",
+    title: "Melbourne City Loft",
+    price: "1,200 / week",
+    location: "Melbourne CBD, VIC",
+    beds: 2,
+    baths: 2,
+    cars: 1,
+    area: 110,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
+    agentName: "Emma Clarke",
+    description: "An urban retreat in the heart of Melbourne. This stylish city loft boasts high ceilings, industrial accents, and panoramic skyline views. Footsteps away from the city's finest dining, shopping, and entertainment."
+  },
+  {
+    id: "r4",
+    title: "Coastal Edge Villa",
+    price: "2,400 / week",
+    location: "Cottesloe, WA",
+    beds: 3,
+    baths: 2,
+    cars: 2,
+    area: 250,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
+    agentName: "David Perth",
+    description: "Perched on the edge of the Indian Ocean, this Cottesloe villa offers a lifestyle of sun, surf, and sophistication. With light-filled interiors and multiple balconies, every day feels like a holiday in this architectural masterpiece."
+  },
+  {
     id: "s1",
     title: "Noosa Waters Estate",
     price: "5,800,000",
@@ -242,7 +298,9 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                 </div>
               </div>
               <div className="glass-light p-8 rounded-3xl backdrop-blur-2xl border-white/20">
-                <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">Last Transaction</p>
+                <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">
+                  {property.price.includes('/') ? 'Lease Terms' : 'Last Transaction'}
+                </p>
                 <p className="text-3xl md:text-4xl font-headline font-extrabold text-primary">AUD ${property.price}</p>
               </div>
             </div>
@@ -278,7 +336,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {property.beds !== undefined && (
                   <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
-                    <Bed className="w-6 h-6 text-primary" />
+                    < Bed className="w-6 h-6 text-primary" />
                     <p className="text-2xl font-headline font-bold">{property.beds}</p>
                     <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bedrooms</p>
                   </div>
@@ -315,7 +373,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                      Beyond the primary functional spaces, this asset offers unparalleled attention to detail. The integration of high-end facilities, smart building automation, and sustainable architectural principles ensures that the property is as efficient as it is impressive.
                    </p>
                    <p>
-                     Positioned within one of Australia's most strategic commercial postcodes, tenants and owners enjoy proximity to logistical hubs, world-class amenities, and key business landmarks while maintaining a sense of absolute prestige and security.
+                     Positioned within one of Australia's most strategic postcodes, tenants and owners enjoy proximity to logistical hubs, world-class amenities, and key landmarks while maintaining a sense of absolute prestige and security.
                    </p>
                 </div>
               </div>
@@ -328,7 +386,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                  <div className="flex flex-col items-center text-center space-y-6">
                     <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-primary/20 bg-muted">
                        <Image 
-                         src={PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : 'team-3'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl}
+                         src={PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : 'team-4'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl}
                          alt={property.agentName}
                          fill
                          className="object-cover"
