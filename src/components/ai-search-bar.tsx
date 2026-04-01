@@ -107,8 +107,8 @@ export function AISearchBar() {
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button variant="ghost" className="rounded-full h-14 w-14 hover:bg-primary group shrink-0 border border-primary transition-all">
-              <SlidersHorizontal className="text-primary w-6 h-6 group-hover:text-white transition-colors" />
+            <Button variant="ghost" className="rounded-full h-14 w-14 border border-primary text-primary hover:bg-primary hover:text-white transition-all group shrink-0">
+              <SlidersHorizontal className="w-6 h-6" />
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden border-none rounded-[2.5rem] shadow-2xl bg-transparent">
@@ -116,7 +116,6 @@ export function AISearchBar() {
               <DialogHeader className="mb-8">
                 <div className="flex items-center justify-between">
                   <DialogTitle className="font-headline font-bold uppercase tracking-[0.3em] text-sm text-primary">Advanced Filters</DialogTitle>
-                  <Sparkles className="w-4 h-4 text-primary opacity-50" />
                 </div>
               </DialogHeader>
 
