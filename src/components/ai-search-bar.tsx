@@ -240,7 +240,7 @@ export function AISearchBar() {
           onClick={handleSearch}
           disabled={loading}
           size="icon"
-          className="rounded-full h-14 w-14 bg-[#111111] hover:bg-black text-white shadow-lg transition-all shrink-0"
+          className="rounded-full h-14 w-14 bg-primary hover:bg-primary/90 text-white shadow-lg transition-all shrink-0"
         >
           {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Search className="w-6 h-6" />}
         </Button>
