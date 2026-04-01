@@ -1,0 +1,264 @@
+import Link from "next/link";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft } from "lucide-react";
+import { SiteFooter } from "@/components/site-footer";
+import { Button } from "@/components/ui/button";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+
+const properties = [
+  {
+    id: "1",
+    title: "Noosa Coastal Retreat",
+    price: "4,250,000",
+    location: "Noosa Heads, QLD",
+    beds: 4,
+    baths: 3,
+    cars: 2,
+    area: 450,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
+    agentName: "Sarah West",
+    description: "Experience the ultimate in coastal luxury at this stunning Noosa Heads residence. Designed for seamless indoor-outdoor living, this home features floor-to-ceiling glass, premium natural finishes, and a private infinity pool overlooking the lush hinterland. Every detail has been meticulously curated to provide a sense of calm and sophistication."
+  },
+  {
+    id: "2",
+    title: "Harbour View Penthouse",
+    price: "12,800,000",
+    location: "Double Bay, NSW",
+    beds: 3,
+    baths: 4,
+    cars: 3,
+    area: 320,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
+    agentName: "Julian Vance",
+    description: "Occupying the entire top floor of one of Double Bay's most prestigious buildings, this penthouse offers 360-degree views of Sydney Harbour. With a private rooftop garden, bespoke marble kitchen, and master suite that rivals the world's finest hotels, this is a rare opportunity for the most discerning collector."
+  },
+  {
+    id: "3",
+    title: "Modern Melbourne Estate",
+    price: "3,100,000",
+    location: "Toorak, VIC",
+    beds: 5,
+    baths: 3,
+    cars: 2,
+    area: 550,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-3")?.imageHint || "",
+    agentName: "Emma Clarke",
+    description: "A triumph of contemporary architecture, this Toorak estate combines bold concrete forms with warm timber accents. The expansive floorplan offers multiple living zones, a dedicated home cinema, and a climate-controlled wine cellar. Set amongst manicured gardens, it provides absolute privacy in Melbourne's premier suburb."
+  },
+  {
+    id: "4",
+    title: "Byron Hinterland Estate",
+    price: "6,900,000",
+    location: "Byron Bay, NSW",
+    beds: 6,
+    baths: 4,
+    cars: 4,
+    area: 1200,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-4")?.imageHint || "",
+    agentName: "Marcus Thorne",
+    description: "A sanctuary of scale and serenity. This sprawling hinterland estate offers absolute seclusion just minutes from Byron's famous beaches. Featuring a separate guest cottage, equestrian facilities, and panoramic ocean views, it is a legacy property of international standing."
+  },
+  {
+    id: "5",
+    title: "Brisbane City Spire",
+    price: "2,450,000",
+    location: "New Farm, QLD",
+    beds: 2,
+    baths: 2,
+    cars: 1,
+    area: 180,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
+    agentName: "Lara Croft",
+    description: "The height of urban sophistication. This New Farm residence offers breathtaking river and city views from every room. With custom joinery, integrated Miele appliances, and access to world-class building amenities including a residents-only lounge and wellness center."
+  },
+  {
+    id: "6",
+    title: "Ocean Edge Residence",
+    price: "5,300,000",
+    location: "Cottesloe, WA",
+    beds: 4,
+    baths: 3,
+    cars: 2,
+    area: 390,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
+    imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
+    agentName: "David Perth",
+    description: "Perfectly positioned on the dunes of Cottesloe, this architectural masterpiece captures the raw beauty of the Indian Ocean. Designed by an award-winning firm, the home utilizes sustainable materials and smart-home technology to create a living experience that is both luxurious and responsible."
+  }
+];
+
+export default function PropertyPage({ params }: { params: { id: string } }) {
+  const property = properties.find(p => p.id === params.id);
+
+  if (!property) {
+    notFound();
+  }
+
+  const navLinks = [
+    { name: 'Buy', href: '/buy' },
+    { name: 'Rent', href: '/rent' },
+    { name: 'Sold', href: '/sold' },
+    { name: 'Commercial', href: '/commercial' },
+    { name: 'Agent', href: '/agent' },
+    { name: 'About Us', href: '/about' },
+  ];
+
+  return (
+    <main className="min-h-screen bg-background">
+      {/* Persistent Navigation */}
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[90] hidden md:flex items-center gap-12 bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
+        {navLinks.map((link) => (
+          <Link 
+            key={link.name} 
+            href={link.href} 
+            className={`text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors ${link.name === 'Buy' ? 'text-primary' : ''}`}
+          >
+            {link.name}
+          </Link>
+        ))}
+      </div>
+
+      <div className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 flex justify-between items-center">
+        <Link href="/" className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase">
+          <span className="text-foreground">Vela</span> <span className="text-primary">Armon</span>
+        </Link>
+        <Link href="/contact">
+          <Button className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white font-bold h-10 uppercase tracking-[0.2em] text-[10px] shadow-lg">
+            Contact Us
+          </Button>
+        </Link>
+      </div>
+
+      <section className="pt-32 pb-24 px-6">
+        <div className="max-w-[1400px] mx-auto">
+          {/* Back button and share */}
+          <div className="flex justify-between items-center mb-12">
+            <Link href="/buy" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group">
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              <span className="text-[10px] uppercase font-bold tracking-[0.2em]">Back to Listings</span>
+            </Link>
+            <div className="flex gap-4">
+              <Button variant="outline" size="icon" className="rounded-full border-primary/10 hover:bg-primary/5">
+                <Heart className="w-4 h-4 text-primary" />
+              </Button>
+              <Button variant="outline" size="icon" className="rounded-full border-primary/10 hover:bg-primary/5">
+                <Share2 className="w-4 h-4 text-primary" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Hero Image */}
+          <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] overflow-hidden shadow-2xl mb-16">
+            <Image 
+              src={property.imageUrl}
+              alt={property.title}
+              fill
+              className="object-cover"
+              priority
+              data-ai-hint={property.imageHint}
+            />
+            <div className="absolute inset-0 bg-black/10" />
+            <div className="absolute bottom-12 left-12 right-12 flex flex-col md:flex-row md:items-end justify-between gap-8 z-10">
+              <div className="text-white">
+                <h1 className="text-5xl md:text-7xl font-headline font-extrabold uppercase leading-[0.9] mb-4">
+                  {property.title}
+                </h1>
+                <div className="flex items-center gap-2 text-white/80">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <span className="text-sm uppercase tracking-widest font-bold">{property.location}</span>
+                </div>
+              </div>
+              <div className="glass-light p-8 rounded-3xl backdrop-blur-2xl border-white/20">
+                <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">Asking Price</p>
+                <p className="text-3xl md:text-4xl font-headline font-extrabold text-primary">AUD ${property.price}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Details Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-24">
+            <div className="lg:col-span-2 space-y-16">
+              {/* Metadata Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
+                  <Bed className="w-6 h-6 text-primary" />
+                  <p className="text-2xl font-headline font-bold">{property.beds}</p>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bedrooms</p>
+                </div>
+                <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
+                  <Bath className="w-6 h-6 text-primary" />
+                  <p className="text-2xl font-headline font-bold">{property.baths}</p>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bathrooms</p>
+                </div>
+                <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
+                  <Car className="w-6 h-6 text-primary" />
+                  <p className="text-2xl font-headline font-bold">{property.cars}</p>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Parking</p>
+                </div>
+                <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
+                  <Maximize className="w-6 h-6 text-primary" />
+                  <p className="text-2xl font-headline font-bold">{property.area}m²</p>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Living Area</p>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="space-y-8">
+                <h2 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary">The Narrative</h2>
+                <p className="text-3xl md:text-4xl font-editorial font-light italic leading-tight text-foreground">
+                   {property.description}
+                </p>
+                <div className="prose prose-lg prose-invert font-light text-muted-foreground max-w-none leading-relaxed">
+                   <p>
+                     Beyond the primary living spaces, this residence offers unparalleled attention to detail. The integration of high-end appliances, smart automation, and sustainable architectural principles ensures that the home is as functional as it is beautiful.
+                   </p>
+                   <p>
+                     Positioned within one of Australia's most exclusive postcodes, residents enjoy proximity to world-class dining, shopping, and natural landmarks while maintaining a sense of absolute seclusion and security.
+                   </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Side Sidebar: Agent Info & Contact */}
+            <div className="space-y-12">
+               <div className="glass-light p-10 rounded-[2.5rem] shadow-2xl border border-primary/5 sticky top-32">
+                 <h3 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary mb-10 text-center">Exclusive Advisor</h3>
+                 <div className="flex flex-col items-center text-center space-y-6">
+                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-primary/20 bg-muted">
+                       <Image 
+                         src={PlaceHolderImages.find(i => i.id === (params.id === '1' ? 'team-1' : params.id === '2' ? 'team-2' : 'team-3'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl}
+                         alt={property.agentName}
+                         fill
+                         className="object-cover"
+                         data-ai-hint="Professional Portrait"
+                       />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-headline font-bold uppercase tracking-wider">{property.agentName}</p>
+                      <p className="text-primary font-bold text-[10px] uppercase tracking-[0.3em] mt-1">Senior Consultant</p>
+                    </div>
+                    <div className="w-full space-y-4 pt-8 border-t border-primary/5">
+                      <Button className="w-full rounded-full py-7 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.3em] text-[10px] h-auto shadow-xl">
+                        Schedule Viewing
+                      </Button>
+                      <Button variant="outline" className="w-full rounded-full py-7 border-primary/20 text-primary font-bold uppercase tracking-[0.3em] text-[10px] h-auto">
+                        Inquire Privately
+                      </Button>
+                    </div>
+                 </div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SiteFooter />
+    </main>
+  );
+}

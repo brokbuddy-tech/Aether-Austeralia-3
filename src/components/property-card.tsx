@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Bed, Bath, Car, Maximize } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,8 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
+    <Link
+      href={`/property/${property.id}`}
       className="group relative flex flex-col overflow-hidden cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -74,6 +76,6 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
           <p className="text-muted-foreground text-sm uppercase tracking-wider mt-1">{property.location}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
