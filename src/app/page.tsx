@@ -163,14 +163,14 @@ export default function Home() {
         <TestimonialSlider />
       </section>
 
-      {/* FAQ Section */}
-      <FAQSection />
+      {/* Editorial & Market Analysis */}
+      <MarketInsights />
 
       {/* Expert Advisor Footer */}
       <AgentFooter />
 
-      {/* Editorial & Market Analysis */}
-      <MarketInsights />
+      {/* FAQ Section */}
+      <FAQSection />
       
       {/* Footer Branding */}
       <SiteFooter />
