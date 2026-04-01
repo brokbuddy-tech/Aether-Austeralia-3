@@ -24,6 +24,7 @@ export function AISearchBar() {
     propertyType: "any",
     bedrooms: "any",
     bathrooms: "any",
+    parking: "any",
     minPrice: "",
     maxPrice: "",
     minArea: "",
@@ -58,6 +59,7 @@ export function AISearchBar() {
         propertyType: filters.propertyType !== 'any' ? filters.propertyType : output.propertyType,
         bedrooms: filters.bedrooms !== 'any' ? parseInt(filters.bedrooms) : output.bedrooms,
         bathrooms: filters.bathrooms !== 'any' ? parseInt(filters.bathrooms) : output.bathrooms,
+        parking: filters.parking !== 'any' ? parseInt(filters.parking) : output.parking,
         minPrice: filters.minPrice ? parseFloat(filters.minPrice) : output.minPrice,
         maxPrice: filters.maxPrice ? parseFloat(filters.maxPrice) : output.maxPrice,
         amenities: filters.amenities.length > 0 ? Array.from(new Set([...(output.amenities || []), ...filters.amenities])) : output.amenities
@@ -183,6 +185,25 @@ export function AISearchBar() {
 
                 <div className="grid grid-cols-1 gap-6">
                   <div className="space-y-2">
+                    <Label className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Parking Spaces</Label>
+                    <Select value={filters.parking} onValueChange={(v) => setFilters({...filters, parking: v})}>
+                      <SelectTrigger className="rounded-xl border-primary/10 h-11 bg-white/50">
+                        <SelectValue placeholder="Any" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="any">Any</SelectItem>
+                        <SelectItem value="1">1+</SelectItem>
+                        <SelectItem value="2">2+</SelectItem>
+                        <SelectItem value="3">3+</SelectItem>
+                        <SelectItem value="4">4+</SelectItem>
+                        <SelectItem value="5">5+</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-6">
+                  <div className="space-y-2">
                     <Label className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Price Range (AUD)</Label>
                     <div className="flex gap-4">
                       <Input 
@@ -283,6 +304,11 @@ export function AISearchBar() {
             {result.bedrooms && (
               <Badge variant="outline" className="px-5 py-2.5 rounded-full border-primary/20 text-primary bg-primary/5 font-bold uppercase tracking-[0.2em] text-[9px]">
                 {result.bedrooms} Bedrooms
+              </Badge>
+            )}
+            {result.parking && (
+              <Badge variant="outline" className="px-5 py-2.5 rounded-full border-primary/20 text-primary bg-primary/5 font-bold uppercase tracking-[0.2em] text-[9px]">
+                {result.parking} Parking
               </Badge>
             )}
             {result.propertyType && (

@@ -20,6 +20,7 @@ const AiPoweredPropertySearchOutputSchema = z.object({
   propertyType: z.string().optional().describe('The type of property, e.g., "house", "apartment", "land".'),
   bedrooms: z.number().int().optional().describe('The number of bedrooms requested.'),
   bathrooms: z.number().int().optional().describe('The number of bathrooms requested.'),
+  parking: z.number().int().optional().describe('The number of parking spaces requested.'),
   minPrice: z.number().optional().describe('The minimum price for the property.'),
   maxPrice: z.number().optional().describe('The maximum price for the property.'),
   amenities: z.array(z.string()).optional().describe('A list of desired amenities, e.g., "pool", "garage", "balcony".'),
