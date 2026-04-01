@@ -155,14 +155,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust & Editorial */}
+      {/* Trust */}
       <IntegritySuite />
-      <MarketInsights />
       
       {/* Testimonials */}
       <section className="bg-background py-32">
         <TestimonialSlider />
       </section>
+
+      {/* Editorial & Market Analysis */}
+      <MarketInsights />
       
       {/* FAQ Section */}
       <FAQSection />
