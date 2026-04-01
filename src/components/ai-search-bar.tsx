@@ -107,8 +107,8 @@ export function AISearchBar() {
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button variant="ghost" className="rounded-full h-14 w-14 hover:bg-primary/10 group shrink-0 border border-primary">
-              <SlidersHorizontal className="text-primary w-6 h-6 opacity-40 group-hover:opacity-100 transition-opacity" />
+            <Button variant="ghost" className="rounded-full h-14 w-14 hover:bg-primary group shrink-0 border border-primary transition-all">
+              <SlidersHorizontal className="text-primary w-6 h-6 group-hover:text-white transition-colors" />
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden border-none rounded-[2.5rem] shadow-2xl bg-transparent">
