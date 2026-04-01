@@ -1,9 +1,79 @@
-
 import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
+import { PropertyCard } from "@/components/property-card";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function CommercialPage() {
+  const commercialProperties = [
+    {
+      id: "c1",
+      title: "Tech Central Tower",
+      price: "15,500,000",
+      location: "Sydney CBD, NSW",
+      area: 2450,
+      imageUrl: PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
+      imageHint: "Modern Office Building",
+      agentName: "Julian Vance",
+      tag: "Premium Office" as const,
+    },
+    {
+      id: "c2",
+      title: "Logistics Hub Alpha",
+      price: "8,200,000",
+      location: "Port Melbourne, VIC",
+      area: 5800,
+      imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
+      imageHint: "Modern Industrial Warehouse",
+      agentName: "Emma Clarke",
+      tag: "Industrial" as const,
+    },
+    {
+      id: "c3",
+      title: "Wellness & Medical Centre",
+      price: "4,900,000",
+      location: "New Farm, QLD",
+      area: 850,
+      imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
+      imageHint: "Medical Facility Architecture",
+      agentName: "Lara Croft",
+      tag: "Medical/Consulting" as const,
+    },
+    {
+      id: "c4",
+      title: "High-Tech Showroom",
+      price: "3,750,000",
+      location: "Alexandria, NSW",
+      area: 1200,
+      imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
+      imageHint: "Modern Showroom Interior",
+      agentName: "Marcus Thorne",
+      tag: "Showroom/Warehouse" as const,
+    },
+    {
+      id: "c5",
+      title: "Luxury Retail Strip",
+      price: "12,000,000",
+      location: "Noosa Heads, QLD",
+      area: 1500,
+      imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
+      imageHint: "Luxury Retail Storefront",
+      agentName: "Sarah West",
+      tag: "Retail" as const,
+    },
+    {
+      id: "c6",
+      title: "Riverside Development Site",
+      price: "22,000,000",
+      location: "South Bank, QLD",
+      area: 3200,
+      imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
+      imageHint: "Construction Development Site",
+      agentName: "David Perth",
+      tag: "Development Site" as const,
+    }
+  ];
+
   const navLinks = [
     { name: 'Buy', href: '/buy' },
     { name: 'Rent', href: '/rent' },
@@ -40,18 +110,30 @@ export default function CommercialPage() {
       </div>
 
       <section className="pt-48 pb-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-headline font-extrabold uppercase mb-8">
-            Commercial <span className="text-primary">Portfolio.</span>
-          </h1>
-          <p className="text-xl font-light text-muted-foreground max-w-2xl mb-16">
-            Strategic assets and industrial opportunities tailored for institutional and private investors.
-          </p>
+        <div className="max-w-[1400px] mx-auto">
+          <div className="mb-24">
+            <h2 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary mb-6">Strategic Assets</h2>
+            <h1 className="text-5xl md:text-8xl font-headline font-extrabold uppercase mb-8 leading-[0.9]">
+              Commercial <br /><span className="text-primary">Portfolio.</span>
+            </h1>
+            <p className="text-xl font-light text-muted-foreground max-w-2xl leading-relaxed">
+              Strategic industrial, retail, and office opportunities tailored for institutional and private investors across Australia's key markets.
+            </p>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 h-96 items-center justify-center border-2 border-dashed border-primary/10 rounded-3xl">
-             <div className="col-span-full text-center">
-                <p className="text-muted-foreground font-light italic">Fetching commercial assets...</p>
-             </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+            {commercialProperties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+
+          <div className="mt-24 flex justify-center">
+            <Button 
+              variant="outline" 
+              className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
+            >
+              Consult an Advisor
+            </Button>
           </div>
         </div>
       </section>

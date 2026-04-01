@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Bed, Bath, Car, Maximize } from "lucide-react";
+import { Bed, Bath, Car, Maximize, Building2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -11,14 +11,14 @@ interface PropertyProps {
   title: string;
   price: string;
   location: string;
-  beds: number;
-  baths: number;
-  cars: number;
+  beds?: number;
+  baths?: number;
+  cars?: number;
   area: number;
   imageUrl: string;
   imageHint?: string;
   agentName: string;
-  tag?: "New Listing" | "Auction" | "Exclusive" | "For Sale" | "For Rent" | "Sold" | "Record Price";
+  tag?: "New Listing" | "Auction" | "Exclusive" | "For Sale" | "For Rent" | "Sold" | "Record Price" | "Premium Office" | "Industrial" | "Medical/Consulting" | "Showroom/Warehouse" | "Retail" | "Development Site";
 }
 
 export function PropertyCard({ property }: { property: PropertyProps }) {
@@ -48,8 +48,8 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
           <div className="absolute top-4 left-4 z-20">
             <div className={cn(
               "glass px-3 py-1.5 rounded-full text-[9px] uppercase font-bold tracking-[0.2em] text-white border border-white/20",
-              property.tag === "Sold" && "bg-black/60",
-              property.tag === "Record Price" && "bg-primary/80 border-primary/40"
+              (property.tag === "Sold" || property.tag === "Industrial") && "bg-black/60",
+              (property.tag === "Record Price" || property.tag === "Premium Office") && "bg-primary/80 border-primary/40"
             )}>
               {property.tag}
             </div>
@@ -58,15 +58,16 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
 
         {/* Metadata Overlay */}
         <div className="absolute bottom-4 left-4 flex gap-3 z-10">
-          <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">
-            <Bed className="w-3.5 h-3.5" /> {property.beds}
-          </div>
-          <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">
-            <Bath className="w-3.5 h-3.5" /> {property.baths}
-          </div>
-          <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">
-            <Car className="w-3.5 h-3.5" /> {property.cars}
-          </div>
+          {property.beds !== undefined && (
+            <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">
+              <Bed className="w-3.5 h-3.5" /> {property.beds}
+            </div>
+          )}
+          {property.baths !== undefined && (
+            <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">
+              <Bath className="w-3.5 h-3.5" /> {property.baths}
+            </div>
+          )}
           <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">
             <Maximize className="w-3.5 h-3.5" /> {property.area}m²
           </div>

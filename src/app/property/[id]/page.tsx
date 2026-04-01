@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft } from "lucide-react";
+import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Building2 } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -118,6 +118,39 @@ const properties = [
     imageHint: "Ultra Luxury Apartment",
     agentName: "Julian Vance",
     description: "A record-breaking transaction for the Sydney Harbour market. This Point Piper penthouse represents the pinnacle of vertical living, offering unparalleled views and finishes of the highest international calibre."
+  },
+  {
+    id: "c1",
+    title: "Tech Central Tower",
+    price: "15,500,000",
+    location: "Sydney CBD, NSW",
+    area: 2450,
+    imageUrl: PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
+    imageHint: "Modern Office Building",
+    agentName: "Julian Vance",
+    description: "A landmark commercial asset in the heart of Sydney's tech precinct. This A-grade office tower offers flexible floorplates, state-of-the-art sustainability credentials, and panoramic city skyline views, making it the ideal headquarters for innovation leaders."
+  },
+  {
+    id: "c2",
+    title: "Logistics Hub Alpha",
+    price: "8,200,000",
+    location: "Port Melbourne, VIC",
+    area: 5800,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
+    imageHint: "Modern Industrial Warehouse",
+    agentName: "Emma Clarke",
+    description: "Strategically located industrial facility offering expansive high-clearance warehousing and integrated corporate office space. With superior access to arterial roads and the Port of Melbourne, this asset provides unparalleled efficiency for high-volume logistics operations."
+  },
+  {
+    id: "c3",
+    title: "Wellness & Medical Centre",
+    price: "4,900,000",
+    location: "New Farm, QLD",
+    area: 850,
+    imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
+    imageHint: "Medical Facility Architecture",
+    agentName: "Lara Croft",
+    description: "A bespoke medical and consulting facility designed for practitioners who demand excellence. Featuring a high-end reception area, specialized treatment rooms, and ample on-site parking in Brisbane's most desirable urban pocket."
   }
 ];
 
@@ -145,7 +178,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
           <Link 
             key={link.name} 
             href={link.href} 
-            className={`text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors ${link.name === 'Buy' || link.name === 'Sold' || link.name === 'Rent' ? 'text-primary' : ''}`}
+            className={`text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors ${link.name === 'Buy' || link.name === 'Sold' || link.name === 'Rent' || link.name === 'Commercial' ? 'text-primary' : ''}`}
           >
             {link.name}
           </Link>
@@ -214,25 +247,31 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
             <div className="lg:col-span-2 space-y-16">
               {/* Metadata Grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
-                  <Bed className="w-6 h-6 text-primary" />
-                  <p className="text-2xl font-headline font-bold">{property.beds}</p>
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bedrooms</p>
-                </div>
-                <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
-                  <Bath className="w-6 h-6 text-primary" />
-                  <p className="text-2xl font-headline font-bold">{property.baths}</p>
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bathrooms</p>
-                </div>
-                <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
-                  <Car className="w-6 h-6 text-primary" />
-                  <p className="text-2xl font-headline font-bold">{property.cars}</p>
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Parking</p>
-                </div>
+                {property.beds !== undefined && (
+                  <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
+                    <Bed className="w-6 h-6 text-primary" />
+                    <p className="text-2xl font-headline font-bold">{property.beds}</p>
+                    <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bedrooms</p>
+                  </div>
+                )}
+                {property.baths !== undefined && (
+                  <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
+                    <Bath className="w-6 h-6 text-primary" />
+                    <p className="text-2xl font-headline font-bold">{property.baths}</p>
+                    <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bathrooms</p>
+                  </div>
+                )}
+                {property.cars !== undefined && (
+                  <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
+                    <Car className="w-6 h-6 text-primary" />
+                    <p className="text-2xl font-headline font-bold">{property.cars}</p>
+                    <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Parking</p>
+                  </div>
+                )}
                 <div className="flex flex-col gap-2 p-6 rounded-2xl bg-muted/30 border border-primary/5">
                   <Maximize className="w-6 h-6 text-primary" />
                   <p className="text-2xl font-headline font-bold">{property.area}m²</p>
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Living Area</p>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Total Area</p>
                 </div>
               </div>
 
@@ -244,10 +283,10 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                 </p>
                 <div className="prose prose-lg prose-invert font-light text-muted-foreground max-w-none leading-relaxed">
                    <p>
-                     Beyond the primary living spaces, this residence offers unparalleled attention to detail. The integration of high-end appliances, smart automation, and sustainable architectural principles ensures that the home is as functional as it is beautiful.
+                     Beyond the primary functional spaces, this asset offers unparalleled attention to detail. The integration of high-end facilities, smart building automation, and sustainable architectural principles ensures that the property is as efficient as it is impressive.
                    </p>
                    <p>
-                     Positioned within one of Australia's most exclusive postcodes, residents enjoy proximity to world-class dining, shopping, and natural landmarks while maintaining a sense of absolute seclusion and security.
+                     Positioned within one of Australia's most strategic commercial postcodes, tenants and owners enjoy proximity to logistical hubs, world-class amenities, and key business landmarks while maintaining a sense of absolute prestige and security.
                    </p>
                 </div>
               </div>
@@ -260,7 +299,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                  <div className="flex flex-col items-center text-center space-y-6">
                     <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-primary/20 bg-muted">
                        <Image 
-                         src={PlaceHolderImages.find(i => i.id === (params.id === '1' || params.id === 's1' ? 'team-1' : params.id === '2' || params.id === 's2' ? 'team-2' : 'team-3'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl}
+                         src={PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : 'team-3'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl}
                          alt={property.agentName}
                          fill
                          className="object-cover"
