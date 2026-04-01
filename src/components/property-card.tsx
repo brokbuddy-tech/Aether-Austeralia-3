@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Bed, Bath, Car, Maximize } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 interface PropertyProps {
   id: string;
@@ -18,6 +19,7 @@ interface PropertyProps {
   imageUrl: string;
   imageHint?: string;
   agentName: string;
+  tag?: "New Listing" | "Auction" | "Exclusive" | "For Sale";
 }
 
 export function PropertyCard({ property }: { property: PropertyProps }) {
@@ -42,6 +44,15 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
           />
         ) : null}
         
+        {/* Status Tag Overlay */}
+        {property.tag && (
+          <div className="absolute top-4 left-4 z-20">
+            <div className="glass px-3 py-1.5 rounded-full text-[9px] uppercase font-bold tracking-[0.2em] text-white border border-white/20">
+              {property.tag}
+            </div>
+          </div>
+        )}
+
         {/* Metadata Overlay */}
         <div className="absolute bottom-4 left-4 flex gap-3 z-10">
           <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">

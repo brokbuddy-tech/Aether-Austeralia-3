@@ -25,6 +25,7 @@ export default function Home() {
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
       imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
       agentName: "Sarah West",
+      tag: "Exclusive" as const,
     },
     {
       id: "2",
@@ -38,6 +39,7 @@ export default function Home() {
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
       imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
       agentName: "Julian Vance",
+      tag: "New Listing" as const,
     },
     {
       id: "3",
@@ -51,6 +53,7 @@ export default function Home() {
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
       imageHint: PlaceHolderImages.find(i => i.id === "listing-3")?.imageHint || "",
       agentName: "Emma Clarke",
+      tag: "For Sale" as const,
     },
     {
       id: "4",
@@ -64,6 +67,7 @@ export default function Home() {
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
       imageHint: PlaceHolderImages.find(i => i.id === "listing-4")?.imageHint || "",
       agentName: "Marcus Thorne",
+      tag: "Auction" as const,
     },
     {
       id: "5",
@@ -77,6 +81,7 @@ export default function Home() {
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
       imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
       agentName: "Lara Croft",
+      tag: "New Listing" as const,
     },
     {
       id: "6",
@@ -90,6 +95,7 @@ export default function Home() {
       imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
       imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
       agentName: "David Perth",
+      tag: "Exclusive" as const,
     }
   ];
 
@@ -163,11 +169,11 @@ export default function Home() {
         <TestimonialSlider />
       </section>
 
+      {/* Expert Advisor Search */}
+      <AgentFooter />
+
       {/* Editorial & Market Analysis */}
       <MarketInsights />
-
-      {/* Expert Advisor Footer */}
-      <AgentFooter />
 
       {/* FAQ Section */}
       <FAQSection />
