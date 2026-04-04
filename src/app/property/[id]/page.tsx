@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { PropertyNarrative } from "@/components/property-narrative";
 import { PropertyAmenities } from "@/components/property-amenities";
+import { InspectionBooking } from "@/components/inspection-booking";
 
 const properties = [
   {
@@ -385,6 +386,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
               {/* Description / Narrative */}
               <PropertyNarrative description={property.description} />
+
+              {/* Inspection Scheduler */}
+              <InspectionBooking />
             </div>
 
             {/* Side Sidebar: Agent Info & Contact */}
