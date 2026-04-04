@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { PropertyNarrative } from "@/components/property-narrative";
+import { PropertyAmenities } from "@/components/property-amenities";
 
 const properties = [
   {
@@ -20,7 +21,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
     agentName: "Sarah West",
-    description: "Experience the ultimate in coastal luxury at this stunning Noosa Heads residence. Designed for seamless indoor-outdoor living, this home features floor-to-ceiling glass, premium natural finishes, and a private infinity pool overlooking the lush hinterland. Every detail has been meticulously curated to provide a sense of calm and sophistication."
+    description: "Experience the ultimate in coastal luxury at this stunning Noosa Heads residence. Designed for seamless indoor-outdoor living, this home features floor-to-ceiling glass, premium natural finishes, and a private infinity pool overlooking the lush hinterland. Every detail has been meticulously curated to provide a sense of calm and sophistication.",
+    amenities: ["Infinity Pool", "Chef's Kitchen", "Climate Control", "Smart Home System", "Outdoor Firepit", "High-Speed Wi-Fi"]
   },
   {
     id: "2",
@@ -34,7 +36,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
     agentName: "Julian Vance",
-    description: "Occupying the entire top floor of one of Double Bay's most prestigious buildings, this penthouse offers 360-degree views of Sydney Harbour. With a private rooftop garden, bespoke marble kitchen, and master suite that rivals the world's finest hotels, this is a rare opportunity for the most discerning collector."
+    description: "Occupying the entire top floor of one of Double Bay's most prestigious buildings, this penthouse offers 360-degree views of Sydney Harbour. With a private rooftop garden, bespoke marble kitchen, and master suite that rivals the world's finest hotels, this is a rare opportunity for the most discerning collector.",
+    amenities: ["Wine Cellar", "Home Cinema", "24/7 Security", "Private Gym", "Climate Control", "Secure Parking"]
   },
   {
     id: "3",
@@ -48,7 +51,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-3")?.imageHint || "",
     agentName: "Emma Clarke",
-    description: "A triumph of contemporary architecture, this Toorak estate combines bold concrete forms with warm timber accents. The expansive floorplan offers multiple living zones, a dedicated home cinema, and a climate-controlled wine cellar. Set amongst manicured gardens, it provides absolute privacy in Melbourne's premier suburb."
+    description: "A triumph of contemporary architecture, this Toorak estate combines bold concrete forms with warm timber accents. The expansive floorplan offers multiple living zones, a dedicated home cinema, and a climate-controlled wine cellar. Set amongst manicured gardens, it provides absolute privacy in Melbourne's premier suburb.",
+    amenities: ["Home Cinema", "Wine Cellar", "Secure Parking", "Climate Control", "Solar Power", "Private Gym"]
   },
   {
     id: "4",
@@ -62,7 +66,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-4")?.imageHint || "",
     agentName: "Marcus Thorne",
-    description: "A sanctuary of scale and serenity. This sprawling hinterland estate offers absolute seclusion just minutes from Byron's famous beaches. Featuring a separate guest cottage, equestrian facilities, and panoramic ocean views, it is a legacy property of international standing."
+    description: "A sanctuary of scale and serenity. This sprawling hinterland estate offers absolute seclusion just minutes from Byron's famous beaches. Featuring a separate guest cottage, equestrian facilities, and panoramic ocean views, it is a legacy property of international standing.",
+    amenities: ["Infinity Pool", "Solar Power", "Outdoor Firepit", "Climate Control", "Smart Home System", "High-Speed Wi-Fi"]
   },
   {
     id: "5",
@@ -76,7 +81,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
     agentName: "Lara Croft",
-    description: "The height of urban sophistication. This New Farm residence offers breathtaking river and city views from every room. With custom joinery, integrated Miele appliances, and access to world-class building amenities including a residents-only lounge and wellness center."
+    description: "The height of urban sophistication. This New Farm residence offers breathtaking river and city views from every room. With custom joinery, integrated Miele appliances, and access to world-class building amenities including a residents-only lounge and wellness center.",
+    amenities: ["Private Gym", "Climate Control", "24/7 Security", "High-Speed Wi-Fi", "Secure Parking", "Smart Home System"]
   },
   {
     id: "6",
@@ -90,7 +96,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
     agentName: "David Perth",
-    description: "Perfectly positioned on the dunes of Cottesloe, this architectural masterpiece captures the raw beauty of the Indian Ocean. Designed by an award-winning firm, the home utilizes sustainable materials and smart-home technology to create a living experience that is both luxurious and responsible."
+    description: "Perfectly positioned on the dunes of Cottesloe, this architectural masterpiece captures the raw beauty of the Indian Ocean. Designed by an award-winning firm, the home utilizes sustainable materials and smart-home technology to create a living experience that is both luxurious and responsible.",
+    amenities: ["Solar Power", "Climate Control", "Smart Home System", "High-Speed Wi-Fi", "Outdoor Firepit", "Secure Parking"]
   },
   {
     id: "r1",
@@ -104,7 +111,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
     agentName: "Julian Vance",
-    description: "A sophisticated harbourfront sanctuary in Darling Point. This residence offers sweeping water views, expansive living areas, and high-end finishes throughout. Perfect for those seeking a prestigious lifestyle in one of Sydney's most exclusive pockets."
+    description: "A sophisticated harbourfront sanctuary in Darling Point. This residence offers sweeping water views, expansive living areas, and high-end finishes throughout. Perfect for those seeking a prestigious lifestyle in one of Sydney's most exclusive pockets.",
+    amenities: ["24/7 Security", "Climate Control", "Secure Parking", "High-Speed Wi-Fi", "Smart Home System"]
   },
   {
     id: "r2",
@@ -118,7 +126,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
     agentName: "Sarah West",
-    description: "Immerse yourself in Noosa's natural beauty with this modern sanctuary. Designed for seamless indoor-outdoor living, the property features a private pool, chef's kitchen, and luxurious master suite. Experience the ultimate in coastal relaxation."
+    description: "Immerse yourself in Noosa's natural beauty with this modern sanctuary. Designed for seamless indoor-outdoor living, the property features a private pool, chef's kitchen, and luxurious master suite. Experience the ultimate in coastal relaxation.",
+    amenities: ["Infinity Pool", "Chef's Kitchen", "Climate Control", "High-Speed Wi-Fi", "Outdoor Firepit"]
   },
   {
     id: "r3",
@@ -132,7 +141,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
     agentName: "Emma Clarke",
-    description: "An urban retreat in the heart of Melbourne. This stylish city loft boasts high ceilings, industrial accents, and panoramic skyline views. Footsteps away from the city's finest dining, shopping, and entertainment."
+    description: "An urban retreat in the heart of Melbourne. This stylish city loft boasts high ceilings, industrial accents, and panoramic skyline views. Footsteps away from the city's finest dining, shopping, and entertainment.",
+    amenities: ["Climate Control", "High-Speed Wi-Fi", "Secure Parking", "24/7 Security"]
   },
   {
     id: "r4",
@@ -146,7 +156,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
     imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
     agentName: "David Perth",
-    description: "Perched on the edge of the Indian Ocean, this Cottesloe villa offers a lifestyle of sun, surf, and sophistication. With light-filled interiors and multiple balconies, every day feels like a holiday in this architectural masterpiece."
+    description: "Perched on the edge of the Indian Ocean, this Cottesloe villa offers a lifestyle of sun, surf, and sophistication. With light-filled interiors and multiple balconies, every day feels like a holiday in this architectural masterpiece.",
+    amenities: ["Climate Control", "High-Speed Wi-Fi", "Outdoor Firepit", "Secure Parking", "Smart Home System"]
   },
   {
     id: "s1",
@@ -160,7 +171,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
     imageHint: "Luxury Waterfront Home",
     agentName: "Sarah West",
-    description: "A landmark sale in Noosa Waters. This north-facing waterfront residence set a new standard for modern luxury in the region, featuring a 20m lap pool and bespoke boat mooring facilities."
+    description: "A landmark sale in Noosa Waters. This north-facing waterfront residence set a new standard for modern luxury in the region, featuring a 20m lap pool and bespoke boat mooring facilities.",
+    amenities: ["Infinity Pool", "Chef's Kitchen", "Wine Cellar", "Solar Power", "Secure Parking"]
   },
   {
     id: "s2",
@@ -174,7 +186,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
     imageHint: "Ultra Luxury Apartment",
     agentName: "Julian Vance",
-    description: "A record-breaking transaction for the Sydney Harbour market. This Point Piper penthouse represents the pinnacle of vertical living, offering unparalleled views and finishes of the highest international calibre."
+    description: "A record-breaking transaction for the Sydney Harbour market. This Point Piper penthouse represents the pinnacle of vertical living, offering unparalleled views and finishes of the highest international calibre.",
+    amenities: ["24/7 Security", "Climate Control", "Private Gym", "Wine Cellar", "Secure Parking"]
   },
   {
     id: "c1",
@@ -185,7 +198,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
     imageHint: "Modern Office Building",
     agentName: "Julian Vance",
-    description: "A landmark commercial asset in the heart of Sydney's tech precinct. This A-grade office tower offers flexible floorplates, state-of-the-art sustainability credentials, and panoramic city skyline views, making it the ideal headquarters for innovation leaders."
+    description: "A landmark commercial asset in the heart of Sydney's tech precinct. This A-grade office tower offers flexible floorplates, state-of-the-art sustainability credentials, and panoramic city skyline views, making it the ideal headquarters for innovation leaders.",
+    amenities: ["24/7 Security", "Climate Control", "High-Speed Wi-Fi", "Solar Power", "Secure Parking"]
   },
   {
     id: "c2",
@@ -196,7 +210,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
     imageHint: "Modern Industrial Warehouse",
     agentName: "Emma Clarke",
-    description: "Strategically located industrial facility offering expansive high-clearance warehousing and integrated corporate office space. With superior access to arterial roads and the Port of Melbourne, this asset provides unparalleled efficiency for high-volume logistics operations."
+    description: "Strategically located industrial facility offering expansive high-clearance warehousing and integrated corporate office space. With superior access to arterial roads and the Port of Melbourne, this asset provides unparalleled efficiency for high-volume logistics operations.",
+    amenities: ["Secure Parking", "24/7 Security", "Solar Power", "High-Speed Wi-Fi"]
   },
   {
     id: "c3",
@@ -207,7 +222,8 @@ const properties = [
     imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
     imageHint: "Medical Facility Architecture",
     agentName: "Lara Croft",
-    description: "A bespoke medical and consulting facility designed for practitioners who demand excellence. Featuring a high-end reception area, specialized treatment rooms, and ample on-site parking in Brisbane's most desirable urban pocket."
+    description: "A bespoke medical and consulting facility designed for practitioners who demand excellence. Featuring a high-end reception area, specialized treatment rooms, and ample on-site parking in Brisbane's most desirable urban pocket.",
+    amenities: ["Climate Control", "High-Speed Wi-Fi", "24/7 Security", "Secure Parking"]
   }
 ];
 
@@ -363,6 +379,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                   <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Total Area</p>
                 </div>
               </div>
+
+              {/* Amenities Section */}
+              <PropertyAmenities amenities={property.amenities || []} />
 
               {/* Description / Narrative */}
               <PropertyNarrative description={property.description} />
