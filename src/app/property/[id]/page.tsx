@@ -5,6 +5,7 @@ import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Building2, 
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { PropertyNarrative } from "@/components/property-narrative";
 
 const properties = [
   {
@@ -210,8 +211,9 @@ const properties = [
   }
 ];
 
-export default function PropertyPage({ params }: { params: { id: string } }) {
-  const property = properties.find(p => p.id === params.id);
+export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const property = properties.find(p => p.id === id);
 
   if (!property) {
     notFound();
@@ -362,21 +364,8 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                 </div>
               </div>
 
-              {/* Description */}
-              <div className="space-y-8">
-                <h2 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary">The Narrative</h2>
-                <p className="text-3xl md:text-4xl font-editorial font-light italic leading-tight text-foreground">
-                   {property.description}
-                </p>
-                <div className="prose prose-lg prose-invert font-light text-muted-foreground max-w-none leading-relaxed">
-                   <p>
-                     Beyond the primary functional spaces, this asset offers unparalleled attention to detail. The integration of high-end facilities, smart building automation, and sustainable architectural principles ensures that the property is as efficient as it is impressive.
-                   </p>
-                   <p>
-                     Positioned within one of Australia's most strategic postcodes, tenants and owners enjoy proximity to logistical hubs, world-class amenities, and key landmarks while maintaining a sense of absolute prestige and security.
-                   </p>
-                </div>
-              </div>
+              {/* Description / Narrative */}
+              <PropertyNarrative description={property.description} />
             </div>
 
             {/* Side Sidebar: Agent Info & Contact */}
