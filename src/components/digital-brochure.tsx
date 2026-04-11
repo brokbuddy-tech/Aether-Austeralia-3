@@ -4,7 +4,7 @@
 import { useRef } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { FileText, Bed, Bath, Car, Maximize, MapPin, Download, Image as ImageIcon } from "lucide-react";
+import { FileText, Bed, Bath, Car, Maximize, MapPin, Download } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import html2canvas from "html2canvas";
@@ -72,7 +72,7 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full rounded-full py-6 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-auto flex items-center justify-center gap-2 group transition-all hover:bg-[#111111] hover:text-white backdrop-blur-sm">
+        <Button variant="outline" className="w-full rounded-full py-6 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-auto flex items-center justify-center gap-2 group transition-all hover:bg-primary hover:text-white hover:border-primary backdrop-blur-sm">
           <FileText className="w-3.5 h-3.5" />
           VIEW DIGITAL BROCHURE
         </Button>
