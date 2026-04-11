@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -9,6 +10,7 @@ import { PropertyNarrative } from "@/components/property-narrative";
 import { PropertyAmenities } from "@/components/property-amenities";
 import { InspectionBooking } from "@/components/inspection-booking";
 import { AuctionDetails } from "@/components/auction-details";
+import { PropertyMap } from "@/components/property-map";
 
 const properties = [
   {
@@ -393,6 +395,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
               {/* Auction Details */}
               <AuctionDetails />
+
+              {/* Property Map */}
+              <PropertyMap location={property.location} />
             </div>
 
             {/* Side Sidebar: Agent Info & Contact */}

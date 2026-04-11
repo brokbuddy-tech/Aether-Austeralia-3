@@ -101,6 +101,12 @@
       "description": "Property Advisor profile picture",
       "imageUrl": "https://picsum.photos/seed/team5/600/800",
       "imageHint": "Property Advisor"
+    },
+    {
+      "id": "map-placeholder",
+      "description": "Minimalist property map visualization",
+      "imageUrl": "https://picsum.photos/seed/map-aether/1200/600",
+      "imageHint": "Minimalist Map"
     }
   ]
 }
