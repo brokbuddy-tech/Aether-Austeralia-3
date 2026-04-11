@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -94,42 +95,46 @@ export function StickyFilterBar() {
   );
 
   return (
-    <div className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-[#EDEDED] py-6 animate-in fade-in slide-in-from-top-4 duration-500">
+    <div className="relative w-full bg-white border-b border-[#EDEDED] py-6 animate-in fade-in slide-in-from-top-4 duration-500">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
-        <div className="flex flex-wrap items-end gap-6 lg:gap-8 w-full lg:w-auto">
+        <div className="flex flex-nowrap items-end gap-6 lg:gap-8 w-full lg:w-auto overflow-x-auto pb-4 lg:pb-0 no-scrollbar">
           <FilterSegment 
             label="LOCATION" 
             value={filters.location} 
             onSelect={(v) => setFilters(f => ({ ...f, location: v }))}
-            className="flex-1 lg:flex-none lg:w-[240px]"
+            className="flex-none w-[200px] lg:w-[240px]"
           />
           <FilterSegment 
             label="PRICE (AUD)" 
             value={filters.price} 
             options={["Any Price", "$500k - $1M", "$1M - $3M", "$3M - $5M", "$5M+"]}
             onSelect={(v) => setFilters(f => ({ ...f, price: v }))}
+            className="flex-none"
           />
           <FilterSegment 
             label="TYPE" 
             value={filters.type} 
             options={["House", "Apartment", "Townhouse", "Land"]}
             onSelect={(v) => setFilters(f => ({ ...f, type: v }))}
+            className="flex-none"
           />
           <FilterSegment 
             label="BEDS" 
             value={filters.beds} 
             options={["Any", "1+", "2+", "3+", "4+", "5+"]}
             onSelect={(v) => setFilters(f => ({ ...f, beds: v }))}
+            className="flex-none"
           />
           <FilterSegment 
             label="BATH" 
             value={filters.bath} 
             options={["Any", "1+", "2+", "3+", "4+"]}
             onSelect={(v) => setFilters(f => ({ ...f, bath: v }))}
+            className="flex-none"
           />
         </div>
 
-        <div className="flex items-center gap-4 w-full lg:w-auto">
+        <div className="flex items-center gap-4 w-full lg:w-auto shrink-0">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button 
