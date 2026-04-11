@@ -14,7 +14,7 @@ export function PropertyNarrative({ description }: PropertyNarrativeProps) {
   return (
     <div className="space-y-8">
       <h2 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary">The Narrative</h2>
-      <p className="text-3xl md:text-4xl font-headline font-extrabold leading-tight text-foreground uppercase tracking-tight">
+      <p className="text-xl md:text-2xl font-headline font-normal leading-relaxed text-foreground uppercase tracking-tight">
         {description}
       </p>
       
