@@ -31,6 +31,42 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
       title: "Generating Brochure",
       description: "Your digital brochure for " + property.title + " is being prepared for download.",
     });
+
+    // Generate brochure content for download
+    const brochureContent = `
+VELA ARMON AUSTRALIA - EXCLUSIVE PRESENTATION
+---------------------------------------------
+Property: ${property.title}
+Location: ${property.location}
+Valuation: AUD $${property.price}
+
+SPECIFICATIONS:
+- Bedrooms: ${property.beds ?? 'N/A'}
+- Bathrooms: ${property.baths ?? 'N/A'}
+- Parking: ${property.cars ?? 'N/A'}
+- Total Area: ${property.area}m²
+
+ARCHITECTURAL NARRATIVE:
+${property.description}
+
+---------------------------------------------
+Vela Armon Australia | Premium Real Estate Advisory
+Generated on: ${new Date().toLocaleDateString()}
+© 2026 Vela Armon. All Rights Reserved.
+    `;
+
+    // Create a blob and trigger download
+    const blob = new Blob([brochureContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${property.title.toLowerCase().replace(/\s+/g, '-')}-brochure.txt`;
+    document.body.appendChild(link);
+    link.click();
+    
+    // Cleanup
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   return (
