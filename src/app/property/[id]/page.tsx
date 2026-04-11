@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Building2, Grid3X3 } from "lucide-react";
+import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Grid3X3 } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { PropertyNarrative } from "@/components/property-narrative";
 import { PropertyAmenities } from "@/components/property-amenities";
 import { InspectionBooking } from "@/components/inspection-booking";
+import { AuctionDetails } from "@/components/auction-details";
 
 const properties = [
   {
@@ -389,6 +390,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
               {/* Inspection Scheduler */}
               <InspectionBooking />
+
+              {/* Auction Details */}
+              <AuctionDetails />
             </div>
 
             {/* Side Sidebar: Agent Info & Contact */}
