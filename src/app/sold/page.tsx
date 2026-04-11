@@ -3,6 +3,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/property-card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { StickyFilterBar } from "@/components/sticky-filter-bar";
 
 export default function SoldPage() {
   const soldProperties = [
@@ -99,7 +100,7 @@ export default function SoldPage() {
         </Link>
       </div>
 
-      <section className="pt-48 pb-32 px-6">
+      <section className="pt-48 pb-12 px-6">
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-24">
             <h2 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary mb-6">Market Success</h2>
@@ -110,7 +111,13 @@ export default function SoldPage() {
               Explore our track record of premium results achieved for our clients across Australia's most prestigious markets.
             </p>
           </div>
-          
+        </div>
+      </section>
+
+      <StickyFilterBar />
+
+      <section className="py-24 px-6">
+        <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
             {soldProperties.map((property) => (
               <PropertyCard key={property.id} property={property} />
