@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 interface PropertyNarrativeProps {
   description: string;
@@ -14,16 +14,16 @@ export function PropertyNarrative({ description }: PropertyNarrativeProps) {
   return (
     <div className="space-y-8">
       <h2 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary">The Narrative</h2>
-      <p className="text-xl md:text-2xl font-headline font-normal leading-relaxed text-foreground uppercase tracking-tight">
+      <p className="text-lg font-light leading-relaxed text-muted-foreground">
         {description}
       </p>
       
       <div 
         className={`overflow-hidden transition-all duration-700 ease-in-out ${
-          isExpanded ? 'max-h-[1000px] opacity-100 mt-8' : 'max-h-0 opacity-0'
+          isExpanded ? 'max-h-[1000px] opacity-100 mt-6' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="prose prose-lg prose-invert font-light text-muted-foreground max-w-none leading-relaxed space-y-6">
+        <div className="font-light text-muted-foreground max-w-none leading-relaxed space-y-6 text-lg">
           <p>
             Beyond the primary functional spaces, this asset offers unparalleled attention to detail. The integration of high-end facilities, smart building automation, and sustainable architectural principles ensures that the property is as efficient as it is impressive.
           </p>
