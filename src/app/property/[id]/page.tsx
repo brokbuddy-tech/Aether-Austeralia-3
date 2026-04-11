@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -406,9 +405,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
             {/* Side Sidebar: Expert Advisor Sticky Card */}
             <div className="relative">
               <div className="sticky top-32 space-y-12">
-                <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-[#EDEDED] flex flex-col">
+                <div className="bg-white rounded-[2rem] overflow-hidden shadow-2xl border border-[#EDEDED] flex flex-col max-w-[360px] mx-auto">
                   {/* Header with Background */}
-                  <div className="relative h-48 flex flex-col items-center justify-center pt-8">
+                  <div className="relative h-40 flex flex-col items-center justify-center pt-6">
                     <Image 
                       src={agentBg}
                       alt="Agent Background"
@@ -418,7 +417,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                     <div className="absolute inset-0 bg-black/50" />
                     
                     {/* Avatar */}
-                    <div className="relative z-10 w-28 h-28 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                    <div className="relative z-10 w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-xl">
                        <Image 
                          src={agentAvatar}
                          alt={property.agentName}
@@ -430,58 +429,58 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                   </div>
 
                   {/* Identity Section */}
-                  <div className="px-10 pt-6 pb-10 text-center bg-white">
-                    <h3 className="text-2xl font-headline font-extrabold uppercase tracking-tight text-[#111111]">
+                  <div className="px-8 pt-5 pb-8 text-center bg-white">
+                    <h3 className="text-xl font-headline font-extrabold uppercase tracking-tight text-[#111111]">
                       {property.agentName}
                     </h3>
-                    <p className="text-[#005F73] font-headline font-bold text-[10px] uppercase tracking-[0.2em] mt-1">
+                    <p className="text-primary font-headline font-bold text-[9px] uppercase tracking-[0.2em] mt-1">
                       SENIOR SALES EXECUTIVE
                     </p>
 
                     {/* Trust Grid / Metrics */}
-                    <div className="grid grid-cols-3 gap-0 mt-8 mb-10 border-y border-[#EDEDED] py-6">
-                      <div className="text-center px-2">
-                        <p className="text-lg font-bold text-[#111111]">142+</p>
-                        <p className="text-[9px] font-bold text-[#9CA3AF] uppercase tracking-widest">SOLD</p>
+                    <div className="grid grid-cols-3 gap-0 mt-6 mb-8 border-y border-[#EDEDED] py-5">
+                      <div className="text-center px-1">
+                        <p className="text-base font-bold text-[#111111]">142+</p>
+                        <p className="text-[8px] font-bold text-[#9CA3AF] uppercase tracking-widest">SOLD</p>
                       </div>
-                      <div className="text-center px-2 border-x border-[#EDEDED]">
-                        <p className="text-lg font-bold text-[#111111]">12y</p>
-                        <p className="text-[9px] font-bold text-[#9CA3AF] uppercase tracking-widest">EXP</p>
+                      <div className="text-center px-1 border-x border-[#EDEDED]">
+                        <p className="text-base font-bold text-[#111111]">12y</p>
+                        <p className="text-[8px] font-bold text-[#9CA3AF] uppercase tracking-widest">EXP</p>
                       </div>
-                      <div className="text-center px-2">
-                        <p className="text-lg font-bold text-[#111111]">4.9</p>
-                        <p className="text-[9px] font-bold text-[#9CA3AF] uppercase tracking-widest">RATING</p>
+                      <div className="text-center px-1">
+                        <p className="text-base font-bold text-[#111111]">4.9</p>
+                        <p className="text-[8px] font-bold text-[#9CA3AF] uppercase tracking-widest">RATING</p>
                       </div>
                     </div>
 
                     {/* CTAs Hub */}
-                    <div className="space-y-4">
-                      <Button className="w-full rounded-full py-7 bg-[#005F73] hover:bg-[#005F73]/90 text-white font-bold uppercase tracking-[0.2em] text-[11px] h-auto shadow-lg transition-all active:scale-[0.98]">
+                    <div className="space-y-3">
+                      <Button className="w-full rounded-full py-6 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.2em] text-[10px] h-auto shadow-lg transition-all active:scale-[0.98]">
                         BOOK PRIVATE INSPECTION
                       </Button>
-                      <Button variant="outline" className="w-full rounded-full py-7 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[11px] h-auto flex items-center justify-center gap-2 group transition-all hover:bg-[#111111] hover:text-white backdrop-blur-sm">
-                        <FileText className="w-4 h-4" />
+                      <Button variant="outline" className="w-full rounded-full py-6 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-auto flex items-center justify-center gap-2 group transition-all hover:bg-[#111111] hover:text-white backdrop-blur-sm">
+                        <FileText className="w-3.5 h-3.5" />
                         VIEW DIGITAL BROCHURE
                       </Button>
                       
-                      <div className="grid grid-cols-2 gap-4">
-                        <Button className="rounded-full py-7 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-auto flex items-center justify-center gap-2 transition-all">
-                          <MessageSquare className="w-4 h-4" />
+                      <div className="grid grid-cols-2 gap-3">
+                        <Button className="rounded-full py-6 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[9px] h-auto flex items-center justify-center gap-2 transition-all">
+                          <MessageSquare className="w-3.5 h-3.5" />
                           SMS
                         </Button>
-                        <Button className="rounded-full py-7 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-auto flex items-center justify-center gap-2 transition-all">
-                          <Mail className="w-4 h-4" />
+                        <Button className="rounded-full py-6 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[9px] h-auto flex items-center justify-center gap-2 transition-all">
+                          <Mail className="w-3.5 h-3.5" />
                           EMAIL
                         </Button>
                       </div>
 
-                      <div className="pt-4">
+                      <div className="pt-3">
                         <Link 
                           href={`https://wa.me/61400000000?text=Hi%20${property.agentName},%20I'm%20interested%20in%20viewing%20${property.title}%20at%20${property.location}.`} 
                           target="_blank" 
-                          className="text-[#005F73] text-[10px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-2 group hover:underline"
+                          className="text-primary text-[9px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-2 group hover:underline"
                         >
-                          WHATSAPP AGENT <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                          WHATSAPP AGENT <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                         </Link>
                       </div>
                     </div>
