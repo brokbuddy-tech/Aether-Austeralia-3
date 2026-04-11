@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Grid3X3 } from "lucide-react";
+import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Grid3X3, MessageSquare, Mail, FileText, ArrowRight } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -254,6 +254,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
     { name: 'About Us', href: '/about' },
   ];
 
+  const agentAvatar = PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : property.agentName === 'Marcus Thorne' ? 'team-4' : 'team-5'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl;
+  const agentBg = PlaceHolderImages.find(i => i.id === 'agent-bg')?.imageUrl || "";
+
   return (
     <main className="min-h-screen bg-background">
       {/* Persistent Navigation */}
@@ -400,34 +403,91 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
               <PropertyMap location={property.location} />
             </div>
 
-            {/* Side Sidebar: Agent Info & Contact */}
-            <div className="space-y-12">
-               <div className="glass-light p-10 rounded-[2.5rem] shadow-2xl border border-primary/5 sticky top-32">
-                 <h3 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary mb-10 text-center">Exclusive Advisor</h3>
-                 <div className="flex flex-col items-center text-center space-y-6">
-                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-primary/20 bg-muted">
+            {/* Side Sidebar: Expert Advisor Sticky Card */}
+            <div className="relative">
+              <div className="sticky top-32 space-y-12">
+                <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-[#EDEDED] flex flex-col">
+                  {/* Header with Background */}
+                  <div className="relative h-48 flex flex-col items-center justify-center pt-8">
+                    <Image 
+                      src={agentBg}
+                      alt="Agent Background"
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/50" />
+                    
+                    {/* Avatar */}
+                    <div className="relative z-10 w-28 h-28 rounded-full overflow-hidden border-4 border-white shadow-xl">
                        <Image 
-                         src={PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : 'team-4'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl}
+                         src={agentAvatar}
                          alt={property.agentName}
                          fill
                          className="object-cover"
                          data-ai-hint="Professional Portrait"
                        />
                     </div>
-                    <div>
-                      <p className="text-2xl font-headline font-bold uppercase tracking-wider">{property.agentName}</p>
-                      <p className="text-primary font-bold text-[10px] uppercase tracking-[0.3em] mt-1">Senior Consultant</p>
+                  </div>
+
+                  {/* Identity Section */}
+                  <div className="px-10 pt-6 pb-10 text-center bg-white">
+                    <h3 className="text-2xl font-headline font-extrabold uppercase tracking-tight text-[#111111]">
+                      {property.agentName}
+                    </h3>
+                    <p className="text-[#005F73] font-headline font-bold text-[10px] uppercase tracking-[0.2em] mt-1">
+                      SENIOR SALES EXECUTIVE
+                    </p>
+
+                    {/* Trust Grid / Metrics */}
+                    <div className="grid grid-cols-3 gap-0 mt-8 mb-10 border-y border-[#EDEDED] py-6">
+                      <div className="text-center px-2">
+                        <p className="text-lg font-bold text-[#111111]">142+</p>
+                        <p className="text-[9px] font-bold text-[#9CA3AF] uppercase tracking-widest">SOLD</p>
+                      </div>
+                      <div className="text-center px-2 border-x border-[#EDEDED]">
+                        <p className="text-lg font-bold text-[#111111]">12y</p>
+                        <p className="text-[9px] font-bold text-[#9CA3AF] uppercase tracking-widest">EXP</p>
+                      </div>
+                      <div className="text-center px-2">
+                        <p className="text-lg font-bold text-[#111111]">4.9</p>
+                        <p className="text-[9px] font-bold text-[#9CA3AF] uppercase tracking-widest">RATING</p>
+                      </div>
                     </div>
-                    <div className="w-full space-y-4 pt-8 border-t border-primary/5">
-                      <Button className="w-full rounded-full py-7 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.3em] text-[10px] h-auto shadow-xl">
-                        Consult an Advisor
+
+                    {/* CTAs Hub */}
+                    <div className="space-y-4">
+                      <Button className="w-full rounded-full py-7 bg-[#005F73] hover:bg-[#005F73]/90 text-white font-bold uppercase tracking-[0.2em] text-[11px] h-auto shadow-lg transition-all active:scale-[0.98]">
+                        BOOK PRIVATE INSPECTION
                       </Button>
-                      <Button variant="outline" className="w-full rounded-full py-7 border-primary/20 text-primary font-bold uppercase tracking-[0.3em] text-[10px] h-auto">
-                        View Portfolio
+                      <Button variant="outline" className="w-full rounded-full py-7 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[11px] h-auto flex items-center justify-center gap-2 group transition-all hover:bg-[#111111] hover:text-white backdrop-blur-sm">
+                        <FileText className="w-4 h-4" />
+                        VIEW DIGITAL BROCHURE
                       </Button>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <Button className="rounded-full py-7 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-auto flex items-center justify-center gap-2 transition-all">
+                          <MessageSquare className="w-4 h-4" />
+                          SMS
+                        </Button>
+                        <Button className="rounded-full py-7 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-auto flex items-center justify-center gap-2 transition-all">
+                          <Mail className="w-4 h-4" />
+                          EMAIL
+                        </Button>
+                      </div>
+
+                      <div className="pt-4">
+                        <Link 
+                          href={`https://wa.me/61400000000?text=Hi%20${property.agentName},%20I'm%20interested%20in%20viewing%20${property.title}%20at%20${property.location}.`} 
+                          target="_blank" 
+                          className="text-[#005F73] text-[10px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-2 group hover:underline"
+                        >
+                          WHATSAPP AGENT <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      </div>
                     </div>
-                 </div>
-               </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
