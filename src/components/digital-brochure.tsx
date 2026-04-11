@@ -2,8 +2,9 @@
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { FileText, Bed, Bath, Car, Maximize, MapPin } from "lucide-react";
+import { FileText, Bed, Bath, Car, Maximize, MapPin, Download } from "lucide-react";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast";
 
 interface DigitalBrochureProps {
   property: {
@@ -23,6 +24,15 @@ interface DigitalBrochureProps {
 }
 
 export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProps) {
+  const { toast } = useToast();
+
+  const handleDownload = () => {
+    toast({
+      title: "Generating Brochure",
+      description: "Your digital brochure for " + property.title + " is being prepared for download.",
+    });
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -32,7 +42,20 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 border-none rounded-[2rem] bg-white">
-        <div className="flex flex-col">
+        <div className="flex flex-col relative">
+          {/* Download Action Overlay */}
+          <div className="absolute top-6 right-16 z-[60]">
+             <Button 
+               variant="outline" 
+               size="sm" 
+               onClick={handleDownload}
+               className="rounded-full bg-white/10 hover:bg-white border-white/40 text-white hover:text-primary transition-all backdrop-blur-xl h-10 px-6 text-[9px] uppercase font-bold tracking-[0.2em] shadow-lg"
+             >
+               <Download className="w-3.5 h-3.5 mr-2" />
+               Download PDF
+             </Button>
+          </div>
+
           {/* Brochure Hero */}
           <div className="relative aspect-[21/9] w-full">
             <Image 
