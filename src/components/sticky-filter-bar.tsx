@@ -110,7 +110,7 @@ export function StickyFilterBar() {
         <div className="flex items-center gap-4 w-full lg:w-auto">
           <Button 
             variant="outline" 
-            className="flex-1 lg:flex-none rounded-full border-[#D1D5DB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-11 px-8 hover:bg-white hover:border-[#111111] transition-all flex items-center gap-3 group"
+            className="flex-1 lg:flex-none rounded-full border-[#D1D5DB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-11 px-8 hover:bg-white hover:border-primary hover:text-primary transition-all flex items-center gap-3 group"
           >
             <SlidersHorizontal className="w-4 h-4 transition-transform group-hover:rotate-12" />
             More Filters
