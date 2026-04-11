@@ -323,7 +323,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">
                   {property.price.includes('/') ? 'Lease Terms' : 'Last Transaction'}
                 </p>
-                <p className="text-3xl md:text-4xl font-headline font-extrabold text-primary">AUD ${property.price}</p>
+                <p className="text-2xl md:text-3xl font-headline font-extrabold text-primary">AUD ${property.price}</p>
               </div>
             </div>
           </div>
