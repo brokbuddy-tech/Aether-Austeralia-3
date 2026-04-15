@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -5,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -71,13 +72,7 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:max-w-xs p-0 border-none bg-background">
-              <div className="flex flex-col h-full">
-                <SheetHeader className="p-6 border-b border-primary/5">
-                  <SheetTitle className="text-left font-headline font-extrabold tracking-tighter uppercase text-xl">
-                    Vela <span className="text-primary">Armon</span>
-                  </SheetTitle>
-                </SheetHeader>
-                
+              <div className="flex flex-col h-full pt-20">
                 <div className="flex-1 overflow-y-auto p-6 space-y-8">
                   <nav className="flex flex-col gap-6">
                     {navLinks.map((link) => (
