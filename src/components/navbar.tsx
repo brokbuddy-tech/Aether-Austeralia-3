@@ -67,8 +67,12 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
         <div className="md:hidden pointer-events-auto">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className={cn("rounded-full h-10 w-10 hover:bg-primary/10", isDark ? "text-white" : "text-foreground")}>
-                <Menu className="w-6 h-6" />
+              <Button 
+                variant="default" 
+                size="icon" 
+                className="rounded-full h-14 w-14 bg-primary text-white shadow-xl hover:bg-primary/90 transition-all border-none"
+              >
+                <Menu className="w-7 h-7" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:max-w-xs p-0 border-none bg-background">
