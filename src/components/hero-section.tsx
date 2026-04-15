@@ -8,9 +8,9 @@ export function HeroSection() {
   const heroImage = PlaceHolderImages.find((img) => img.id === "hero-home");
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col md:flex-row overflow-hidden">
+    <section className="relative w-full min-h-screen flex flex-col md:flex-row overflow-hidden bg-background">
       {/* Left Side: Parallax Image */}
-      <div className="w-full md:w-[55%] h-[40vh] md:h-full min-h-[300px]">
+      <div className="w-full md:w-[55%] h-[50vh] md:h-auto md:min-h-screen relative">
         <ParallaxImage
           src={heroImage?.imageUrl || ""}
           alt={heroImage?.description || "Hero Property"}
@@ -21,7 +21,7 @@ export function HeroSection() {
       </div>
 
       {/* Right Side: Minimalist Panel */}
-      <div className="w-full md:w-[45%] bg-[#FAFAFA] flex flex-col justify-center px-6 md:px-12 lg:px-24 py-12 md:py-0">
+      <div className="w-full md:w-[45%] bg-[#FAFAFA] flex flex-col justify-center px-6 md:px-12 lg:px-24 py-16 md:py-0 relative z-10">
         <div className="max-w-xl mx-auto md:mx-0">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-headline font-extrabold text-foreground leading-[1.1] uppercase">
             Find a place <br />
