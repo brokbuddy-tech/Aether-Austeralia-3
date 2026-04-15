@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRef } from "react";
@@ -39,15 +38,13 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
     });
 
     try {
-      // Create canvas from the brochure DOM element
       const canvas = await html2canvas(brochureRef.current, {
         useCORS: true,
-        scale: 2, // Better resolution
+        scale: 2,
         backgroundColor: "#ffffff",
         logging: false,
       });
 
-      // Trigger download
       const link = document.createElement("a");
       link.download = `${property.title.toLowerCase().replace(/\s+/g, "-")}-brochure.png`;
       link.href = canvas.toDataURL("image/png");
@@ -72,7 +69,7 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full rounded-full py-6 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[10px] h-auto flex items-center justify-center gap-2 group transition-all hover:bg-primary hover:text-white hover:border-primary backdrop-blur-sm">
+        <Button variant="outline" className="w-full rounded-full h-14 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[9px] flex items-center justify-center gap-2 group transition-all hover:bg-primary hover:text-white hover:border-primary backdrop-blur-sm">
           <FileText className="w-3.5 h-3.5" />
           VIEW DIGITAL BROCHURE
         </Button>
@@ -83,7 +80,6 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
           <DialogDescription>Exclusive property presentation for {property.title}.</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col relative">
-          {/* Download Action Overlay */}
           <div className="absolute top-6 right-16 z-[60]">
              <Button 
                variant="outline" 
@@ -96,9 +92,7 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
              </Button>
           </div>
 
-          {/* Capture Container */}
           <div ref={brochureRef} className="flex flex-col bg-white">
-            {/* Brochure Hero */}
             <div className="relative aspect-[21/9] w-full">
               <Image 
                 src={property.imageUrl}
@@ -119,7 +113,6 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
               </div>
             </div>
 
-            {/* Brochure Gallery - 3 Images in a row */}
             <div className="grid grid-cols-3 gap-4 p-8 bg-[#F9F9F9]">
               {galleryImages.map((img, idx) => (
                 <div key={idx} className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm border border-black/5">
@@ -128,7 +121,6 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
               ))}
             </div>
 
-            {/* Brochure Details */}
             <div className="p-10 space-y-10">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-primary/10 pb-10">
                 <div>

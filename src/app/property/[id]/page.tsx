@@ -175,6 +175,20 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
             </div>
           </div>
 
+          {/* Property Gallery Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+            {galleryImages.map((img, idx) => (
+              <div key={idx} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm group cursor-pointer">
+                <Image src={img} alt={`Gallery ${idx}`} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+              </div>
+            ))}
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted flex flex-col items-center justify-center cursor-pointer group border border-dashed border-primary/20 hover:bg-primary/5 transition-colors">
+              <Grid3X3 className="w-6 h-6 text-primary mb-2 group-hover:scale-110 transition-transform" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-primary">View More</span>
+            </div>
+          </div>
+
           {/* Details Content */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
             <div className="lg:col-span-2 space-y-12 md:space-y-16">
@@ -190,7 +204,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 {property.baths !== undefined && (
                   <div className="flex flex-col gap-2 p-4 md:p-6 rounded-2xl bg-muted/30 border border-primary/5">
                     <Bath className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                    <p className="text-xl md:text-2xl font-headline font-bold">{property.baths}</p>
+                    <p className="text-xl md:text-2xl font-headline font-bold">{property.beds}</p>
                     <p className="text-[8px] md:text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bathrooms</p>
                   </div>
                 )}
@@ -277,7 +291,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
                     {/* CTAs Hub */}
                     <div className="space-y-2.5">
-                      <Button className="w-full rounded-full py-4 md:py-5 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.2em] text-[8px] md:text-[9px] h-auto shadow-lg transition-all active:scale-[0.98]">
+                      <Button className="w-full rounded-full h-14 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.2em] text-[9px] shadow-lg transition-all active:scale-[0.98]">
                         BOOK PRIVATE INSPECTION
                       </Button>
                       
