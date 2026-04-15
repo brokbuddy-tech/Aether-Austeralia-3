@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -70,12 +70,16 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
               <Button 
                 variant="default" 
                 size="icon" 
-                className="rounded-full h-14 w-14 bg-primary text-white shadow-xl hover:bg-primary/90 transition-all border-none"
+                className="rounded-full h-16 w-16 bg-primary text-white shadow-xl hover:bg-primary/90 transition-all border-none flex items-center justify-center"
               >
-                <Menu className="w-7 h-7" />
+                <Menu className="w-8 h-8" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:max-w-xs p-0 border-none bg-background">
+              <SheetHeader className="sr-only">
+                <SheetTitle>Navigation Menu</SheetTitle>
+                <SheetDescription>Access site pages and contact information.</SheetDescription>
+              </SheetHeader>
               <div className="flex flex-col h-full pt-20">
                 <div className="flex-1 overflow-y-auto p-6 space-y-8">
                   <nav className="flex flex-col gap-6">

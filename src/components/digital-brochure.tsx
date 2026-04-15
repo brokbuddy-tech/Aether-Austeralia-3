@@ -2,7 +2,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { FileText, Bed, Bath, Car, Maximize, MapPin, Download } from "lucide-react";
 import Image from "next/image";
@@ -78,6 +78,10 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 border-none rounded-[2rem] bg-white">
+        <DialogHeader className="sr-only">
+          <DialogTitle>{property.title} - Digital Brochure</DialogTitle>
+          <DialogDescription>Exclusive property presentation for {property.title}.</DialogDescription>
+        </DialogHeader>
         <div className="flex flex-col relative">
           {/* Download Action Overlay */}
           <div className="absolute top-6 right-16 z-[60]">
@@ -102,7 +106,7 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
                 fill
                 className="object-cover"
                 data-ai-hint={property.imageHint}
-                unoptimized // helpful for html2canvas CORS in some environments
+                unoptimized 
               />
               <div className="absolute inset-0 bg-black/40" />
               <div className="absolute bottom-8 left-8 text-white">
