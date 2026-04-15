@@ -4,17 +4,9 @@ import { SiteFooter } from "@/components/site-footer";
 import { TestimonialSlider } from "@/components/testimonial-slider";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Button } from "@/components/ui/button";
+import { Navbar } from "@/components/navbar";
 
 export default function AboutPage() {
-  const navLinks = [
-    { name: 'Buy', href: '/buy' },
-    { name: 'Rent', href: '/rent' },
-    { name: 'Sold', href: '/sold' },
-    { name: 'Commercial', href: '/commercial' },
-    { name: 'Agent', href: '/agent' },
-    { name: 'About Us', href: '/about' },
-  ];
-
   const team = [
     {
       name: "Sarah West",
@@ -40,30 +32,7 @@ export default function AboutPage() {
 
   return (
     <main className="min-h-screen bg-background">
-      {/* Persistent Navigation */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] hidden md:flex items-center gap-12 bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
-        {navLinks.map((link) => (
-          <Link 
-            key={link.name} 
-            href={link.href} 
-            className={`text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors ${link.name === 'About Us' ? 'text-primary' : ''}`}
-          >
-            {link.name}
-          </Link>
-        ))}
-      </div>
-
-      {/* Logo Branding & Contact Overlay */}
-      <div className="absolute top-0 left-0 right-0 z-[90] px-6 py-6 flex justify-between items-center pointer-events-none">
-        <Link href="/" className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
-          <span className="text-white">Vela</span> <span className="text-primary">Armon</span>
-        </Link>
-        <Link href="/contact" className="pointer-events-auto">
-          <Button className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white font-bold h-10 uppercase tracking-[0.2em] text-[10px] shadow-lg">
-            Contact Us
-          </Button>
-        </Link>
-      </div>
+      <Navbar theme="dark" />
 
       {/* Hero Section */}
       <section className="relative pt-64 pb-48 px-6 min-h-[80vh] flex items-center overflow-hidden">
@@ -176,7 +145,9 @@ export default function AboutPage() {
           <p className="text-muted-foreground text-lg font-light">Join the most exclusive real estate network in Australia.</p>
           <div className="flex flex-col md:flex-row gap-4 justify-center pt-8">
             <Button className="rounded-full px-12 py-6 bg-primary hover:bg-primary/90 text-white font-bold h-auto uppercase tracking-widest text-xs">Consult an Advisor</Button>
-            <Button variant="outline" className="rounded-full px-12 py-6 border-primary/20 hover:bg-primary hover:text-white text-primary font-bold h-auto uppercase tracking-widest text-xs">View Listings</Button>
+            <Link href="/buy">
+              <Button variant="outline" className="rounded-full px-12 py-6 border-primary/20 hover:bg-primary hover:text-white text-primary font-bold h-auto uppercase tracking-widest text-xs">View Listings</Button>
+            </Link>
           </div>
         </div>
       </section>
