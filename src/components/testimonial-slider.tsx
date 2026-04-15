@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -43,8 +44,8 @@ export function TestimonialSlider() {
   ];
 
   return (
-    <div className="w-full relative">
-      <div className="max-w-4xl mx-auto relative px-12">
+    <div className="w-full relative px-4 md:px-0">
+      <div className="max-w-3xl mx-auto relative px-4 md:px-12">
         <Carousel 
           className="w-full"
           plugins={[plugin.current]}
@@ -58,8 +59,8 @@ export function TestimonialSlider() {
           <CarouselContent>
             {testimonials.map((t, idx) => (
               <CarouselItem key={idx}>
-                <div className="bg-white/30 backdrop-blur-xl p-12 md:p-20 rounded-[3rem] text-center shadow-2xl border border-white/40">
-                  <div className="relative w-16 h-16 mx-auto mb-8 rounded-full overflow-hidden border-2 border-white/50 bg-muted/20">
+                <div className="bg-white/30 backdrop-blur-xl p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] text-center shadow-2xl border border-white/40">
+                  <div className="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-6 md:mb-8 rounded-full overflow-hidden border-2 border-white/50 bg-muted/20">
                     {userImg?.imageUrl ? (
                       <Image
                         src={userImg.imageUrl}
@@ -70,12 +71,12 @@ export function TestimonialSlider() {
                       />
                     ) : null}
                   </div>
-                  <blockquote className="text-2xl md:text-3xl font-editorial font-light italic text-foreground mb-8 leading-relaxed">
+                  <blockquote className="text-lg md:text-2xl font-editorial font-light italic text-foreground mb-6 md:mb-8 leading-relaxed">
                     "{t.quote}"
                   </blockquote>
                   <cite className="not-italic">
-                    <div className="font-headline uppercase tracking-widest font-bold text-sm text-primary">{t.author}</div>
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-1">{t.role}</div>
+                    <div className="font-headline uppercase tracking-widest font-bold text-xs md:text-sm text-primary">{t.author}</div>
+                    <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-1">{t.role}</div>
                   </cite>
                 </div>
               </CarouselItem>
