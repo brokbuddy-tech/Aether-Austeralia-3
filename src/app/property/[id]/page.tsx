@@ -164,7 +164,12 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
               <AuctionDetails />
 
               {/* Property Map */}
-              <PropertyMap location={property.location} />
+              <PropertyMap
+                address={property.address}
+                location={property.location}
+                latitude={property.latitude}
+                longitude={property.longitude}
+              />
             </div>
 
             {/* Sidebar Stacks on Mobile */}

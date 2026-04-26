@@ -1,17 +1,27 @@
 
 "use client";
 
-import Image from "next/image";
+import dynamic from "next/dynamic";
 import { MapPin, Navigation, Coffee, School, Waves } from "lucide-react";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
+
+const DynamicLocationMap = dynamic(
+  () => import("@/components/location-map").then((mod) => ({ default: mod.LocationMap })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="leaflet-property-map relative h-96 w-full overflow-hidden rounded-3xl border border-border bg-muted/35 animate-pulse" />
+    ),
+  }
+);
 
 interface PropertyMapProps {
+  address: string;
   location: string;
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
-export function PropertyMap({ location }: PropertyMapProps) {
-  const mapImg = PlaceHolderImages.find(i => i.id === "map-placeholder")?.imageUrl;
-
+export function PropertyMap({ address, location, latitude, longitude }: PropertyMapProps) {
   const highlights = [
     { name: "Coastal Edge", dist: "400m", icon: Waves },
     { name: "The Promenade", dist: "1.2km", icon: Coffee },
@@ -32,27 +42,13 @@ export function PropertyMap({ location }: PropertyMapProps) {
       </div>
 
       {/* Map Visualizer */}
-      <div className="relative aspect-[21/9] rounded-3xl overflow-hidden shadow-inner mb-12 bg-muted/20 border border-primary/5">
-        {mapImg && (
-          <Image 
-            src={mapImg}
-            alt="Property Location Map"
-            fill
-            className="object-cover grayscale opacity-60 mix-blend-multiply"
-            data-ai-hint="Minimalist Map"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/40 to-transparent" />
-        
-        {/* Pulsing Pin Marker */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-          <div className="relative">
-            <div className="absolute inset-0 w-12 h-12 bg-primary/20 rounded-full animate-ping" />
-            <div className="relative w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-2xl border-2 border-white">
-              <MapPin className="w-5 h-5 text-white" />
-            </div>
-          </div>
-        </div>
+      <div className="mb-12">
+        <DynamicLocationMap
+          latitude={latitude}
+          longitude={longitude}
+          locationLabel={location}
+          addressLabel={address}
+        />
       </div>
 
       {/* Neighbourhood Highlights */}
