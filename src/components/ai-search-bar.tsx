@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Loader2, SlidersHorizontal, Sparkles, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search, Loader2, SlidersHorizontal, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { aiPoweredPropertySearch, type AiPoweredPropertySearchOutput } from "@/ai/flows/ai-powered-property-search-flow";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -13,12 +12,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 
 export function AISearchBar() {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<AiPoweredPropertySearchOutput | null>(null);
   const [open, setOpen] = useState(false);
-  
-  // Manual Filter State
   const [filters, setFilters] = useState({
     location: "",
     propertyType: "any",
@@ -36,7 +33,7 @@ export function AISearchBar() {
 
   const handleSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    
+
     if (!query.trim() && !filters.location && filters.propertyType === 'any') {
       toast({
         title: "Search criteria required",
@@ -45,42 +42,32 @@ export function AISearchBar() {
       });
       return;
     }
-    
+
     setLoading(true);
-    setResult(null);
-    setOpen(false); // Close modal if open
 
-    try {
-      const output = await aiPoweredPropertySearch({ query });
-      
-      const mergedResult = {
-        ...output,
-        location: filters.location || output.location,
-        propertyType: filters.propertyType !== 'any' ? filters.propertyType : output.propertyType,
-        bedrooms: filters.bedrooms !== 'any' ? parseInt(filters.bedrooms) : output.bedrooms,
-        bathrooms: filters.bathrooms !== 'any' ? parseInt(filters.bathrooms) : output.bathrooms,
-        parking: filters.parking !== 'any' ? parseInt(filters.parking) : output.parking,
-        minPrice: filters.minPrice ? parseFloat(filters.minPrice) : output.minPrice,
-        maxPrice: filters.maxPrice ? parseFloat(filters.maxPrice) : output.maxPrice,
-        amenities: filters.amenities.length > 0 ? Array.from(new Set([...(output.amenities || []), ...filters.amenities])) : output.amenities
-      };
+    const params = new URLSearchParams();
+    const searchTerms = [query.trim(), filters.location.trim(), ...filters.amenities]
+      .filter(Boolean)
+      .join(" ");
 
-      setResult(mergedResult);
-      
-      toast({
-        title: "Search refined",
-        description: "Your search has been processed with specified criteria.",
-      });
-    } catch (error) {
-      console.error("Search failed:", error);
-      toast({
-        title: "Search failed",
-        description: "Unable to process your request. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
+    if (searchTerms) params.set("q", searchTerms);
+    if (filters.bedrooms !== "any") params.set("bedrooms", filters.bedrooms);
+    if (filters.bathrooms !== "any") params.set("bathrooms", filters.bathrooms);
+    if (filters.minPrice) params.set("minPrice", filters.minPrice);
+    if (filters.maxPrice) params.set("maxPrice", filters.maxPrice);
+
+    const destination =
+      filters.propertyType === "commercial"
+        ? "/commercial"
+        : "/buy";
+
+    if (filters.propertyType !== "any" && filters.propertyType !== "commercial") {
+      params.set("category", filters.propertyType);
     }
+
+    setOpen(false);
+    router.push(`${destination}${params.toString() ? `?${params.toString()}` : ""}`);
+    setLoading(false);
   };
 
   const toggleAmenity = (amenity: string) => {
@@ -144,6 +131,7 @@ export function AISearchBar() {
                         <SelectItem value="apartment">Apartment</SelectItem>
                         <SelectItem value="land">Land</SelectItem>
                         <SelectItem value="townhouse">Townhouse</SelectItem>
+                        <SelectItem value="commercial">Commercial</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -282,57 +270,6 @@ export function AISearchBar() {
           Discover with AI Assistant
         </Button>
       </div>
-      
-      {result && (
-        <div className="glass-light p-8 rounded-[2.5rem] border border-primary/10 shadow-xl animate-in fade-in slide-in-from-top-4 duration-700">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-[10px] text-primary font-bold uppercase tracking-[0.4em]">AI Intelligent Filter</span>
-            </div>
-            <Button variant="ghost" size="icon" onClick={() => setResult(null)} className="h-8 w-8 rounded-full hover:bg-primary/5">
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-3">
-            {result.location && (
-              <Badge variant="outline" className="px-5 py-2.5 rounded-full border-primary/20 text-primary bg-primary/5 font-bold uppercase tracking-[0.2em] text-[9px]">
-                Location: {result.location}
-              </Badge>
-            )}
-            {result.bedrooms && (
-              <Badge variant="outline" className="px-5 py-2.5 rounded-full border-primary/20 text-primary bg-primary/5 font-bold uppercase tracking-[0.2em] text-[9px]">
-                {result.bedrooms} Bedrooms
-              </Badge>
-            )}
-            {result.parking && (
-              <Badge variant="outline" className="px-5 py-2.5 rounded-full border-primary/20 text-primary bg-primary/5 font-bold uppercase tracking-[0.2em] text-[9px]">
-                {result.parking} Parking
-              </Badge>
-            )}
-            {result.propertyType && (
-              <Badge variant="outline" className="px-5 py-2.5 rounded-full border-primary/20 text-primary bg-primary/5 font-bold uppercase tracking-[0.2em] text-[9px]">
-                {result.propertyType}
-              </Badge>
-            )}
-            {result.maxPrice && (
-              <Badge variant="outline" className="px-5 py-2.5 rounded-full border-primary/20 text-primary bg-primary/5 font-bold uppercase tracking-[0.2em] text-[9px]">
-                Up to ${result.maxPrice.toLocaleString()}
-              </Badge>
-            )}
-            {result.amenities && result.amenities.length > 0 && result.amenities.map(a => (
-              <Badge key={a} variant="outline" className="px-5 py-2.5 rounded-full border-primary/20 text-primary bg-primary/5 font-bold uppercase tracking-[0.2em] text-[9px]">
-                {a}
-              </Badge>
-            ))}
-          </div>
-
-          <p className="mt-8 text-sm text-muted-foreground font-light italic leading-relaxed border-l-2 border-primary/10 pl-6">
-            "Vela Armon AI has refined your request. We've matched your criteria with our exclusive database of {result.propertyType || 'residences'} in {result.location || 'premium postcodes'} to find your ideal legacy property."
-          </p>
-        </div>
-      )}
     </div>
   );
 }

@@ -2,97 +2,41 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/property-card";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
+import { getListings } from "@/lib/api";
 
-export default function BuyPage() {
-  const properties = [
-    {
-      id: "1",
-      title: "Noosa Coastal Retreat",
-      price: "4,250,000",
-      location: "Noosa Heads, QLD",
-      beds: 4,
-      baths: 3,
-      cars: 2,
-      area: 450,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
-      agentName: "Sarah West",
-      tag: "Exclusive" as const,
-    },
-    {
-      id: "2",
-      title: "Harbour View Penthouse",
-      price: "12,800,000",
-      location: "Double Bay, NSW",
-      beds: 3,
-      baths: 4,
-      cars: 3,
-      area: 320,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
-      agentName: "Julian Vance",
-      tag: "New Listing" as const,
-    },
-    {
-      id: "3",
-      title: "Modern Melbourne Estate",
-      price: "3,100,000",
-      location: "Toorak, VIC",
-      beds: 5,
-      baths: 3,
-      cars: 2,
-      area: 550,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-3")?.imageHint || "",
-      agentName: "Emma Clarke",
-      tag: "For Sale" as const,
-    },
-    {
-      id: "4",
-      title: "Byron Hinterland Estate",
-      price: "6,900,000",
-      location: "Byron Bay, NSW",
-      beds: 6,
-      baths: 4,
-      cars: 4,
-      area: 1200,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-4")?.imageHint || "",
-      agentName: "Marcus Thorne",
-      tag: "Auction" as const,
-    },
-    {
-      id: "5",
-      title: "Brisbane City Spire",
-      price: "2,450,000",
-      location: "New Farm, QLD",
-      beds: 2,
-      baths: 2,
-      cars: 1,
-      area: 180,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
-      agentName: "Lara Croft",
-      tag: "New Listing" as const,
-    },
-    {
-      id: "6",
-      title: "Ocean Edge Residence",
-      price: "5,300,000",
-      location: "Cottesloe, WA",
-      beds: 4,
-      baths: 3,
-      cars: 2,
-      area: 390,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
-      agentName: "David Perth",
-      tag: "Exclusive" as const,
-    }
-  ];
+export default async function BuyPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q?: string;
+    category?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    bedrooms?: string;
+    bathrooms?: string;
+    page?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  const { properties, total, page, totalPages } = await getListings({
+    transactionType: "SALE",
+    status: "ACTIVE",
+    q: params.q || "",
+    category: params.category || "",
+    minPrice: params.minPrice || "",
+    maxPrice: params.maxPrice || "",
+    bedrooms: params.bedrooms || "",
+    bathrooms: params.bathrooms || "",
+    page: params.page || "1",
+    limit: 12,
+  });
+  const nextPageParams = new URLSearchParams(
+    Object.entries({ ...params, page: String(page + 1) })
+      .filter(([, value]) => Boolean(value))
+      .map(([key, value]) => [key, String(value)])
+  );
 
   return (
     <main className="min-h-screen bg-background">
@@ -108,6 +52,9 @@ export default function BuyPage() {
             <p className="text-xl font-light text-muted-foreground max-w-2xl leading-relaxed mx-auto md:mx-0">
               Explore extraordinary residential opportunities curated for the discerning Australian market, where architecture meets lifestyle.
             </p>
+            <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
+              {total} live buy listings{params.q ? ` matching "${params.q}"` : ""}
+            </p>
           </div>
         </div>
       </section>
@@ -122,14 +69,24 @@ export default function BuyPage() {
             ))}
           </div>
 
-          <div className="mt-24 flex justify-center">
-            <Button 
-              variant="outline" 
-              className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
-            >
-              View More Listings
-            </Button>
-          </div>
+          {properties.length === 0 && (
+            <p className="mt-16 text-center text-sm uppercase tracking-[0.3em] text-muted-foreground">
+              No listings matched the current filters.
+            </p>
+          )}
+
+          {page < totalPages && (
+            <div className="mt-24 flex justify-center">
+              <Link href={`/buy?${nextPageParams.toString()}`}>
+                <Button 
+                  variant="outline" 
+                  className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  View More Listings
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

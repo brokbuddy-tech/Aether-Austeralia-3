@@ -2,79 +2,41 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/property-card";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
+import { getListings } from "@/lib/api";
 
-export default function CommercialPage() {
-  const commercialProperties = [
-    {
-      id: "c1",
-      title: "Tech Central Tower",
-      price: "15,500,000",
-      location: "Sydney CBD, NSW",
-      area: 2450,
-      imageUrl: PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
-      imageHint: "Modern Office Building",
-      agentName: "Julian Vance",
-      tag: "Premium Office" as const,
-    },
-    {
-      id: "c2",
-      title: "Logistics Hub Alpha",
-      price: "8,200,000",
-      location: "Port Melbourne, VIC",
-      area: 5800,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
-      imageHint: "Modern Industrial Warehouse",
-      agentName: "Emma Clarke",
-      tag: "Industrial" as const,
-    },
-    {
-      id: "c3",
-      title: "Wellness & Medical Centre",
-      price: "4,900,000",
-      location: "New Farm, QLD",
-      area: 850,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
-      imageHint: "Medical Facility Architecture",
-      agentName: "Lara Croft",
-      tag: "Medical/Consulting" as const,
-    },
-    {
-      id: "c4",
-      title: "High-Tech Showroom",
-      price: "3,750,000",
-      location: "Alexandria, NSW",
-      area: 1200,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
-      imageHint: "Modern Showroom Interior",
-      agentName: "Marcus Thorne",
-      tag: "Showroom/Warehouse" as const,
-    },
-    {
-      id: "c5",
-      title: "Luxury Retail Strip",
-      price: "12,000,000",
-      location: "Noosa Heads, QLD",
-      area: 1500,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
-      imageHint: "Luxury Retail Storefront",
-      agentName: "Sarah West",
-      tag: "Retail" as const,
-    },
-    {
-      id: "c6",
-      title: "Riverside Development Site",
-      price: "22,000,000",
-      location: "South Bank, QLD",
-      area: 3200,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
-      imageHint: "Construction Development Site",
-      agentName: "David Perth",
-      tag: "Development Site" as const,
-    }
-  ];
+export default async function CommercialPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q?: string;
+    category?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    bedrooms?: string;
+    bathrooms?: string;
+    page?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  const { properties: commercialProperties, total, page, totalPages } = await getListings({
+    propertyType: "COMMERCIAL",
+    status: "ACTIVE",
+    q: params.q || "",
+    category: params.category || "",
+    minPrice: params.minPrice || "",
+    maxPrice: params.maxPrice || "",
+    bedrooms: params.bedrooms || "",
+    bathrooms: params.bathrooms || "",
+    page: params.page || "1",
+    limit: 12,
+  });
+  const nextPageParams = new URLSearchParams(
+    Object.entries({ ...params, page: String(page + 1) })
+      .filter(([, value]) => Boolean(value))
+      .map(([key, value]) => [key, String(value)])
+  );
 
   return (
     <main className="min-h-screen bg-background">
@@ -90,6 +52,9 @@ export default function CommercialPage() {
             <p className="text-xl font-light text-muted-foreground max-w-2xl leading-relaxed mx-auto md:mx-0">
               Strategic industrial, retail, and office opportunities tailored for institutional and private investors across Australia's key markets.
             </p>
+            <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
+              {total} live commercial listings{params.q ? ` matching "${params.q}"` : ""}
+            </p>
           </div>
         </div>
       </section>
@@ -104,15 +69,32 @@ export default function CommercialPage() {
             ))}
           </div>
 
+          {commercialProperties.length === 0 && (
+            <p className="mt-16 text-center text-sm uppercase tracking-[0.3em] text-muted-foreground">
+              No listings matched the current filters.
+            </p>
+          )}
+
           <div className="mt-24 flex justify-center">
-            <Link href="/agent">
-              <Button 
-                variant="outline" 
-                className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
-              >
-                Consult an Advisor
-              </Button>
-            </Link>
+            {page < totalPages ? (
+              <Link href={`/commercial?${nextPageParams.toString()}`}>
+                <Button 
+                  variant="outline" 
+                  className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  View More Assets
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/agent">
+                <Button 
+                  variant="outline" 
+                  className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  Consult an Advisor
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </section>

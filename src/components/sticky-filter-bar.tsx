@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown, SlidersHorizontal, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -17,19 +18,50 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 
 export function StickyFilterBar() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [filters, setFilters] = useState({
     location: "",
     price: "Any Price",
-    type: "House",
-    beds: "3+",
+    type: "Any Type",
+    beds: "Any",
     bath: "Any",
     parking: "any",
     minPrice: "",
     maxPrice: "",
     amenities: [] as string[]
   });
-
   const [open, setOpen] = useState(false);
+
+  const isCommercial = pathname === "/commercial";
+  const typeOptions = isCommercial
+    ? ["Any Type", "Office", "Retail", "Industrial", "Medical", "Showroom", "Development"]
+    : ["Any Type", "House", "Apartment", "Townhouse", "Land"];
+
+  useEffect(() => {
+    const minPrice = searchParams.get("minPrice") || "";
+    const maxPrice = searchParams.get("maxPrice") || "";
+
+    let price = "Any Price";
+    if (minPrice === "500000" && maxPrice === "1000000") price = "$500k - $1M";
+    if (minPrice === "1000000" && maxPrice === "3000000") price = "$1M - $3M";
+    if (minPrice === "3000000" && maxPrice === "5000000") price = "$3M - $5M";
+    if (minPrice === "5000000" && !maxPrice) price = "$5M+";
+    if ((minPrice || maxPrice) && price === "Any Price") price = "Custom";
+
+    setFilters({
+      location: searchParams.get("q") || "",
+      price,
+      type: searchParams.get("category") || "Any Type",
+      beds: searchParams.get("bedrooms") || "Any",
+      bath: searchParams.get("bathrooms") || "Any",
+      parking: "any",
+      minPrice,
+      maxPrice,
+      amenities: [],
+    });
+  }, [pathname, searchParams]);
 
   const toggleAmenity = (amenity: string) => {
     setFilters(prev => ({
@@ -41,6 +73,51 @@ export function StickyFilterBar() {
   };
 
   const availableAmenities = ["Pool", "Gym", "Garage", "Garden", "Ocean View", "Air Con"];
+
+  const applySearch = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    const searchTerms = [filters.location.trim(), ...filters.amenities].filter(Boolean).join(" ");
+
+    if (searchTerms) {
+      params.set("q", searchTerms);
+    } else {
+      params.delete("q");
+    }
+
+    let minPrice = filters.minPrice;
+    let maxPrice = filters.maxPrice;
+
+    if (!minPrice && !maxPrice) {
+      if (filters.price === "$500k - $1M") {
+        minPrice = "500000";
+        maxPrice = "1000000";
+      } else if (filters.price === "$1M - $3M") {
+        minPrice = "1000000";
+        maxPrice = "3000000";
+      } else if (filters.price === "$3M - $5M") {
+        minPrice = "3000000";
+        maxPrice = "5000000";
+      } else if (filters.price === "$5M+") {
+        minPrice = "5000000";
+      }
+    }
+
+    if (minPrice) params.set("minPrice", minPrice); else params.delete("minPrice");
+    if (maxPrice) params.set("maxPrice", maxPrice); else params.delete("maxPrice");
+
+    if (filters.beds !== "Any") params.set("bedrooms", filters.beds.replace("+", "")); else params.delete("bedrooms");
+    if (filters.bath !== "Any") params.set("bathrooms", filters.bath.replace("+", "")); else params.delete("bathrooms");
+
+    if (filters.type !== "Any Type") {
+      params.set("category", filters.type);
+    } else {
+      params.delete("category");
+    }
+
+    params.delete("page");
+    setOpen(false);
+    router.push(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`);
+  };
 
   const FilterSegment = ({ 
     label, 
@@ -115,7 +192,7 @@ export function StickyFilterBar() {
           <FilterSegment 
             label="TYPE" 
             value={filters.type} 
-            options={["House", "Apartment", "Townhouse", "Land"]}
+            options={typeOptions}
             onSelect={(v) => setFilters(f => ({ ...f, type: v }))}
             className="flex-none"
           />
@@ -166,20 +243,33 @@ export function StickyFilterBar() {
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-[9px] md:text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Property Type</Label>
-                      <Select value={filters.type.toLowerCase()} onValueChange={(v) => setFilters({...filters, type: v})}>
-                        <SelectTrigger className="rounded-xl border-primary/10 h-11 bg-white/50">
-                          <SelectValue placeholder="Any" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="any">Any Type</SelectItem>
-                          <SelectItem value="house">House</SelectItem>
-                          <SelectItem value="apartment">Apartment</SelectItem>
-                          <SelectItem value="land">Land</SelectItem>
-                          <SelectItem value="townhouse">Townhouse</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                      <Select value={filters.type === "Any Type" ? "any" : filters.type} onValueChange={(v) => setFilters({...filters, type: v === "any" ? "Any Type" : v})}>
+                      <SelectTrigger className="rounded-xl border-primary/10 h-11 bg-white/50">
+                        <SelectValue placeholder="Any" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="any">Any Type</SelectItem>
+                        {isCommercial ? (
+                          <>
+                            <SelectItem value="Office">Office</SelectItem>
+                            <SelectItem value="Retail">Retail</SelectItem>
+                            <SelectItem value="Industrial">Industrial</SelectItem>
+                            <SelectItem value="Medical">Medical</SelectItem>
+                            <SelectItem value="Showroom">Showroom</SelectItem>
+                            <SelectItem value="Development">Development</SelectItem>
+                          </>
+                        ) : (
+                          <>
+                            <SelectItem value="House">House</SelectItem>
+                            <SelectItem value="Apartment">Apartment</SelectItem>
+                            <SelectItem value="Land">Land</SelectItem>
+                            <SelectItem value="Townhouse">Townhouse</SelectItem>
+                          </>
+                        )}
+                      </SelectContent>
+                    </Select>
                   </div>
+                </div>
 
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-1.5">
@@ -256,7 +346,7 @@ export function StickyFilterBar() {
 
                   <div className="pt-6">
                     <Button 
-                      onClick={() => setOpen(false)} 
+                      onClick={applySearch} 
                       className="w-full rounded-full bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.3em] text-[11px] h-14 shadow-xl transition-all active:scale-[0.98]"
                     >
                       Show Results
@@ -266,7 +356,10 @@ export function StickyFilterBar() {
               </div>
             </DialogContent>
           </Dialog>
-          <Button className="flex-1 lg:flex-none rounded-full h-12 px-8 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.2em] text-[10px] shadow-lg flex items-center justify-center gap-2">
+          <Button
+            onClick={applySearch}
+            className="flex-1 lg:flex-none rounded-full h-12 px-8 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.2em] text-[10px] shadow-lg flex items-center justify-center gap-2"
+          >
             <Search className="w-4 h-4" />
             <span>Search</span>
           </Button>

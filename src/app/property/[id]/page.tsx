@@ -13,116 +13,45 @@ import { AuctionDetails } from "@/components/auction-details";
 import { PropertyMap } from "@/components/property-map";
 import { DigitalBrochure } from "@/components/digital-brochure";
 import { Navbar } from "@/components/navbar";
-
-const properties = [
-  {
-    id: "1",
-    title: "Noosa Coastal Retreat",
-    price: "4,250,000",
-    location: "Noosa Heads, QLD",
-    beds: 4,
-    baths: 3,
-    cars: 2,
-    area: 450,
-    imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
-    imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
-    agentName: "Sarah West",
-    description: "Experience the ultimate in coastal luxury at this stunning Noosa Heads residence. Designed for seamless indoor-outdoor living, this home features floor-to-ceiling glass, premium natural finishes, and a private infinity pool overlooking the lush hinterland. Every detail has been meticulously curated to provide a sense of calm and sophistication.",
-    amenities: ["Infinity Pool", "Chef's Kitchen", "Climate Control", "Smart Home System", "Outdoor Firepit", "High-Speed Wi-Fi"]
-  },
-  {
-    id: "2",
-    title: "Harbour View Penthouse",
-    price: "12,800,000",
-    location: "Double Bay, NSW",
-    beds: 3,
-    baths: 4,
-    cars: 3,
-    area: 320,
-    imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
-    imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
-    agentName: "Julian Vance",
-    description: "Occupying the entire top floor of one of Double Bay's most prestigious buildings, this penthouse offers 360-degree views of Sydney Harbour. With a private rooftop garden, bespoke marble kitchen, and master suite that rivals the world's finest hotels, this is a rare opportunity for the most discerning collector.",
-    amenities: ["Wine Cellar", "Home Cinema", "24/7 Security", "Private Gym", "Climate Control", "Secure Parking"]
-  },
-  {
-    id: "3",
-    title: "Modern Melbourne Estate",
-    price: "3,100,000",
-    location: "Toorak, VIC",
-    beds: 5,
-    baths: 3,
-    cars: 2,
-    area: 550,
-    imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
-    imageHint: PlaceHolderImages.find(i => i.id === "listing-3")?.imageHint || "",
-    agentName: "Emma Clarke",
-    description: "A triumph of contemporary architecture, this Toorak estate combines bold concrete forms with warm timber accents. The expansive floorplan offers multiple living zones, a dedicated home cinema, and a climate-controlled wine cellar. Set amongst manicured gardens, it provides absolute privacy in Melbourne's premier suburb.",
-    amenities: ["Home Cinema", "Wine Cellar", "Secure Parking", "Climate Control", "Solar Power", "Private Gym"]
-  },
-  {
-    id: "4",
-    title: "Byron Hinterland Estate",
-    price: "6,900,000",
-    location: "Byron Bay, NSW",
-    beds: 6,
-    baths: 4,
-    cars: 4,
-    area: 1200,
-    imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
-    imageHint: PlaceHolderImages.find(i => i.id === "listing-4")?.imageHint || "",
-    agentName: "Marcus Thorne",
-    description: "A sanctuary of scale and serenity. This sprawling hinterland estate offers absolute seclusion just minutes from Byron's famous beaches. Featuring a separate guest cottage, equestrian facilities, and panoramic ocean views, it is a legacy property of international standing.",
-    amenities: ["Infinity Pool", "Solar Power", "Outdoor Firepit", "Climate Control", "Smart Home System", "High-Speed Wi-Fi"]
-  },
-  {
-    id: "5",
-    title: "Brisbane City Spire",
-    price: "2,450,000",
-    location: "New Farm, QLD",
-    beds: 2,
-    baths: 2,
-    cars: 1,
-    area: 180,
-    imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
-    imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
-    agentName: "Lara Croft",
-    description: "The height of urban sophistication. This New Farm residence offers breathtaking river and city views from every room. With custom joinery, integrated Miele appliances, and access to world-class building amenities including a residents-only lounge and wellness center.",
-    amenities: ["Private Gym", "Climate Control", "24/7 Security", "High-Speed Wi-Fi", "Secure Parking", "Smart Home System"]
-  },
-  {
-    id: "6",
-    title: "Ocean Edge Residence",
-    price: "5,300,000",
-    location: "Cottesloe, WA",
-    beds: 4,
-    baths: 3,
-    cars: 2,
-    area: 390,
-    imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
-    imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
-    agentName: "David Perth",
-    description: "Perfectly positioned on the dunes of Cottesloe, this architectural masterpiece captures the raw beauty of the Indian Ocean. Designed by an award-winning firm, the home utilizes sustainable materials and smart-home technology to create a living experience that is both luxurious and responsible.",
-    amenities: ["Solar Power", "Climate Control", "Smart Home System", "High-Speed Wi-Fi", "Outdoor Firepit", "Secure Parking"]
-  }
-];
+import { getPropertyById } from "@/lib/api";
 
 export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const property = properties.find(p => p.id === id);
+  const property = await getPropertyById(id);
 
   if (!property) {
     notFound();
   }
 
-  const galleryImages = [
-    PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
-    PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "",
-    PlaceHolderImages.find(i => i.id === "faq-image")?.imageUrl || "",
-  ];
+  const galleryImages = property.galleryImages.length > 0
+    ? property.galleryImages
+    : [
+        property.imageUrl,
+        PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
+        PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "",
+      ].filter(Boolean);
 
   const agentAvatar = PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : property.agentName === 'Marcus Thorne' ? 'team-4' : 'team-5'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl;
   const agentBg = PlaceHolderImages.find(i => i.id === 'agent-bg')?.imageUrl || "";
+  const backHref = property.status === "SOLD"
+    ? "/sold"
+    : property.propertyType.toUpperCase() === "COMMERCIAL"
+      ? "/commercial"
+      : property.transactionType === "RENT"
+        ? "/rent"
+        : "/buy";
+  const backLabel = property.status === "SOLD"
+    ? "Back to Sold"
+    : property.propertyType.toUpperCase() === "COMMERCIAL"
+      ? "Back to Commercial"
+      : property.transactionType === "RENT"
+        ? "Back to Rent"
+        : "Back to Buy";
+  const smsHref = property.agentPhone ? `sms:${property.agentPhone}` : undefined;
+  const emailHref = property.agentEmail ? `mailto:${property.agentEmail}` : undefined;
+  const whatsappHref = property.agentWhatsapp
+    ? `https://wa.me/${property.agentWhatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${property.agentName}, I'm interested in ${property.title} at ${property.location}.`)}`
+    : undefined;
 
   return (
     <main className="min-h-screen bg-background">
@@ -130,11 +59,10 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
       <section className="pt-24 md:pt-32 pb-12 md:pb-24 px-4 md:px-6">
         <div className="max-w-[1400px] mx-auto">
-          {/* Back button and share */}
           <div className="flex justify-between items-center mb-8 md:mb-12">
-            <Link href="/buy" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group">
+            <Link href={backHref} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group">
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-              <span className="text-[9px] md:text-[10px] uppercase font-bold tracking-[0.2em]">Back</span>
+              <span className="text-[9px] md:text-[10px] uppercase font-bold tracking-[0.2em]">{backLabel}</span>
             </Link>
             <div className="flex gap-2 md:gap-4">
               <Button variant="outline" size="icon" className="rounded-full border-primary/10 h-8 w-8 md:h-10 md:w-10">
@@ -197,7 +125,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8">
                 {property.beds !== undefined && (
                   <div className="flex flex-col gap-2 p-4 md:p-6 rounded-2xl bg-muted/30 border border-primary/5">
-                    < Bed className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                    <Bed className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                     <p className="text-xl md:text-2xl font-headline font-bold">{property.beds}</p>
                     <p className="text-[8px] md:text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bedrooms</p>
                   </div>
@@ -205,7 +133,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 {property.baths !== undefined && (
                   <div className="flex flex-col gap-2 p-4 md:p-6 rounded-2xl bg-muted/30 border border-primary/5">
                     <Bath className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                    <p className="text-xl md:text-2xl font-headline font-bold">{property.beds}</p>
+                    <p className="text-xl md:text-2xl font-headline font-bold">{property.baths}</p>
                     <p className="text-[8px] md:text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bathrooms</p>
                   </div>
                 )}
@@ -299,25 +227,45 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                       <DigitalBrochure property={property} galleryImages={galleryImages} />
                       
                       <div className="grid grid-cols-2 gap-2">
-                        <Button className="rounded-full py-4 md:py-5 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[7px] md:text-[8px] h-auto flex items-center justify-center gap-2 transition-all">
-                          <MessageSquare className="w-3 h-3" />
-                          SMS
-                        </Button>
-                        <Button className="rounded-full py-4 md:py-5 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[7px] md:text-[8px] h-auto flex items-center justify-center gap-2 transition-all">
-                          <Mail className="w-3 h-3" />
-                          EMAIL
-                        </Button>
+                        {smsHref ? (
+                          <Button asChild className="rounded-full py-4 md:py-5 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[7px] md:text-[8px] h-auto transition-all">
+                            <a href={smsHref} className="flex items-center justify-center gap-2">
+                              <MessageSquare className="w-3 h-3" />
+                              SMS
+                            </a>
+                          </Button>
+                        ) : (
+                          <Button disabled className="rounded-full py-4 md:py-5 bg-[#F3F4F6] text-[#111111] font-bold uppercase tracking-[0.2em] text-[7px] md:text-[8px] h-auto flex items-center justify-center gap-2 transition-all">
+                            <MessageSquare className="w-3 h-3" />
+                            SMS
+                          </Button>
+                        )}
+                        {emailHref ? (
+                          <Button asChild className="rounded-full py-4 md:py-5 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[7px] md:text-[8px] h-auto transition-all">
+                            <a href={emailHref} className="flex items-center justify-center gap-2">
+                              <Mail className="w-3 h-3" />
+                              EMAIL
+                            </a>
+                          </Button>
+                        ) : (
+                          <Button disabled className="rounded-full py-4 md:py-5 bg-[#F3F4F6] text-[#111111] font-bold uppercase tracking-[0.2em] text-[7px] md:text-[8px] h-auto flex items-center justify-center gap-2 transition-all">
+                            <Mail className="w-3 h-3" />
+                            EMAIL
+                          </Button>
+                        )}
                       </div>
 
-                      <div className="pt-2">
-                        <Link 
-                          href={`https://wa.me/61400000000?text=Hi%20${property.agentName},%20I'm%20interested%20in%20viewing%20${property.title}%20at%20${property.location}.`} 
-                          target="_blank" 
-                          className="text-primary text-[7px] md:text-[8px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-2 group hover:underline"
-                        >
-                          WHATSAPP AGENT <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                      </div>
+                      {whatsappHref && (
+                        <div className="pt-2">
+                          <Link 
+                            href={whatsappHref}
+                            target="_blank" 
+                            className="text-primary text-[7px] md:text-[8px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-2 group hover:underline"
+                          >
+                            WHATSAPP AGENT <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+                          </Link>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

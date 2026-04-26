@@ -2,69 +2,40 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/property-card";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
+import { getListings } from "@/lib/api";
 
-export default function SoldPage() {
-  const soldProperties = [
-    {
-      id: "s1",
-      title: "Noosa Waters Estate",
-      price: "5,800,000",
-      location: "Noosa Waters, QLD",
-      beds: 5,
-      baths: 4,
-      cars: 3,
-      area: 620,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
-      imageHint: "Luxury Waterfront Home",
-      agentName: "Sarah West",
-      tag: "Sold" as const,
-    },
-    {
-      id: "s2",
-      title: "Point Piper Skyhouse",
-      price: "24,500,000",
-      location: "Point Piper, NSW",
-      beds: 4,
-      baths: 5,
-      cars: 4,
-      area: 480,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
-      imageHint: "Ultra Luxury Apartment",
-      agentName: "Julian Vance",
-      tag: "Record Price" as const,
-    },
-    {
-      id: "s3",
-      title: "Toorak Architectural Triumph",
-      price: "8,900,000",
-      location: "Toorak, VIC",
-      beds: 4,
-      baths: 3,
-      cars: 2,
-      area: 510,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
-      imageHint: "Architectural Masterpiece",
-      agentName: "Emma Clarke",
-      tag: "Sold" as const,
-    },
-    {
-      id: "s4",
-      title: "Byron Beachfront Sanctuary",
-      price: "15,200,000",
-      location: "Byron Bay, NSW",
-      beds: 5,
-      baths: 5,
-      cars: 4,
-      area: 850,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
-      imageHint: "Beachfront Luxury Byron",
-      agentName: "Marcus Thorne",
-      tag: "Record Price" as const,
-    }
-  ];
+export default async function SoldPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q?: string;
+    category?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    bedrooms?: string;
+    bathrooms?: string;
+    page?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  const { properties: soldProperties, total, page, totalPages } = await getListings({
+    status: "SOLD",
+    q: params.q || "",
+    category: params.category || "",
+    minPrice: params.minPrice || "",
+    maxPrice: params.maxPrice || "",
+    bedrooms: params.bedrooms || "",
+    bathrooms: params.bathrooms || "",
+    page: params.page || "1",
+    limit: 12,
+  });
+  const nextPageParams = new URLSearchParams(
+    Object.entries({ ...params, page: String(page + 1) })
+      .filter(([, value]) => Boolean(value))
+      .map(([key, value]) => [key, String(value)])
+  );
 
   return (
     <main className="min-h-screen bg-background">
@@ -80,6 +51,9 @@ export default function SoldPage() {
             <p className="text-xl font-light text-muted-foreground max-w-2xl leading-relaxed mx-auto md:mx-0">
               Explore our track record of premium results achieved for our clients across Australia's most prestigious markets.
             </p>
+            <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
+              {total} completed sales{params.q ? ` matching "${params.q}"` : ""}
+            </p>
           </div>
         </div>
       </section>
@@ -94,14 +68,24 @@ export default function SoldPage() {
             ))}
           </div>
 
-          <div className="mt-24 flex justify-center">
-            <Button 
-              variant="outline" 
-              className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
-            >
-              Archive Search
-            </Button>
-          </div>
+          {soldProperties.length === 0 && (
+            <p className="mt-16 text-center text-sm uppercase tracking-[0.3em] text-muted-foreground">
+              No listings matched the current filters.
+            </p>
+          )}
+
+          {page < totalPages && (
+            <div className="mt-24 flex justify-center">
+              <Link href={`/sold?${nextPageParams.toString()}`}>
+                <Button 
+                  variant="outline" 
+                  className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  Archive Search
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

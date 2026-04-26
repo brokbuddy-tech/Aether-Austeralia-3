@@ -2,69 +2,41 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/property-card";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
+import { getListings } from "@/lib/api";
 
-export default function RentPage() {
-  const properties = [
-    {
-      id: "r1",
-      title: "Harbourfront Residence",
-      price: "2,850 / week",
-      location: "Darling Point, NSW",
-      beds: 3,
-      baths: 2,
-      cars: 2,
-      area: 210,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
-      agentName: "Julian Vance",
-      tag: "For Rent" as const,
-    },
-    {
-      id: "r2",
-      title: "Noosa Modern Sanctuary",
-      price: "1,950 / week",
-      location: "Noosa Heads, QLD",
-      beds: 4,
-      baths: 3,
-      cars: 2,
-      area: 380,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
-      agentName: "Sarah West",
-      tag: "For Rent" as const,
-    },
-    {
-      id: "r3",
-      title: "Melbourne City Loft",
-      price: "1,200 / week",
-      location: "Melbourne CBD, VIC",
-      beds: 2,
-      baths: 2,
-      cars: 1,
-      area: 110,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
-      agentName: "Emma Clarke",
-      tag: "For Rent" as const,
-    },
-    {
-      id: "r4",
-      title: "Coastal Edge Villa",
-      price: "2,400 / week",
-      location: "Cottesloe, WA",
-      beds: 3,
-      baths: 2,
-      cars: 2,
-      area: 250,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
-      agentName: "David Perth",
-      tag: "For Rent" as const,
-    }
-  ];
+export default async function RentPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q?: string;
+    category?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    bedrooms?: string;
+    bathrooms?: string;
+    page?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  const { properties, total, page, totalPages } = await getListings({
+    transactionType: "RENT",
+    status: "ACTIVE",
+    q: params.q || "",
+    category: params.category || "",
+    minPrice: params.minPrice || "",
+    maxPrice: params.maxPrice || "",
+    bedrooms: params.bedrooms || "",
+    bathrooms: params.bathrooms || "",
+    page: params.page || "1",
+    limit: 12,
+  });
+  const nextPageParams = new URLSearchParams(
+    Object.entries({ ...params, page: String(page + 1) })
+      .filter(([, value]) => Boolean(value))
+      .map(([key, value]) => [key, String(value)])
+  );
 
   return (
     <main className="min-h-screen bg-background">
@@ -80,6 +52,9 @@ export default function RentPage() {
             <p className="text-xl font-light text-muted-foreground max-w-2xl leading-relaxed mx-auto md:mx-0">
               Explore our exclusive collection of high-end lease opportunities across Australia's most coveted suburbs.
             </p>
+            <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
+              {total} live rental listings{params.q ? ` matching "${params.q}"` : ""}
+            </p>
           </div>
         </div>
       </section>
@@ -94,14 +69,24 @@ export default function RentPage() {
             ))}
           </div>
 
-          <div className="mt-24 flex justify-center">
-            <Button 
-              variant="outline" 
-              className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
-            >
-              View More Leases
-            </Button>
-          </div>
+          {properties.length === 0 && (
+            <p className="mt-16 text-center text-sm uppercase tracking-[0.3em] text-muted-foreground">
+              No listings matched the current filters.
+            </p>
+          )}
+
+          {page < totalPages && (
+            <div className="mt-24 flex justify-center">
+              <Link href={`/rent?${nextPageParams.toString()}`}>
+                <Button 
+                  variant="outline" 
+                  className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  View More Leases
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

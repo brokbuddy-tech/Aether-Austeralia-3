@@ -10,95 +10,10 @@ import { SiteFooter } from "@/components/site-footer";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/navbar";
+import { getListings } from "@/lib/api";
 
-export default function Home() {
-  // Mock property data based on requirements
-  const properties = [
-    {
-      id: "1",
-      title: "Noosa Coastal Retreat",
-      price: "4,250,000",
-      location: "Noosa Heads, QLD",
-      beds: 4,
-      baths: 3,
-      cars: 2,
-      area: 450,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-1")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-1")?.imageHint || "",
-      agentName: "Sarah West",
-      tag: "Exclusive" as const,
-    },
-    {
-      id: "2",
-      title: "Harbour View Penthouse",
-      price: "12,800,000",
-      location: "Double Bay, NSW",
-      beds: 3,
-      baths: 4,
-      cars: 3,
-      area: 320,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-2")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-2")?.imageHint || "",
-      agentName: "Julian Vance",
-      tag: "New Listing" as const,
-    },
-    {
-      id: "3",
-      title: "Modern Melbourne Estate",
-      price: "3,100,000",
-      location: "Toorak, VIC",
-      beds: 5,
-      baths: 3,
-      cars: 2,
-      area: 550,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-3")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-3")?.imageHint || "",
-      agentName: "Emma Clarke",
-      tag: "For Sale" as const,
-    },
-    {
-      id: "4",
-      title: "Byron Hinterland Estate",
-      price: "6,900,000",
-      location: "Byron Bay, NSW",
-      beds: 6,
-      baths: 4,
-      cars: 4,
-      area: 1200,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-4")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-4")?.imageHint || "",
-      agentName: "Marcus Thorne",
-      tag: "Auction" as const,
-    },
-    {
-      id: "5",
-      title: "Brisbane City Spire",
-      price: "2,450,000",
-      location: "New Farm, QLD",
-      beds: 2,
-      baths: 2,
-      cars: 1,
-      area: 180,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-5")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-5")?.imageHint || "",
-      agentName: "Lara Croft",
-      tag: "New Listing" as const,
-    },
-    {
-      id: "6",
-      title: "Ocean Edge Residence",
-      price: "5,300,000",
-      location: "Cottesloe, WA",
-      beds: 4,
-      baths: 3,
-      cars: 2,
-      area: 390,
-      imageUrl: PlaceHolderImages.find(i => i.id === "listing-6")?.imageUrl || "",
-      imageHint: PlaceHolderImages.find(i => i.id === "listing-6")?.imageHint || "",
-      agentName: "David Perth",
-      tag: "Exclusive" as const,
-    }
-  ];
+export default async function Home() {
+  const { properties } = await getListings({ transactionType: "SALE", status: "ACTIVE", limit: 6 });
 
   return (
     <main className="min-h-screen bg-background selection:bg-primary selection:text-white relative">
