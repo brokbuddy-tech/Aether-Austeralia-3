@@ -1,7 +1,6 @@
 const publicEnv = {
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   NEXT_PUBLIC_ORG_SLUG: process.env.NEXT_PUBLIC_ORG_SLUG,
-  NEXT_PUBLIC_TEMPLATE_HEX_CODE: process.env.NEXT_PUBLIC_TEMPLATE_HEX_CODE,
 } as const;
 
 function getRequiredPublicEnv(name: string) {
@@ -27,11 +26,24 @@ const API_BASE_URL = normalizeApiBaseUrl(
   publicEnv.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
 );
 const API_ORIGIN = API_BASE_URL.replace(/\/api$/i, '');
-const TEMPLATE_HEX_CODE = getRequiredPublicEnv('NEXT_PUBLIC_TEMPLATE_HEX_CODE').toLowerCase();
+const PUBLIC_TEMPLATE_PROXY_BASE_PATH = '/api/public-template';
 
 function getPublicTemplateUrl(path = '') {
   const normalizedPath = path ? (path.startsWith('/') ? path : `/${path}`) : '';
-  const publicTemplatePath = ['public', 'templates', ORG_SLUG, TEMPLATE_HEX_CODE]
+  return `${PUBLIC_TEMPLATE_PROXY_BASE_PATH}${normalizedPath}`;
+}
+
+function getRequiredServerTemplateHexCode() {
+  const value = (process.env.TEMPLATE_HEX_CODE || '').trim();
+  if (!value) {
+    throw new Error('Missing required server env variable: TEMPLATE_HEX_CODE');
+  }
+  return value.toLowerCase();
+}
+
+function getUpstreamPublicTemplateUrl(path = '') {
+  const normalizedPath = path ? (path.startsWith('/') ? path : `/${path}`) : '';
+  const publicTemplatePath = ['public', 'templates', ORG_SLUG, getRequiredServerTemplateHexCode()]
     .filter(Boolean)
     .join('/');
   return `${API_BASE_URL}/${publicTemplatePath}${normalizedPath}`;
@@ -145,6 +157,12 @@ type RawListing = {
       publicEmail?: string | null;
       whatsapp?: string | null;
     } | null;
+  } | null;
+  agent?: {
+    name?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    whatsapp?: string | null;
   } | null;
 };
 
@@ -270,12 +288,13 @@ export function mapListingToVelaProperty(listing: RawListing): VelaProperty {
     imageHint: 'Australian premium property',
     galleryImages,
     agentName: getStringValue(
+      listing.agent?.name,
       listing.broker?.brokerProfile?.displayName,
       [listing.broker?.firstName, listing.broker?.lastName].filter(Boolean).join(' ')
     ) || 'Vela Armon Advisor',
-    agentPhone: getStringValue(listing.broker?.brokerProfile?.publicPhone, listing.broker?.phone),
-    agentEmail: getStringValue(listing.broker?.brokerProfile?.publicEmail, listing.broker?.email),
-    agentWhatsapp: getStringValue(listing.broker?.brokerProfile?.whatsapp),
+    agentPhone: getStringValue(listing.agent?.phone, listing.broker?.brokerProfile?.publicPhone, listing.broker?.phone),
+    agentEmail: getStringValue(listing.agent?.email, listing.broker?.brokerProfile?.publicEmail, listing.broker?.email),
+    agentWhatsapp: getStringValue(listing.agent?.whatsapp, listing.broker?.brokerProfile?.whatsapp),
     tag: getTag(listing),
     description: normalizeListingDescription(listing.description),
     amenities: Array.isArray(listing.amenities) ? listing.amenities : [],
@@ -298,7 +317,9 @@ export async function getListings(params: Record<string, string | number | undef
   });
 
   const response = await safeFetch(
-    `${getPublicTemplateUrl('/listings')}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`,
+    typeof window !== 'undefined'
+      ? `/api/listings${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
+      : `${getUpstreamPublicTemplateUrl('/listings')}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`,
     { next: { revalidate: 120 } } as any
   );
 
@@ -318,7 +339,10 @@ export async function getListings(params: Record<string, string | number | undef
 }
 
 export async function getPropertyById(id: string): Promise<VelaProperty | null> {
-  const response = await safeFetch(getPublicTemplateUrl(`/listings/${id}`), { next: { revalidate: 120 } } as any);
+  const response = await safeFetch(
+    typeof window !== 'undefined' ? `/api/listings/${id}` : getUpstreamPublicTemplateUrl(`/listings/${id}`),
+    { next: { revalidate: 120 } } as any
+  );
   if (!response.ok) return null;
   return mapListingToVelaProperty(await response.json());
 }
