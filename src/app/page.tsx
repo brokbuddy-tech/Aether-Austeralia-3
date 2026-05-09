@@ -11,9 +11,11 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/navbar";
 import { getListings } from "@/lib/api";
+import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function Home() {
-  const { properties } = await getListings({ transactionType: "SALE", status: "ACTIVE", limit: 6 });
+  const agencySlug = await getRequestAgencySlug();
+  const { properties } = await getListings({ transactionType: "SALE", status: "ACTIVE", limit: 6 }, agencySlug);
 
   return (
     <main className="min-h-screen bg-background selection:bg-primary selection:text-white relative">

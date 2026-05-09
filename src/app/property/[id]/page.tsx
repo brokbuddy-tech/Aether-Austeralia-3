@@ -14,10 +14,12 @@ import { PropertyMap } from "@/components/property-map";
 import { DigitalBrochure } from "@/components/digital-brochure";
 import { Navbar } from "@/components/navbar";
 import { getPropertyById } from "@/lib/api";
+import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const property = await getPropertyById(id);
+  const agencySlug = await getRequestAgencySlug();
+  const property = await getPropertyById(id, agencySlug);
 
   if (!property) {
     notFound();

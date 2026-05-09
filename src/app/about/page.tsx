@@ -5,8 +5,11 @@ import { TestimonialSlider } from "@/components/testimonial-slider";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/navbar";
+import { VelaAboutPageContent } from "@/components/public/agency-about-page";
 
 export default function AboutPage() {
+  return <VelaAboutPageContent />;
+
   const team = [
     {
       name: "Sarah West",
@@ -28,7 +31,7 @@ export default function AboutPage() {
     }
   ];
 
-  const testimonialBg = PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl;
+  const testimonialBg = PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "";
 
   return (
     <main className="min-h-screen bg-background">

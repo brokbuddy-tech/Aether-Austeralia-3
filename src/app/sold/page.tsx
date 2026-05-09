@@ -5,6 +5,7 @@ import { PropertyCard } from "@/components/property-card";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
 import { getListings } from "@/lib/api";
+import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function SoldPage({
   searchParams,
@@ -20,6 +21,7 @@ export default async function SoldPage({
   }>;
 }) {
   const params = await searchParams;
+  const agencySlug = await getRequestAgencySlug();
   const { properties: soldProperties, total, page, totalPages } = await getListings({
     status: "SOLD",
     q: params.q || "",
@@ -30,7 +32,7 @@ export default async function SoldPage({
     bathrooms: params.bathrooms || "",
     page: params.page || "1",
     limit: 12,
-  });
+  }, agencySlug);
   const nextPageParams = new URLSearchParams(
     Object.entries({ ...params, page: String(page + 1) })
       .filter(([, value]) => Boolean(value))

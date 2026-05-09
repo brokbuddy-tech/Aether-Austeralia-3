@@ -5,6 +5,7 @@ import { PropertyCard } from "@/components/property-card";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
 import { getListings } from "@/lib/api";
+import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function CommercialPage({
   searchParams,
@@ -20,6 +21,7 @@ export default async function CommercialPage({
   }>;
 }) {
   const params = await searchParams;
+  const agencySlug = await getRequestAgencySlug();
   const { properties: commercialProperties, total, page, totalPages } = await getListings({
     propertyType: "COMMERCIAL",
     status: "ACTIVE",
@@ -31,7 +33,7 @@ export default async function CommercialPage({
     bathrooms: params.bathrooms || "",
     page: params.page || "1",
     limit: 12,
-  });
+  }, agencySlug);
   const nextPageParams = new URLSearchParams(
     Object.entries({ ...params, page: String(page + 1) })
       .filter(([, value]) => Boolean(value))
@@ -86,7 +88,7 @@ export default async function CommercialPage({
                 </Button>
               </Link>
             ) : (
-              <Link href="/agent">
+              <Link href="/agents">
                 <Button 
                   variant="outline" 
                   className="rounded-full px-16 py-8 h-auto border-primary/20 text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-[0.4em] text-[10px] transition-all shadow-sm hover:shadow-xl active:scale-[0.98]"

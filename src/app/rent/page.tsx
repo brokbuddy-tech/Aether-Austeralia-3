@@ -5,6 +5,7 @@ import { PropertyCard } from "@/components/property-card";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
 import { getListings } from "@/lib/api";
+import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function RentPage({
   searchParams,
@@ -20,6 +21,7 @@ export default async function RentPage({
   }>;
 }) {
   const params = await searchParams;
+  const agencySlug = await getRequestAgencySlug();
   const { properties, total, page, totalPages } = await getListings({
     transactionType: "RENT",
     status: "ACTIVE",
@@ -31,7 +33,7 @@ export default async function RentPage({
     bathrooms: params.bathrooms || "",
     page: params.page || "1",
     limit: 12,
-  });
+  }, agencySlug);
   const nextPageParams = new URLSearchParams(
     Object.entries({ ...params, page: String(page + 1) })
       .filter(([, value]) => Boolean(value))

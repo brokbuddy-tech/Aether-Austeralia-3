@@ -4,8 +4,11 @@ import { AgentFooter } from "@/components/agent-footer";
 import { Button } from "@/components/ui/button";
 import { AgentCard } from "@/components/agent-card";
 import { Navbar } from "@/components/navbar";
+import { VelaAgentsPageContent } from "@/components/public/agency-agents-page";
 
 export default function AgentPage() {
+  return <VelaAgentsPageContent />;
+
   const agents = [
     {
       name: "Sarah West",
