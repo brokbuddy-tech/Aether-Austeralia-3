@@ -3,6 +3,7 @@ import {
   PUBLIC_API_BASE_URLS,
   PUBLIC_TEMPLATE_PROXY_BASE_PATH,
   getClientTemplateFetchUrl,
+  normalizePublicTemplateAssetUrl,
   shouldRetryApiRequest,
 } from './api-base';
 import { getDefaultAgencySlug, getEffectiveAgencySlug } from './agency-routing';
@@ -154,16 +155,11 @@ async function fetchTemplateResponse(
   }
 
   if (typeof window !== 'undefined') {
-    const proxyResponse = await safeFetch(
+    return safeFetch(
       getClientTemplateFetchUrl(path, resolvedAgencySlug),
       options as RequestInit & { next?: any },
       timeout,
     );
-    if (proxyResponse.ok) {
-      return proxyResponse;
-    }
-
-    return fetchDirectTemplateResponse(resolvedAgencySlug, path, options, timeout);
   }
 
   return fetchDirectTemplateResponse(resolvedAgencySlug, path, options, timeout);
@@ -251,10 +247,13 @@ type RawListing = {
   broker?: {
     firstName?: string;
     lastName?: string;
+    avatar?: string | null;
     phone?: string | null;
     email?: string | null;
     brokerProfile?: {
       displayName?: string | null;
+      avatar?: string | null;
+      tagline?: string | null;
       publicPhone?: string | null;
       publicEmail?: string | null;
       whatsapp?: string | null;
@@ -262,6 +261,8 @@ type RawListing = {
   } | null;
   agent?: {
     name?: string | null;
+    avatar?: string | null;
+    avatarUrl?: string | null;
     phone?: string | null;
     email?: string | null;
     whatsapp?: string | null;
@@ -283,6 +284,7 @@ export type VelaProperty = {
   imageHint?: string;
   galleryImages: string[];
   agentName: string;
+  agentAvatar?: string;
   agentPhone?: string;
   agentEmail?: string;
   agentWhatsapp?: string;
@@ -307,9 +309,10 @@ export type VelaPropertyResults = {
 
 function toAbsoluteImageUrl(path: string) {
   if (!path) return path;
-  if (/^https?:\/\//i.test(path)) return path;
-  if (path.startsWith(PUBLIC_TEMPLATE_PROXY_BASE_PATH)) return path;
-  return `${API_ORIGIN}${path.startsWith('/') ? path : `/${path}`}`;
+  const normalizedProxyPath = normalizePublicTemplateAssetUrl(path) || path;
+  if (/^https?:\/\//i.test(normalizedProxyPath)) return normalizedProxyPath;
+  if (normalizedProxyPath.startsWith(PUBLIC_TEMPLATE_PROXY_BASE_PATH)) return normalizedProxyPath;
+  return `${API_ORIGIN}${normalizedProxyPath.startsWith('/') ? normalizedProxyPath : `/${normalizedProxyPath}`}`;
 }
 
 function getPublicListingMediaUrl(
@@ -396,6 +399,12 @@ export function mapListingToVelaProperty(listing: RawListing, agencySlug?: strin
       listing.broker?.brokerProfile?.displayName,
       [listing.broker?.firstName, listing.broker?.lastName].filter(Boolean).join(' ')
     ) || 'Vela Armon Advisor',
+    agentAvatar: getStringValue(
+      listing.agent?.avatarUrl,
+      listing.agent?.avatar,
+      listing.broker?.brokerProfile?.avatar,
+      listing.broker?.avatar,
+    ) || '',
     agentPhone: getStringValue(listing.agent?.phone, listing.broker?.brokerProfile?.publicPhone, listing.broker?.phone),
     agentEmail: getStringValue(listing.agent?.email, listing.broker?.brokerProfile?.publicEmail, listing.broker?.email),
     agentWhatsapp: getStringValue(listing.agent?.whatsapp, listing.broker?.brokerProfile?.whatsapp),

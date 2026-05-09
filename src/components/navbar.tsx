@@ -1,6 +1,7 @@
 
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -28,6 +29,7 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [brandName, setBrandName] = useState("Vela Armon");
+  const [brandLogo, setBrandLogo] = useState<string | null>(null);
   const [contactEmail, setContactEmail] = useState("hello@example.com");
   const [contactPhone, setContactPhone] = useState("Phone available on request");
   const agencySlug = resolveAgencySlugFromPathname(pathname);
@@ -42,6 +44,7 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
       const siteConfig = await getSiteConfig(agencySlug);
       if (!active) return;
       setBrandName(siteConfig.branding?.displayName || siteConfig.organization.name || "Vela Armon");
+      setBrandLogo(siteConfig.profile?.logo || null);
       setContactEmail(
         siteConfig.profile?.contact?.officialEmail ||
         siteConfig.branding?.publicEmail ||
@@ -82,7 +85,18 @@ export function Navbar({ theme = 'light' }: NavbarProps) {
 
       {/* Header Overlay */}
       <header className="absolute top-0 left-0 right-0 z-[90] px-6 py-6 flex justify-between items-center">
-        <Link href={prefixAgencyPath("/", agencySlug)} className="text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
+        <Link href={prefixAgencyPath("/", agencySlug)} className="flex items-center gap-3 text-xl md:text-2xl font-headline font-extrabold tracking-tighter uppercase pointer-events-auto">
+          {brandLogo ? (
+            <span className="relative h-11 w-11 overflow-hidden rounded-full border border-white/20 bg-white/90 shadow-lg">
+              <Image
+                src={brandLogo}
+                alt={`${brandName} logo`}
+                fill
+                className="object-contain p-1.5"
+                sizes="44px"
+              />
+            </span>
+          ) : null}
           <span className={cn(isDark ? "text-white" : "text-foreground")}>{brandName}</span>
         </Link>
 

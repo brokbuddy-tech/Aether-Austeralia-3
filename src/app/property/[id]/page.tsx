@@ -33,7 +33,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
         PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "",
       ].filter(Boolean);
 
-  const agentAvatar = PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : property.agentName === 'Marcus Thorne' ? 'team-4' : 'team-5'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl;
+  const agentAvatar = property.agentAvatar || PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : property.agentName === 'Marcus Thorne' ? 'team-4' : 'team-5'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl;
   const agentBg = PlaceHolderImages.find(i => i.id === 'agent-bg')?.imageUrl || "";
   const backHref = property.status === "SOLD"
     ? "/sold"
