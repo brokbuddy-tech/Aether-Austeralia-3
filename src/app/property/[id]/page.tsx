@@ -1,7 +1,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Grid3X3, MessageSquare, Mail, ArrowRight } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
@@ -22,7 +21,27 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
   const property = await getPropertyById(id, agencySlug);
 
   if (!property) {
-    notFound();
+    return (
+      <main className="min-h-screen bg-background">
+        <Navbar theme="light" />
+        <section className="px-4 py-32 text-center md:px-6">
+          <div className="mx-auto max-w-xl">
+            <h1 className="text-4xl font-headline font-extrabold uppercase tracking-tight text-[#111111]">
+              Listing unavailable
+            </h1>
+            <p className="mt-4 text-muted-foreground">
+              This property could not be loaded from the live public feed.
+            </p>
+            <div className="mt-8">
+              <Link href="/buy" className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary hover:underline">
+                Back to listings
+              </Link>
+            </div>
+          </div>
+        </section>
+        <SiteFooter />
+      </main>
+    );
   }
 
   const galleryImages = property.galleryImages.length > 0
