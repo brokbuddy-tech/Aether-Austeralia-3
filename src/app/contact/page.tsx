@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { SiteFooter } from "@/components/site-footer";
@@ -10,9 +8,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { VelaContactPageContent } from "@/components/public/agency-contact-page";
+import { getSiteConfig } from "@/lib/public-site";
+import { getRequestAgencySlug } from "@/lib/server-agency";
 
-export default function ContactPage() {
-  return <VelaContactPageContent />;
+export default async function ContactPage() {
+  const agencySlug = await getRequestAgencySlug();
+  const siteConfig = await getSiteConfig(agencySlug);
+
+  return <VelaContactPageContent initialSiteConfig={siteConfig} />;
 
   const contactImg = PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "";
 

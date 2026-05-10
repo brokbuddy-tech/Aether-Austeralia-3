@@ -8,7 +8,7 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { getSiteConfig, type SiteConfig } from "@/lib/public-site";
+import { getSiteConfig, hasMeaningfulSiteConfig, type SiteConfig } from "@/lib/public-site";
 import { prefixAgencyPath, resolveAgencySlugFromPathname } from "@/lib/agency-routing";
 
 const navLinks = [
@@ -75,6 +75,7 @@ export function NavbarClient({
       try {
         const siteConfig = await getSiteConfig(agencySlug);
         if (!active) return;
+        if (!hasMeaningfulSiteConfig(siteConfig)) return;
         setBrandName(getDisplayName(siteConfig));
         setBrandLogo(siteConfig.profile?.logo || null);
         setContactEmail(getContactEmail(siteConfig));

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { getSiteConfig, type SiteConfig } from "@/lib/public-site";
+import { getSiteConfig, hasMeaningfulSiteConfig, type SiteConfig } from "@/lib/public-site";
 import { prefixAgencyPath, resolveAgencySlugFromPathname } from "@/lib/agency-routing";
 
 function getDisplayName(siteConfig?: SiteConfig | null) {
@@ -25,7 +25,7 @@ export function SiteFooterClient({ initialSiteConfig }: { initialSiteConfig?: Si
     async function load() {
       try {
         const nextSiteConfig = await getSiteConfig(agencySlug);
-        if (active) {
+        if (active && hasMeaningfulSiteConfig(nextSiteConfig)) {
           setSiteConfig(nextSiteConfig);
         }
       } catch {
