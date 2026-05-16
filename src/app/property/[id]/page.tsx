@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Bed, Bath, Car, Maximize, MapPin, Share2, Heart, ArrowLeft, Grid3X3, MessageSquare, Mail, ArrowRight } from "lucide-react";
+import { Bed, Bath, Car, Maximize, Share2, Heart, ArrowLeft, MessageSquare, Mail, ArrowRight } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -12,6 +12,7 @@ import { AuctionDetails } from "@/components/auction-details";
 import { PropertyMap } from "@/components/property-map";
 import { DigitalBrochure } from "@/components/digital-brochure";
 import { Navbar } from "@/components/navbar";
+import { PropertyHeroGallery } from "@/components/property-hero-gallery";
 import { getPropertyById } from "@/lib/api";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
@@ -51,8 +52,6 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
         PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
         PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "",
       ].filter(Boolean);
-  const galleryPreviewImages = galleryImages.slice(0, 3);
-  const remainingGalleryImageCount = Math.max(galleryImages.length - galleryPreviewImages.length, 0);
 
   const agentAvatar = property.agentAvatar || PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : property.agentName === 'Marcus Thorne' ? 'team-4' : 'team-5'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl;
   const agentBg = PlaceHolderImages.find(i => i.id === 'agent-bg')?.imageUrl || "";
@@ -97,54 +96,13 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
             </div>
           </div>
 
-          {/* Hero Image */}
-          <div className="relative aspect-[4/3] md:aspect-[21/9] rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-2xl mb-8">
-            <Image 
-              src={property.imageUrl}
-              alt={property.title}
-              fill
-              className="object-cover"
-              priority
-              data-ai-hint={property.imageHint}
-            />
-            <div className="absolute inset-0 bg-black/20" />
-            <div className="absolute bottom-6 md:bottom-12 left-6 md:left-12 right-6 md:right-12 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8 z-10">
-              <div className="text-white">
-                <h1 className="text-3xl md:text-5xl lg:text-7xl font-headline font-extrabold uppercase leading-[0.9] mb-4">
-                  {property.title}
-                </h1>
-                <div className="flex items-center gap-2 text-white/80">
-                  <MapPin className="w-3 h-3 md:w-4 md:h-4 text-primary" />
-                  <span className="text-[10px] md:text-sm uppercase tracking-widest font-bold">{property.location}</span>
-                </div>
-              </div>
-              <div className="glass-light p-4 md:p-8 rounded-2xl md:rounded-3xl backdrop-blur-2xl border-white/20">
-                <p className="text-[8px] md:text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">
-                  Valuation
-                </p>
-                <p className="text-xl md:text-3xl font-headline font-extrabold text-primary">AUD ${property.price}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Property Gallery Grid - Row on responsive versions */}
-          <div className="flex md:grid md:grid-cols-4 gap-4 mb-16 overflow-x-auto no-scrollbar pb-4 md:pb-0">
-            {galleryPreviewImages.map((img, idx) => (
-              <div key={idx} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm group cursor-pointer flex-none w-[280px] md:w-auto">
-                <Image src={img} alt={`Gallery ${idx}`} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-              </div>
-            ))}
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted flex flex-col items-center justify-center cursor-pointer group border border-dashed border-primary/20 hover:bg-primary/5 transition-colors flex-none w-[280px] md:w-auto">
-              <Grid3X3 className="w-6 h-6 text-primary mb-2 group-hover:scale-110 transition-transform" />
-              {remainingGalleryImageCount > 0 && (
-                <span className="mb-1 text-xl font-headline font-extrabold text-primary">
-                  +{remainingGalleryImageCount}
-                </span>
-              )}
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-primary">View More</span>
-            </div>
-          </div>
+          <PropertyHeroGallery
+            images={galleryImages}
+            title={property.title}
+            location={property.location}
+            price={property.price}
+            imageHint={property.imageHint}
+          />
 
           {/* Details Content */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
