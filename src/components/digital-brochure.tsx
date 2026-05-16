@@ -160,7 +160,7 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
 
               <div className="space-y-6">
                 <h3 className="text-[12px] font-bold tracking-[0.5em] uppercase text-primary">Architectural Narrative</h3>
-                <p className="text-muted-foreground font-light leading-relaxed text-lg">
+                <p className="text-muted-foreground font-light leading-relaxed text-lg whitespace-pre-line">
                   {property.description}
                 </p>
               </div>
