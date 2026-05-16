@@ -51,6 +51,8 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
         PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
         PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "",
       ].filter(Boolean);
+  const galleryPreviewImages = galleryImages.slice(0, 3);
+  const remainingGalleryImageCount = Math.max(galleryImages.length - galleryPreviewImages.length, 0);
 
   const agentAvatar = property.agentAvatar || PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : property.agentName === 'Marcus Thorne' ? 'team-4' : 'team-5'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl;
   const agentBg = PlaceHolderImages.find(i => i.id === 'agent-bg')?.imageUrl || "";
@@ -127,7 +129,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
           {/* Property Gallery Grid - Row on responsive versions */}
           <div className="flex md:grid md:grid-cols-4 gap-4 mb-16 overflow-x-auto no-scrollbar pb-4 md:pb-0">
-            {galleryImages.map((img, idx) => (
+            {galleryPreviewImages.map((img, idx) => (
               <div key={idx} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm group cursor-pointer flex-none w-[280px] md:w-auto">
                 <Image src={img} alt={`Gallery ${idx}`} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
@@ -135,6 +137,11 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
             ))}
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted flex flex-col items-center justify-center cursor-pointer group border border-dashed border-primary/20 hover:bg-primary/5 transition-colors flex-none w-[280px] md:w-auto">
               <Grid3X3 className="w-6 h-6 text-primary mb-2 group-hover:scale-110 transition-transform" />
+              {remainingGalleryImageCount > 0 && (
+                <span className="mb-1 text-xl font-headline font-extrabold text-primary">
+                  +{remainingGalleryImageCount}
+                </span>
+              )}
               <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-primary">View More</span>
             </div>
           </div>
