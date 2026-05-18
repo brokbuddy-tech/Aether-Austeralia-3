@@ -9,8 +9,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { replaceTemplateBranding } from "@/lib/public-site";
 
-export function FAQSection() {
+export function FAQSection({ agencyName = "Agency Website" }: { agencyName?: string }) {
   const faqImage = PlaceHolderImages.find((img) => img.id === "faq-image");
 
   const faqs = [
@@ -24,7 +25,10 @@ export function FAQSection() {
     },
     {
       question: "Do you provide international relocation services?",
-      answer: "Yes, Vela Armon has a dedicated team specializing in international acquisitions and relocation, providing end-to-end support including legal referrals and logistical coordination.",
+      answer: replaceTemplateBranding(
+        "Yes, {{agencyName}} has a dedicated team specializing in international acquisitions and relocation, providing end-to-end support including legal referrals and logistical coordination.",
+        agencyName,
+      ),
     },
     {
       question: "What regions of Australia do you cover?",

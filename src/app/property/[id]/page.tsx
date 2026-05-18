@@ -14,12 +14,17 @@ import { DigitalBrochure } from "@/components/digital-brochure";
 import { Navbar } from "@/components/navbar";
 import { PropertyHeroGallery } from "@/components/property-hero-gallery";
 import { getPropertyById } from "@/lib/api";
+import { getAgencyDisplayName, getSiteConfig } from "@/lib/public-site";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const agencySlug = await getRequestAgencySlug();
-  const property = await getPropertyById(id, agencySlug);
+  const [property, siteConfig] = await Promise.all([
+    getPropertyById(id, agencySlug),
+    getSiteConfig(agencySlug),
+  ]);
+  const agencyName = getAgencyDisplayName(siteConfig);
 
   if (!property) {
     return (
@@ -215,7 +220,10 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                         BOOK PRIVATE INSPECTION
                       </Button>
                       
-                      <DigitalBrochure property={property} galleryImages={galleryImages} />
+                      <DigitalBrochure
+                        property={{ ...property, agencyName }}
+                        galleryImages={galleryImages}
+                      />
                       
                       <div className="grid grid-cols-2 gap-2">
                         {smsHref ? (

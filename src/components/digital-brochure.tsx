@@ -7,6 +7,7 @@ import { FileText, Bed, Bath, Car, Maximize, MapPin, Download } from "lucide-rea
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import html2canvas from "html2canvas";
+import { replaceTemplateBranding } from "@/lib/public-site";
 
 interface DigitalBrochureProps {
   property: {
@@ -21,6 +22,7 @@ interface DigitalBrochureProps {
     imageUrl: string;
     description: string;
     imageHint?: string;
+    agencyName?: string;
   };
   galleryImages: string[];
 }
@@ -28,6 +30,8 @@ interface DigitalBrochureProps {
 export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProps) {
   const { toast } = useToast();
   const brochureRef = useRef<HTMLDivElement>(null);
+  const agencyName = property.agencyName || "Agency Website";
+  const advisoryLabel = replaceTemplateBranding("{{agencyName}} | Premium Real Estate Advisory", agencyName);
 
   const handleDownload = async () => {
     if (!brochureRef.current) return;
@@ -167,10 +171,10 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
               
               <div className="pt-10 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-6">
                 <div className="text-xl font-headline font-extrabold tracking-tighter uppercase">
-                  Vela <span className="text-primary">Armon</span>
+                  {agencyName}
                 </div>
                 <div className="text-center md:text-right">
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Vela Armon Australia | Premium Real Estate Advisory</p>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">{advisoryLabel}</p>
                   <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60 mt-1">© 2026 All Rights Reserved</p>
                 </div>
               </div>

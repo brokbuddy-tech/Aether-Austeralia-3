@@ -3,11 +3,21 @@ import 'leaflet/dist/leaflet.css';
 import './globals.css';
 import { BackToTop } from '@/components/back-to-top';
 import { Toaster } from '@/components/ui/toaster';
+import { getAgencyDisplayName, getSiteConfig } from '@/lib/public-site';
+import { getRequestAgencySlug } from '@/lib/server-agency';
 
-export const metadata: Metadata = {
-  title: 'Vela Armon | Extraordinary Real Estate',
-  description: 'Premium Australian residential and commercial opportunities.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const agencySlug = await getRequestAgencySlug();
+  const siteConfig = await getSiteConfig(agencySlug);
+  const agencyName = getAgencyDisplayName(siteConfig);
+
+  return {
+    title: siteConfig.branding?.metaTitle?.trim() || `${agencyName} | Extraordinary Real Estate`,
+    description:
+      siteConfig.branding?.metaDescription?.trim()
+      || `Premium Australian residential and commercial opportunities presented by ${agencyName}.`,
+  };
+}
 
 export default function RootLayout({
   children,

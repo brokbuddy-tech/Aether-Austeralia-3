@@ -12,8 +12,9 @@ import {
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Autoplay from "embla-carousel-autoplay";
+import { replaceTemplateBranding } from "@/lib/public-site";
 
-export function TestimonialSlider() {
+export function TestimonialSlider({ agencyName = "Agency Website" }: { agencyName?: string }) {
   const userImg = PlaceHolderImages.find(img => img.id === "testimonial-avatar");
 
   const plugin = React.useRef(
@@ -22,17 +23,17 @@ export function TestimonialSlider() {
 
   const testimonials = [
     {
-      quote: "Vela Armon transformed our search from a chore into a curated exploration. Their visual approach and local insight are unmatched in the Australian market.",
+      quote: "{{agencyName}} transformed our search from a chore into a curated exploration. Their visual approach and local insight are unmatched in the Australian market.",
       author: "Julian Vance",
       role: "Luxury Portfolio Client"
     },
     {
-      quote: "The professional integrity and technological edge that Vela Armon brings to real estate is truly extraordinary. A high-end experience through and through.",
+      quote: "The professional integrity and technological edge that {{agencyName}} brings to real estate is truly extraordinary. A high-end experience through and through.",
       author: "Sarah Montgomery",
       role: "Property Investor"
     },
     {
-      quote: "The precision and professionalism of Vela Armon made our relocation to Sydney effortless. Truly the gold standard for luxury acquisitions.",
+      quote: "The precision and professionalism of {{agencyName}} made our relocation to Sydney effortless. Truly the gold standard for luxury acquisitions.",
       author: "Marcus & Elena Chen",
       role: "Private Wealth Clients"
     },
@@ -41,7 +42,10 @@ export function TestimonialSlider() {
       author: "Dr. Robert Sterling",
       role: "Retreat Owner"
     }
-  ];
+  ].map((testimonial) => ({
+    ...testimonial,
+    quote: replaceTemplateBranding(testimonial.quote, agencyName),
+  }));
 
   return (
     <div className="w-full relative px-4 md:px-0">
