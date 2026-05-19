@@ -1,4 +1,5 @@
 import { VelaAgentProfilePageContent } from "@/components/public/agency-agent-profile-page";
+import { Navbar } from "@/components/navbar";
 import { getAgentProfile } from "@/lib/public-site";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
@@ -12,9 +13,12 @@ export default async function AgentProfilePage({
   const profile = await getAgentProfile(agentSlug, agencySlug);
 
   return (
-    <VelaAgentProfilePageContent
-      agentSlug={agentSlug}
-      initialProfile={profile}
-    />
+    <>
+      <Navbar theme="light" />
+      <VelaAgentProfilePageContent
+        agentSlug={agentSlug}
+        initialProfile={profile}
+      />
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import { VelaAgentsPageContent } from "@/components/public/agency-agents-page";
+import { Navbar } from "@/components/navbar";
 import { getAgents, getSiteConfig } from "@/lib/public-site";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
@@ -10,9 +11,12 @@ export default async function AgentsPage() {
   ]);
 
   return (
-    <VelaAgentsPageContent
-      initialSiteConfig={siteConfig}
-      initialAgents={agentsResponse.agents}
-    />
+    <>
+      <Navbar theme="light" />
+      <VelaAgentsPageContent
+        initialSiteConfig={siteConfig}
+        initialAgents={agentsResponse.agents}
+      />
+    </>
   );
 }
