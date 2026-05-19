@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Grid3X3, MapPin } from "lucide-react";
+import { ChevronLeft, ChevronRight, Grid3X3, MapPin, Video } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +20,7 @@ interface PropertyHeroGalleryProps {
   location: string;
   price: string | number;
   imageHint?: string;
+  virtualTourUrl?: string | null;
 }
 
 export function PropertyHeroGallery({
@@ -27,6 +29,7 @@ export function PropertyHeroGallery({
   location,
   price,
   imageHint,
+  virtualTourUrl,
 }: PropertyHeroGalleryProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -63,6 +66,18 @@ export function PropertyHeroGallery({
           />
           <div className="absolute inset-0 bg-black/20" />
         </button>
+        {virtualTourUrl ? (
+          <Button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              window.open(virtualTourUrl, "_blank", "noopener,noreferrer");
+            }}
+            className="absolute bottom-6 left-6 rounded-full bg-white/90 px-5 text-[#111111] shadow-xl hover:bg-white z-20"
+          >
+            <Video className="w-4 h-4 mr-2" /> Virtual Tour
+          </Button>
+        ) : null}
         <div className="absolute bottom-6 md:bottom-12 left-6 md:left-12 right-6 md:right-12 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8 z-10 pointer-events-none">
           <div className="text-white">
             <h1 className="text-3xl md:text-5xl lg:text-7xl font-headline font-extrabold uppercase leading-[0.9] mb-4">

@@ -265,6 +265,16 @@ type RawListing = {
   garageSpaces?: number | string | null;
   latitude?: number | string | null;
   longitude?: number | string | null;
+  virtualTourUrl?: string | null;
+  videoTourUrl?: string | null;
+  fields?: {
+    virtualTourUrl?: string | null;
+    virtualTour?: string | null;
+    virtualTourLink?: string | null;
+    tourUrl?: string | null;
+    videoTourUrl?: string | null;
+    matterportUrl?: string | null;
+  } | null;
   amenities?: string[];
   images?: ListingImage[];
   broker?: {
@@ -319,6 +329,7 @@ export type VelaProperty = {
   category: string;
   type: string;
   propertyType: string;
+  virtualTourUrl?: string | null;
   latitude: number | null;
   longitude: number | null;
 };
@@ -411,6 +422,16 @@ export function mapListingToVelaProperty(listing: RawListing, agencySlug?: strin
   const priceNumeric = getNumberValue(listing.price) || 0;
   const location = [listing.subArea, listing.area, listing.emirate].filter(Boolean).join(', ') || 'Australia';
   const address = getStringValue(listing.streetAddress, listing.address, listing.title, location) || 'Address on request';
+  const virtualTourUrl = getStringValue(
+    listing.virtualTourUrl,
+    listing.videoTourUrl,
+    listing.fields?.virtualTourUrl,
+    listing.fields?.virtualTour,
+    listing.fields?.virtualTourLink,
+    listing.fields?.tourUrl,
+    listing.fields?.videoTourUrl,
+    listing.fields?.matterportUrl,
+  ) || null;
 
   return {
     id: listing.id,
@@ -448,6 +469,7 @@ export function mapListingToVelaProperty(listing: RawListing, agencySlug?: strin
     category: listing.category || 'Property',
     type: getStringValue(listing.category, listing.propertyType) || 'Property',
     propertyType: listing.propertyType || 'RESIDENTIAL',
+    virtualTourUrl,
     latitude: getNumberValue(listing.latitude) ?? null,
     longitude: getNumberValue(listing.longitude) ?? null,
   };

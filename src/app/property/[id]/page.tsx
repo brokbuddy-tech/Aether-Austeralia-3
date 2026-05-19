@@ -107,6 +107,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
             location={property.location}
             price={property.price}
             imageHint={property.imageHint}
+            virtualTourUrl={property.virtualTourUrl}
           />
 
           {/* Details Content */}
