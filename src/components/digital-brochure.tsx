@@ -27,6 +27,46 @@ interface DigitalBrochureProps {
   galleryImages: string[];
 }
 
+function waitForImageAsset(image: HTMLImageElement) {
+  if (image.complete && image.naturalWidth > 0) {
+    return Promise.resolve();
+  }
+
+  return new Promise<void>((resolve) => {
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      image.removeEventListener("load", finish);
+      image.removeEventListener("error", finish);
+      resolve();
+    };
+
+    image.addEventListener("load", finish, { once: true });
+    image.addEventListener("error", finish, { once: true });
+
+    if (typeof image.decode === "function") {
+      image.decode().then(finish).catch(() => undefined);
+    }
+  });
+}
+
+async function waitForBrochureAssets(root: HTMLElement) {
+  const images = Array.from(root.querySelectorAll("img"));
+  await Promise.all(images.map((image) => waitForImageAsset(image)));
+
+  if ("fonts" in document) {
+    try {
+      await document.fonts.ready;
+    } catch {
+      // Continue even if font readiness cannot be determined.
+    }
+  }
+
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}
+
 export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProps) {
   const { toast } = useToast();
   const brochureRef = useRef<HTMLDivElement>(null);
@@ -42,11 +82,17 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
     });
 
     try {
+      await waitForBrochureAssets(brochureRef.current);
+
       const canvas = await html2canvas(brochureRef.current, {
         useCORS: true,
-        scale: 2,
+        scale: Math.min(window.devicePixelRatio || 1, 2),
         backgroundColor: "#ffffff",
         logging: false,
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        windowWidth: brochureRef.current.scrollWidth,
+        windowHeight: brochureRef.current.scrollHeight,
       });
 
       const link = document.createElement("a");
@@ -55,7 +101,7 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       toast({
         title: "Download Complete",
         description: "The visual brochure has been saved to your device.",
@@ -85,26 +131,27 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
         </DialogHeader>
         <div className="flex flex-col relative">
           <div className="absolute top-6 right-16 z-[60]">
-             <Button 
-               variant="outline" 
-               size="sm" 
-               onClick={handleDownload}
-               className="rounded-full bg-white/10 hover:bg-white border-white/40 text-white hover:text-primary transition-all backdrop-blur-xl h-10 px-6 text-[9px] uppercase font-bold tracking-[0.2em] shadow-lg"
-             >
-               <Download className="w-3.5 h-3.5 mr-2" />
-               Download Image
-             </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownload}
+              className="rounded-full bg-white/10 hover:bg-white border-white/40 text-white hover:text-primary transition-all backdrop-blur-xl h-10 px-6 text-[9px] uppercase font-bold tracking-[0.2em] shadow-lg"
+            >
+              <Download className="w-3.5 h-3.5 mr-2" />
+              Download Image
+            </Button>
           </div>
 
           <div ref={brochureRef} className="flex flex-col bg-white">
             <div className="relative aspect-[21/9] w-full">
-              <Image 
+              <Image
                 src={property.imageUrl}
                 alt={property.title}
                 fill
                 className="object-cover"
                 data-ai-hint={property.imageHint}
-                unoptimized 
+                unoptimized
+                priority
               />
               <div className="absolute inset-0 bg-black/40" />
               <div className="absolute bottom-8 left-8 text-white">
@@ -120,7 +167,7 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
             <div className="grid grid-cols-3 gap-4 p-8 bg-[#F9F9F9]">
               {galleryImages.map((img, idx) => (
                 <div key={idx} className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm border border-black/5">
-                  <Image src={img} alt={`Gallery ${idx + 1}`} fill className="object-cover" unoptimized />
+                  <Image src={img} alt={`Gallery ${idx + 1}`} fill className="object-cover" unoptimized priority={idx < 3} />
                 </div>
               ))}
             </div>
@@ -131,32 +178,32 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
                   <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-muted-foreground mb-1">Valuation</p>
                   <p className="text-3xl font-headline font-extrabold text-primary">AUD ${property.price}</p>
                 </div>
-                
+
                 <div className="flex gap-8">
-                  {property.beds !== undefined && (
+                  {property.beds !== undefined ? (
                     <div className="flex flex-col items-center gap-1">
                       <Bed className="w-5 h-5 text-primary" />
                       <span className="text-sm font-bold">{property.beds}</span>
                       <span className="text-[8px] uppercase font-bold tracking-widest text-muted-foreground">Beds</span>
                     </div>
-                  )}
-                  {property.baths !== undefined && (
+                  ) : null}
+                  {property.baths !== undefined ? (
                     <div className="flex flex-col items-center gap-1">
                       <Bath className="w-5 h-5 text-primary" />
                       <span className="text-sm font-bold">{property.baths}</span>
                       <span className="text-[8px] uppercase font-bold tracking-widest text-muted-foreground">Baths</span>
                     </div>
-                  )}
-                  {property.cars !== undefined && (
+                  ) : null}
+                  {property.cars !== undefined ? (
                     <div className="flex flex-col items-center gap-1">
                       <Car className="w-5 h-5 text-primary" />
                       <span className="text-sm font-bold">{property.cars}</span>
                       <span className="text-[8px] uppercase font-bold tracking-widest text-muted-foreground">Cars</span>
                     </div>
-                  )}
+                  ) : null}
                   <div className="flex flex-col items-center gap-1">
                     <Maximize className="w-5 h-5 text-primary" />
-                    <span className="text-sm font-bold">{property.area}m²</span>
+                    <span className="text-sm font-bold">{property.area}mÂ²</span>
                     <span className="text-[8px] uppercase font-bold tracking-widest text-muted-foreground">Area</span>
                   </div>
                 </div>
@@ -168,14 +215,14 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
                   {property.description}
                 </p>
               </div>
-              
+
               <div className="pt-10 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-6">
                 <div className="text-xl font-headline font-extrabold tracking-tighter uppercase">
                   {agencyName}
                 </div>
                 <div className="text-center md:text-right">
                   <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">{advisoryLabel}</p>
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60 mt-1">© 2026 All Rights Reserved</p>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60 mt-1">Â© 2026 All Rights Reserved</p>
                 </div>
               </div>
             </div>

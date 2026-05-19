@@ -1,0 +1,38 @@
+   ▲ Next.js 15.5.9
+   - Local:        http://localhost:9105
+   - Network:      http://192.168.1.2:9105
+   - Environments: .env
+
+ ✓ Starting...
+node:events:496
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EPERM: operation not permitted, open 'F:\BrokBuddy\brokbuddy\templates\AUS\Aether-Austeralia-3\.next\trace'
+Emitted 'error' event on WriteStream instance at:
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'open',
+  path: 'F:\\BrokBuddy\\brokbuddy\\templates\\AUS\\Aether-Austeralia-3\\.next\\trace'
+}
+
+Node.js v20.12.2
+node:events:496
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EPERM: operation not permitted, open 'F:\BrokBuddy\brokbuddy\templates\AUS\Aether-Austeralia-3\.next\trace'
+Emitted 'error' event on WriteStream instance at:
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'open',
+  path: 'F:\\BrokBuddy\\brokbuddy\\templates\\AUS\\Aether-Austeralia-3\\.next\\trace'
+}
+
+Node.js v20.12.2
