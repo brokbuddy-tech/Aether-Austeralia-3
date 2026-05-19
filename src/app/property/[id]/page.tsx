@@ -53,10 +53,10 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
   const galleryImages = property.galleryImages.length > 0
     ? property.galleryImages
     : [
-        property.imageUrl,
-        PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
-        PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "",
-      ].filter(Boolean);
+      property.imageUrl,
+      PlaceHolderImages.find(i => i.id === "insight-1")?.imageUrl || "",
+      PlaceHolderImages.find(i => i.id === "contact-bg")?.imageUrl || "",
+    ].filter(Boolean);
 
   const agentAvatar = property.agentAvatar || PlaceHolderImages.find(i => i.id === (property.agentName === 'Sarah West' ? 'team-1' : property.agentName === 'Julian Vance' ? 'team-2' : property.agentName === 'Emma Clarke' ? 'team-3' : property.agentName === 'Marcus Thorne' ? 'team-4' : 'team-5'))?.imageUrl || PlaceHolderImages.find(i => i.id === 'team-1')!.imageUrl;
   const agentBg = PlaceHolderImages.find(i => i.id === 'agent-bg')?.imageUrl || "";
@@ -92,9 +92,6 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
               <span className="text-[9px] md:text-[10px] uppercase font-bold tracking-[0.2em]">{backLabel}</span>
             </Link>
             <div className="flex gap-2 md:gap-4">
-              <Button variant="outline" size="icon" className="rounded-full border-primary/10 h-8 w-8 md:h-10 md:w-10">
-                <Heart className="w-3 h-3 md:w-4 md:h-4 text-primary" />
-              </Button>
               <Button variant="outline" size="icon" className="rounded-full border-primary/10 h-8 w-8 md:h-10 md:w-10">
                 <Share2 className="w-3 h-3 md:w-4 md:h-4 text-primary" />
               </Button>
@@ -170,23 +167,23 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 <div className="bg-white rounded-[2rem] overflow-hidden shadow-2xl border border-[#EDEDED] flex flex-col max-w-[360px] mx-auto w-full">
                   {/* Header with Background */}
                   <div className="relative h-28 md:h-32 flex flex-col items-center justify-center pt-4">
-                    <Image 
+                    <Image
                       src={agentBg}
                       alt="Agent Background"
                       fill
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-black/50" />
-                    
+
                     {/* Avatar */}
                     <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                       <Image 
-                         src={agentAvatar}
-                         alt={property.agentName}
-                         fill
-                         className="object-cover"
-                         data-ai-hint="Professional Portrait"
-                       />
+                      <Image
+                        src={agentAvatar}
+                        alt={property.agentName}
+                        fill
+                        className="object-cover"
+                        data-ai-hint="Professional Portrait"
+                      />
                     </div>
                   </div>
 
@@ -220,12 +217,12 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                       <Button className="w-full rounded-full h-14 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.2em] text-[9px] shadow-lg transition-all active:scale-[0.98]">
                         BOOK PRIVATE INSPECTION
                       </Button>
-                      
+
                       <DigitalBrochure
                         property={{ ...property, agencyName }}
                         galleryImages={galleryImages}
                       />
-                      
+
                       <div className="grid grid-cols-2 gap-2">
                         {smsHref ? (
                           <Button asChild className="rounded-full py-4 md:py-5 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111111] font-bold uppercase tracking-[0.2em] text-[7px] md:text-[8px] h-auto transition-all">
@@ -257,9 +254,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
                       {whatsappHref && (
                         <div className="pt-2">
-                          <Link 
+                          <Link
                             href={whatsappHref}
-                            target="_blank" 
+                            target="_blank"
                             className="text-primary text-[7px] md:text-[8px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-2 group hover:underline"
                           >
                             WHATSAPP AGENT <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
