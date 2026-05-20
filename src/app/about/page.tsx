@@ -1,5 +1,6 @@
 import { VelaAboutPageContent } from "@/components/public/agency-about-page";
 import { Navbar } from "@/components/navbar";
+import { SiteFooter } from "@/components/site-footer";
 import { getAgents, getSiteConfig, getTestimonials } from "@/lib/public-site";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
@@ -19,6 +20,7 @@ export default async function AboutPage() {
         initialAgents={agentsResponse.agents}
         initialTestimonials={testimonials}
       />
+      <SiteFooter />
     </>
   );
 }

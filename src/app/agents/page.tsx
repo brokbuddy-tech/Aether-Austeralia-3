@@ -1,5 +1,6 @@
 import { VelaAgentsPageContent } from "@/components/public/agency-agents-page";
 import { Navbar } from "@/components/navbar";
+import { SiteFooter } from "@/components/site-footer";
 import { getAgents, getSiteConfig } from "@/lib/public-site";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
@@ -17,6 +18,7 @@ export default async function AgentsPage() {
         initialSiteConfig={siteConfig}
         initialAgents={agentsResponse.agents}
       />
+      <SiteFooter />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import { VelaAgentProfilePageContent } from "@/components/public/agency-agent-profile-page";
 import { Navbar } from "@/components/navbar";
+import { SiteFooter } from "@/components/site-footer";
 import { getAgentProfile } from "@/lib/public-site";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
@@ -19,6 +20,7 @@ export default async function AgentProfilePage({
         agentSlug={agentSlug}
         initialProfile={profile}
       />
+      <SiteFooter />
     </>
   );
 }
