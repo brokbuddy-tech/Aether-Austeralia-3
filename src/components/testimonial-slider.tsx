@@ -14,35 +14,68 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Autoplay from "embla-carousel-autoplay";
 import { replaceTemplateBranding } from "@/lib/public-site";
 
-export function TestimonialSlider({ agencyName = "Agency Website" }: { agencyName?: string }) {
+type TestimonialSlide = {
+  id: string;
+  quote: string;
+  author: string;
+  meta: string;
+  avatar?: string | null;
+};
+
+function getInitials(name: string) {
+  return (
+    name
+      .split(/[\s&-]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("") || "AG"
+  );
+}
+
+export function TestimonialSlider({
+  agencyName = "Agency Website",
+  testimonials = [],
+}: {
+  agencyName?: string;
+  testimonials?: TestimonialSlide[];
+}) {
   const userImg = PlaceHolderImages.find(img => img.id === "testimonial-avatar");
 
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true })
   );
 
-  const testimonials = [
+  const fallbackTestimonials: TestimonialSlide[] = [
     {
+      id: "julian-vance",
       quote: "{{agencyName}} transformed our search from a chore into a curated exploration. Their visual approach and local insight are unmatched in the Australian market.",
       author: "Julian Vance",
-      role: "Luxury Portfolio Client"
+      meta: "Luxury Portfolio Client"
     },
     {
+      id: "sarah-montgomery",
       quote: "The professional integrity and technological edge that {{agencyName}} brings to real estate is truly extraordinary. A high-end experience through and through.",
       author: "Sarah Montgomery",
-      role: "Property Investor"
+      meta: "Property Investor"
     },
     {
+      id: "marcus-elena-chen",
       quote: "The precision and professionalism of {{agencyName}} made our relocation to Sydney effortless. Truly the gold standard for luxury acquisitions.",
       author: "Marcus & Elena Chen",
-      role: "Private Wealth Clients"
+      meta: "Private Wealth Clients"
     },
     {
+      id: "robert-sterling",
       quote: "Their knowledge of off-market properties in the Noosa region is unparalleled. We found our dream home before it even hit the portals.",
       author: "Dr. Robert Sterling",
-      role: "Retreat Owner"
+      meta: "Retreat Owner"
     }
   ].map((testimonial) => ({
+    ...testimonial,
+    quote: replaceTemplateBranding(testimonial.quote, agencyName),
+  }));
+  const resolvedTestimonials = (testimonials.length > 0 ? testimonials : fallbackTestimonials).map((testimonial) => ({
     ...testimonial,
     quote: replaceTemplateBranding(testimonial.quote, agencyName),
   }));
@@ -61,26 +94,30 @@ export function TestimonialSlider({ agencyName = "Agency Website" }: { agencyNam
           }}
         >
           <CarouselContent>
-            {testimonials.map((t, idx) => (
-              <CarouselItem key={idx}>
+            {resolvedTestimonials.map((t) => (
+              <CarouselItem key={t.id}>
                 <div className="bg-white/30 backdrop-blur-xl p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] text-center shadow-2xl border border-white/40">
-                  <div className="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-6 md:mb-8 rounded-full overflow-hidden border-2 border-white/50 bg-muted/20">
-                    {userImg?.imageUrl ? (
+                  <div className="relative mx-auto mb-6 h-12 w-12 overflow-hidden rounded-full border-2 border-white/50 bg-muted/20 md:mb-8 md:h-16 md:w-16">
+                    {t.avatar || userImg?.imageUrl ? (
                       <Image
-                        src={userImg.imageUrl}
-                        alt="Client"
+                        src={t.avatar || userImg?.imageUrl || ""}
+                        alt={t.author}
                         fill
                         className="object-cover"
-                        data-ai-hint={userImg.imageHint}
+                        data-ai-hint={userImg?.imageHint}
                       />
-                    ) : null}
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-xs font-bold tracking-[0.2em] text-primary">
+                        {getInitials(t.author)}
+                      </div>
+                    )}
                   </div>
                   <blockquote className="text-lg md:text-2xl font-editorial font-light italic text-foreground mb-6 md:mb-8 leading-relaxed">
                     "{t.quote}"
                   </blockquote>
                   <cite className="not-italic">
                     <div className="font-headline uppercase tracking-widest font-bold text-xs md:text-sm text-primary">{t.author}</div>
-                    <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-1">{t.role}</div>
+                    <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-1">{t.meta}</div>
                   </cite>
                 </div>
               </CarouselItem>

@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { TestimonialSlider } from "@/components/testimonial-slider";
 import { Button } from "@/components/ui/button";
 import {
   getAgents,
   getSiteConfig,
+  getTestimonials,
   hasMeaningfulSiteConfig,
   type SiteAgent,
   type SiteConfig,
@@ -30,30 +32,83 @@ function getAgentImage(seed: string, avatar?: string | null) {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
+type AboutTestimonial = {
+  id: string;
+  quote: string;
+  author: string;
+  meta: string;
+  avatar?: string | null;
+};
+
+function normalizeTestimonials(input: unknown[]): AboutTestimonial[] {
+  const normalized: AboutTestimonial[] = [];
+
+  input.forEach((item, index) => {
+    const testimonial = item as {
+      id?: string;
+      quote?: string | null;
+      content?: string | null;
+      author?: string | null;
+      name?: string | null;
+      clientName?: string | null;
+      location?: string | null;
+      property?: string | null;
+      avatar?: string | null;
+      image?: string | null;
+    };
+
+    const quote = testimonial.quote?.trim() || testimonial.content?.trim() || "";
+    if (!quote) return;
+
+    const author =
+      testimonial.author?.trim() ||
+      testimonial.name?.trim() ||
+      testimonial.clientName?.trim() ||
+      "Anonymous";
+
+    normalized.push({
+      id: testimonial.id || `${author}-${index}`,
+      quote,
+      author,
+      meta: testimonial.location?.trim() || testimonial.property?.trim() || "Verified client",
+      avatar: testimonial.avatar?.trim() || testimonial.image?.trim() || null,
+    });
+  });
+
+  return normalized;
+}
+
 export function VelaAboutPageContent({
   initialSiteConfig = null,
   initialAgents = [],
+  initialTestimonials = [],
 }: {
   initialSiteConfig?: SiteConfig | null;
   initialAgents?: SiteAgent[];
+  initialTestimonials?: unknown[];
 }) {
   const pathname = usePathname();
   const agencySlug = resolveAgencySlugFromPathname(pathname);
   const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(initialSiteConfig);
   const [agents, setAgents] = useState<SiteAgent[]>(initialAgents);
+  const [testimonials, setTestimonials] = useState<AboutTestimonial[]>(() =>
+    normalizeTestimonials(initialTestimonials),
+  );
 
   useEffect(() => {
     setSiteConfig(initialSiteConfig);
     setAgents(initialAgents);
-  }, [initialAgents, initialSiteConfig]);
+    setTestimonials(normalizeTestimonials(initialTestimonials));
+  }, [initialAgents, initialSiteConfig, initialTestimonials]);
 
   useEffect(() => {
     let active = true;
 
     async function load() {
-      const [nextSiteConfig, nextAgents] = await Promise.all([
+      const [nextSiteConfig, nextAgents, nextTestimonials] = await Promise.all([
         getSiteConfig(agencySlug),
         getAgents(agencySlug),
+        getTestimonials(agencySlug),
       ]);
 
       if (!active) return;
@@ -63,6 +118,7 @@ export function VelaAboutPageContent({
       setAgents((current) =>
         nextAgents.agents.length > 0 || current.length === 0 ? nextAgents.agents : current,
       );
+      setTestimonials(normalizeTestimonials(nextTestimonials));
     }
 
     void load();
@@ -159,6 +215,18 @@ export function VelaAboutPageContent({
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-background px-6 py-8 md:py-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <p className="text-[12px] font-bold uppercase tracking-[0.5em] text-primary">Client stories</p>
+            <p className="mt-6 text-3xl font-editorial font-light italic text-foreground md:text-5xl">
+              What clients remember about working with {displayName}.
+            </p>
+          </div>
+          <TestimonialSlider agencyName={displayName} testimonials={testimonials} />
         </div>
       </section>
 
