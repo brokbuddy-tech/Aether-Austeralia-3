@@ -76,6 +76,12 @@ export function VelaAboutPageContent({
     siteConfig?.profile?.aboutCompany?.trim() ||
     siteConfig?.branding?.bio?.trim() ||
     `${displayName} pairs elegant public presentation with live organization data, live agent profiles, and current listings streamed from Broker OS.`;
+  const mission =
+    siteConfig?.profile?.mission?.trim() ||
+    `${displayName} is committed to helping clients move confidently through the market with tailored advice and responsive support.`;
+  const vision =
+    siteConfig?.profile?.vision?.trim() ||
+    `We want ${displayName} to be known for a public experience that feels refined, trustworthy, and always up to date.`;
   const stats = [
     { label: "Live listings", value: siteConfig?.stats?.totalListings ?? 0 },
     { label: "Active agents", value: siteConfig?.stats?.activeAgents ?? agents.length },
@@ -118,6 +124,16 @@ export function VelaAboutPageContent({
                 Updates to organization details, active agents, office timings, and listings appear
                 here automatically without manual template editing.
               </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-[2rem] border border-primary/10 bg-white p-6 shadow-sm">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Our mission</p>
+                <p className="mt-4 text-base font-light leading-7 text-foreground">{mission}</p>
+              </div>
+              <div className="rounded-[2rem] border border-primary/10 bg-white p-6 shadow-sm">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Our vision</p>
+                <p className="mt-4 text-base font-light leading-7 text-foreground">{vision}</p>
+              </div>
             </div>
             <div className="flex flex-wrap gap-4">
               <Link href={prefixAgencyPath("/agents", agencySlug)}>
