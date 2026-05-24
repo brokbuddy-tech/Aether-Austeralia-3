@@ -11,14 +11,15 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/navbar";
 import { getListings } from "@/lib/api";
-import { getAgencyDisplayName, getSiteConfig } from "@/lib/public-site";
+import { getAgencyDisplayName, getSiteConfig, getTestimonials } from "@/lib/public-site";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function Home() {
   const agencySlug = await getRequestAgencySlug();
-  const [siteConfig, { properties }] = await Promise.all([
+  const [siteConfig, { properties }, testimonials] = await Promise.all([
     getSiteConfig(agencySlug),
     getListings({ transactionType: "SALE", status: "ACTIVE", limit: 6 }, agencySlug),
+    getTestimonials(agencySlug),
   ]);
   const agencyName = getAgencyDisplayName(siteConfig);
 
@@ -57,7 +58,7 @@ export default async function Home() {
       
       {/* Testimonials */}
       <section className="bg-background py-32">
-        <TestimonialSlider agencyName={agencyName} />
+        <TestimonialSlider agencyName={agencyName} testimonials={testimonials} />
       </section>
 
       {/* Expert Advisor Search */}

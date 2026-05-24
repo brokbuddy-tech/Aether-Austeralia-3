@@ -20,6 +20,14 @@ type TestimonialSlide = {
   author: string;
   meta: string;
   avatar?: string | null;
+  badgeLabel?: string | null;
+  message?: string | null;
+  clientName?: string | null;
+  name?: string | null;
+  location?: string | null;
+  property?: string | null;
+  image?: string | null;
+  imageUrl?: string | null;
 };
 
 function getInitials(name: string) {
@@ -46,39 +54,25 @@ export function TestimonialSlider({
     Autoplay({ delay: 5000, stopOnInteraction: true })
   );
 
-  const fallbackTestimonials: TestimonialSlide[] = [
-    {
-      id: "julian-vance",
-      quote: "{{agencyName}} transformed our search from a chore into a curated exploration. Their visual approach and local insight are unmatched in the Australian market.",
-      author: "Julian Vance",
-      meta: "Luxury Portfolio Client"
-    },
-    {
-      id: "sarah-montgomery",
-      quote: "The professional integrity and technological edge that {{agencyName}} brings to real estate is truly extraordinary. A high-end experience through and through.",
-      author: "Sarah Montgomery",
-      meta: "Property Investor"
-    },
-    {
-      id: "marcus-elena-chen",
-      quote: "The precision and professionalism of {{agencyName}} made our relocation to Sydney effortless. Truly the gold standard for luxury acquisitions.",
-      author: "Marcus & Elena Chen",
-      meta: "Private Wealth Clients"
-    },
-    {
-      id: "robert-sterling",
-      quote: "Their knowledge of off-market properties in the Noosa region is unparalleled. We found our dream home before it even hit the portals.",
-      author: "Dr. Robert Sterling",
-      meta: "Retreat Owner"
-    }
-  ].map((testimonial) => ({
-    ...testimonial,
-    quote: replaceTemplateBranding(testimonial.quote, agencyName),
-  }));
-  const resolvedTestimonials = (testimonials.length > 0 ? testimonials : fallbackTestimonials).map((testimonial) => ({
-    ...testimonial,
-    quote: replaceTemplateBranding(testimonial.quote, agencyName),
-  }));
+  const normalizedTestimonials = testimonials
+    .map<TestimonialSlide | null>((testimonial, index) => {
+      const quote = testimonial.message?.trim() || testimonial.quote?.trim();
+      const author = testimonial.clientName?.trim() || testimonial.author?.trim() || testimonial.name?.trim();
+
+      if (!quote || !author) return null;
+
+      return {
+        id: testimonial.id || `${author}-${index}`,
+        quote: replaceTemplateBranding(quote, agencyName),
+        author,
+        meta: testimonial.badgeLabel?.trim() || testimonial.location?.trim() || testimonial.property?.trim() || testimonial.meta || "Client Testimonial",
+        avatar: testimonial.imageUrl || testimonial.avatar || testimonial.image || null,
+      };
+    })
+    .filter((testimonial): testimonial is TestimonialSlide => Boolean(testimonial));
+  const resolvedTestimonials = normalizedTestimonials;
+
+  if (!resolvedTestimonials.length) return null;
 
   return (
     <div className="w-full relative px-4 md:px-0">

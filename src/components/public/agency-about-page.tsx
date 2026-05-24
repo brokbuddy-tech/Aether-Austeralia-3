@@ -103,6 +103,7 @@ function normalizeTestimonials(input: unknown[]): AboutTestimonial[] {
   input.forEach((item, index) => {
     const testimonial = item as {
       id?: string;
+      message?: string | null;
       quote?: string | null;
       content?: string | null;
       author?: string | null;
@@ -110,12 +111,17 @@ function normalizeTestimonials(input: unknown[]): AboutTestimonial[] {
       clientName?: string | null;
       location?: string | null;
       property?: string | null;
+      badgeLabel?: string | null;
       avatar?: string | null;
       image?: string | null;
+      imageUrl?: string | null;
     };
 
     const quote =
-      testimonial.quote?.trim() || testimonial.content?.trim() || "";
+      testimonial.message?.trim() ||
+      testimonial.quote?.trim() ||
+      testimonial.content?.trim() ||
+      "";
     if (!quote) return;
 
     const author =
@@ -129,10 +135,15 @@ function normalizeTestimonials(input: unknown[]): AboutTestimonial[] {
       quote,
       author,
       meta:
+        testimonial.badgeLabel?.trim() ||
         testimonial.location?.trim() ||
         testimonial.property?.trim() ||
-        "Verified client",
-      avatar: testimonial.avatar?.trim() || testimonial.image?.trim() || null,
+        "Client testimonial",
+      avatar:
+        testimonial.imageUrl?.trim() ||
+        testimonial.avatar?.trim() ||
+        testimonial.image?.trim() ||
+        null,
     });
   });
 
@@ -336,6 +347,7 @@ export function VelaAboutPageContent({
           </div>
         </div>
       </section>
+      {testimonials.length > 0 ? (
       <section className="bg-background px-6 py-8 md:py-16 relative overflow-hidden">
         {testimonialBg && (
           <Image 
@@ -361,6 +373,7 @@ export function VelaAboutPageContent({
           />
         </div>
       </section>
+      ) : null}
       {/* CTA Section */}
       <section className="py-32 px-6 text-center">
         <div className="max-w-3xl mx-auto space-y-8">
