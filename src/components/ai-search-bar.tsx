@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { AmenityIcon } from "@/components/amenity-icon";
 
 export function AISearchBar() {
   const router = useRouter();
@@ -223,7 +224,8 @@ export function AISearchBar() {
                           onCheckedChange={() => toggleAmenity(amenity)}
                           className="rounded-md border-primary/20"
                         />
-                        <label htmlFor={amenity} className="text-[10px] uppercase font-bold tracking-widest cursor-pointer text-muted-foreground group-hover:text-primary transition-colors">
+                        <label htmlFor={amenity} className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-widest cursor-pointer text-muted-foreground group-hover:text-primary transition-colors">
+                          <AmenityIcon name={amenity} className="h-4 w-4" />
                           {amenity}
                         </label>
                       </div>
