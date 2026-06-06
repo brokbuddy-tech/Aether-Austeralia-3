@@ -12,6 +12,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { AmenityIcon } from "@/components/amenity-icon";
 
+type AiSearchFilters = {
+  q?: string;
+  type?: string;
+  transactionType?: string;
+  propertyType?: string;
+  category?: string;
+  readiness?: string;
+  bedrooms?: string;
+  bathrooms?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  minArea?: string;
+  maxArea?: string;
+};
+
 export function AISearchBar() {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -46,24 +61,60 @@ export function AISearchBar() {
 
     setLoading(true);
 
+    let aiFilters: AiSearchFilters = {};
+    if (query.trim()) {
+      try {
+        const response = await fetch("/api/ai-search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query,
+            filters: {
+              q: filters.location,
+              category: filters.propertyType !== "any" && filters.propertyType !== "commercial" ? filters.propertyType : undefined,
+              propertyType: filters.propertyType === "commercial" ? "COMMERCIAL" : undefined,
+              bedrooms: filters.bedrooms !== "any" ? filters.bedrooms : undefined,
+              bathrooms: filters.bathrooms !== "any" ? filters.bathrooms : undefined,
+              minPrice: filters.minPrice,
+              maxPrice: filters.maxPrice,
+              minArea: filters.minArea,
+              maxArea: filters.maxArea,
+            },
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json() as { filters?: AiSearchFilters };
+          aiFilters = data.filters || {};
+        }
+      } catch {
+        aiFilters = {};
+      }
+    }
+
     const params = new URLSearchParams();
-    const searchTerms = [query.trim(), filters.location.trim(), ...filters.amenities]
+    const searchTerms = [aiFilters.q || query.trim(), filters.location.trim(), ...filters.amenities]
       .filter(Boolean)
       .join(" ");
 
     if (searchTerms) params.set("q", searchTerms);
-    if (filters.bedrooms !== "any") params.set("bedrooms", filters.bedrooms);
-    if (filters.bathrooms !== "any") params.set("bathrooms", filters.bathrooms);
-    if (filters.minPrice) params.set("minPrice", filters.minPrice);
-    if (filters.maxPrice) params.set("maxPrice", filters.maxPrice);
+    if (aiFilters.bedrooms || filters.bedrooms !== "any") params.set("bedrooms", aiFilters.bedrooms || filters.bedrooms);
+    if (aiFilters.bathrooms || filters.bathrooms !== "any") params.set("bathrooms", aiFilters.bathrooms || filters.bathrooms);
+    if (aiFilters.minPrice || filters.minPrice) params.set("minPrice", aiFilters.minPrice || filters.minPrice);
+    if (aiFilters.maxPrice || filters.maxPrice) params.set("maxPrice", aiFilters.maxPrice || filters.maxPrice);
+    if (aiFilters.minArea || filters.minArea) params.set("minArea", aiFilters.minArea || filters.minArea);
+    if (aiFilters.maxArea || filters.maxArea) params.set("maxArea", aiFilters.maxArea || filters.maxArea);
 
     const destination =
-      filters.propertyType === "commercial"
+      aiFilters.transactionType === "RENT" || aiFilters.type === "rent"
+        ? "/rent"
+        : aiFilters.propertyType === "COMMERCIAL" || aiFilters.type === "commercial" || filters.propertyType === "commercial"
         ? "/commercial"
         : "/buy";
 
-    if (filters.propertyType !== "any" && filters.propertyType !== "commercial") {
-      params.set("category", filters.propertyType);
+    const category = aiFilters.category || (filters.propertyType !== "any" && filters.propertyType !== "commercial" ? filters.propertyType : "");
+    if (category) {
+      params.set("category", category);
     }
 
     setOpen(false);
