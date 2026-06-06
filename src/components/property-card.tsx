@@ -19,6 +19,8 @@ interface PropertyProps {
   imageHint?: string;
   agentName: string;
   tag?: "New Listing" | "Auction" | "Exclusive" | "For Sale" | "For Rent" | "Sold" | "Record Price" | "Premium Office" | "Industrial" | "Medical/Consulting" | "Showroom/Warehouse" | "Retail" | "Development Site";
+  featured?: boolean;
+  recentlyListed?: boolean;
 }
 
 export function PropertyCard({ property }: { property: PropertyProps }) {
@@ -44,15 +46,27 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
         ) : null}
         
         {/* Status Tag Overlay */}
-        {property.tag && (
-          <div className="absolute top-4 left-4 z-20">
-            <div className={cn(
-              "glass px-3 py-1.5 rounded-full text-[9px] uppercase font-bold tracking-[0.2em] text-white border border-white/20",
-              (property.tag === "Sold" || property.tag === "Industrial") && "bg-black/60",
-              (property.tag === "Record Price" || property.tag === "Premium Office") && "bg-primary/80 border-primary/40"
-            )}>
-              {property.tag}
-            </div>
+        {(property.tag || property.featured || property.recentlyListed) && (
+          <div className="absolute top-4 left-4 z-20 flex flex-col items-start gap-2">
+            {property.tag && (
+              <div className={cn(
+                "glass px-3 py-1.5 rounded-full text-[9px] uppercase font-bold tracking-[0.2em] text-white border border-white/20",
+                (property.tag === "Sold" || property.tag === "Industrial") && "bg-black/60",
+                (property.tag === "Record Price" || property.tag === "Premium Office") && "bg-primary/80 border-primary/40"
+              )}>
+                {property.tag}
+              </div>
+            )}
+            {property.featured && (
+              <div className="glass bg-primary/80 px-3 py-1.5 rounded-full text-[9px] font-bold tracking-[0.16em] text-white border border-primary/40">
+                Featured
+              </div>
+            )}
+            {property.recentlyListed && (
+              <div className="glass bg-black/60 px-3 py-1.5 rounded-full text-[9px] font-bold tracking-[0.16em] text-white border border-white/20">
+                Recently Listed
+              </div>
+            )}
           </div>
         )}
 
