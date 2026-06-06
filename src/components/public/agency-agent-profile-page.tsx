@@ -6,8 +6,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Mail, MessageSquare, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ReviewCarousel } from "@/components/review-carousel";
 import { getAgentProfile } from "@/lib/public-site";
 import { prefixAgencyPath, resolveAgencySlugFromPathname } from "@/lib/agency-routing";
+import { normalizeBrokerReviewCards } from "@/lib/reviews";
 
 function getAgentImage(seed: string, avatar?: string | null) {
   if (avatar) return avatar;
@@ -99,6 +101,7 @@ export function VelaAgentProfilePageContent({
     `Hi ${profile.agent.name}, I'm interested in your listings with ${displayName}.`
   );
   const brokerRegistrationNumber = profile.agent.brn || profile.agent.licenseNumber;
+  const brokerReviews = normalizeBrokerReviewCards(profile.agent.reviewSources);
 
   return (
     <main className="min-h-screen bg-background">
@@ -202,7 +205,15 @@ export function VelaAgentProfilePageContent({
       </section>
 
       <section className="px-6 pb-24">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <ReviewCarousel
+            title="What My Clients Say"
+            description={`Verified feedback from clients who worked directly with ${profile.agent.name}.`}
+            items={brokerReviews}
+            variant="light"
+            className="rounded-[2rem] border border-primary/10 bg-white px-0 py-12 shadow-sm"
+          />
+
           <div className="mb-8">
             <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-primary">Active portfolio</p>
             <h2 className="mt-3 text-3xl font-headline font-extrabold uppercase">Live listings from {profile.agent.name}</h2>
