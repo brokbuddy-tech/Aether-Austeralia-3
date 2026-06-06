@@ -97,7 +97,7 @@ export function PropertyHeroGallery({
         </div>
       </div>
 
-      <div className="flex md:grid md:grid-cols-4 gap-4 mb-16 overflow-x-auto no-scrollbar pb-4 md:pb-0">
+      <div className="flex md:grid md:grid-cols-3 gap-4 mb-16 overflow-x-auto no-scrollbar pb-4 md:pb-0">
         {previewImages.map((img, idx) => (
           <button
             key={`${img}-${idx}`}
@@ -108,22 +108,15 @@ export function PropertyHeroGallery({
           >
             <Image src={img} alt={`${title} gallery ${idx + 1}`} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
             <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+            {idx === 2 ? (
+              <span className="pointer-events-none absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-[9px] font-bold uppercase tracking-[0.2em] text-primary shadow-xl backdrop-blur-md">
+                <Grid3X3 className="h-4 w-4" />
+                View More
+                {remainingImageCount > 0 ? <span>+{remainingImageCount}</span> : null}
+              </span>
+            ) : null}
           </button>
         ))}
-        <button
-          type="button"
-          onClick={() => openGallery(Math.min(previewImages.length, images.length - 1))}
-          className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted flex flex-col items-center justify-center cursor-pointer group border border-dashed border-primary/20 hover:bg-primary/5 transition-colors flex-none w-[280px] md:w-auto"
-          aria-label={`Open full gallery with ${images.length} images`}
-        >
-          <Grid3X3 className="w-6 h-6 text-primary mb-2 group-hover:scale-110 transition-transform" />
-          {remainingImageCount > 0 && (
-            <span className="mb-1 text-xl font-headline font-extrabold text-primary">
-              +{remainingImageCount}
-            </span>
-          )}
-          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-primary">View More</span>
-        </button>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
