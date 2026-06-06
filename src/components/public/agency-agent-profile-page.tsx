@@ -179,24 +179,56 @@ export function VelaAgentProfilePageContent({
 
       <section className="px-6 pb-24">
         <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-16 lg:grid-cols-[320px_minmax(0,1fr)]">
-          <aside className="rounded-[2rem] border border-primary/10 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold">Profile snapshot</h2>
-            <div className="mt-5 grid grid-cols-2 gap-4">
-              {[
-                { label: "Active listings", value: profile.stats.activeListings },
-                { label: "Sold properties", value: profile.stats.soldListings },
-                { label: "Rented properties", value: profile.stats.rentedListings },
-                { label: "Years experience", value: profile.agent.yearsExperience || 0 },
-                { label: "Deals closed", value: profile.agent.totalDeals || 0 },
-                { label: "Languages", value: (profile.agent.languages || []).length },
-              ].map((item) => (
-                <div key={item.label} className="rounded-2xl border border-primary/10 bg-muted/30 p-4">
-                  <p className="text-2xl font-headline font-extrabold text-foreground">{item.value}</p>
-                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                    {item.label}
-                  </p>
+          <aside className="space-y-10">
+            <div className="space-y-6 rounded-[2rem] border border-primary/10 bg-white p-6 shadow-sm">
+              <h2 className="text-[10px] font-bold uppercase tracking-[0.35em] text-primary">Profile</h2>
+              <div className="space-y-4 text-sm leading-7 text-muted-foreground">
+                <p>{profile.agent.bio || profile.agent.tagline || `${profile.agent.name} is part of the public team for ${displayName}.`}</p>
+                <div className="space-y-3">
+                  {(profile.agent.languages || []).length > 0 ? (
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/70">Languages</p>
+                      <p>{(profile.agent.languages || []).join(", ")}</p>
+                    </div>
+                  ) : null}
+                  {(profile.agent.specializations || []).length > 0 ? (
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/70">Specializations</p>
+                      <p>{(profile.agent.specializations || []).join(", ")}</p>
+                    </div>
+                  ) : null}
+                  {profile.agent.yearsExperience ? (
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/70">Experience</p>
+                      <p>{profile.agent.yearsExperience}+ years</p>
+                    </div>
+                  ) : null}
+                  {brokerRegistrationNumber ? (
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/70">BRN</p>
+                      <p>{brokerRegistrationNumber}</p>
+                    </div>
+                  ) : null}
                 </div>
-              ))}
+              </div>
+            </div>
+
+            <div className="space-y-6 rounded-[2rem] border border-primary/10 bg-white p-6 shadow-sm">
+              <h2 className="text-[10px] font-bold uppercase tracking-[0.35em] text-primary">Live Stats</h2>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="text-2xl font-headline font-extrabold text-foreground">{profile.stats.activeListings}</p>
+                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">Active</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-headline font-extrabold text-foreground">{profile.stats.soldListings}</p>
+                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">Sold</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-headline font-extrabold text-foreground">{profile.stats.rentedListings}</p>
+                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">Rented</p>
+                </div>
+              </div>
             </div>
           </aside>
 
