@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AmenityIcon } from "@/components/amenity-icon";
+import { cleanQueryForCategory, normalizeCategory } from "@/lib/search-utils";
 
 type AiSearchFilters = {
   q?: string;
@@ -71,7 +72,7 @@ export function AISearchBar() {
             query,
             filters: {
               q: filters.location,
-              category: filters.propertyType !== "any" && filters.propertyType !== "commercial" ? filters.propertyType : undefined,
+              category: normalizeCategory(filters.propertyType !== "any" && filters.propertyType !== "commercial" ? filters.propertyType : undefined),
               propertyType: filters.propertyType === "commercial" ? "COMMERCIAL" : undefined,
               bedrooms: filters.bedrooms !== "any" ? filters.bedrooms : undefined,
               bathrooms: filters.bathrooms !== "any" ? filters.bathrooms : undefined,
@@ -93,7 +94,14 @@ export function AISearchBar() {
     }
 
     const params = new URLSearchParams();
-    const searchTerms = [aiFilters.q || query.trim(), filters.location.trim(), ...filters.amenities]
+    const category = normalizeCategory(
+      aiFilters.category || (filters.propertyType !== "any" && filters.propertyType !== "commercial" ? filters.propertyType : undefined),
+    );
+    const searchTerms = [
+      cleanQueryForCategory(aiFilters.q || query.trim(), category),
+      cleanQueryForCategory(filters.location.trim(), category),
+      ...filters.amenities,
+    ]
       .filter(Boolean)
       .join(" ");
 
@@ -112,7 +120,6 @@ export function AISearchBar() {
         ? "/commercial"
         : "/buy";
 
-    const category = aiFilters.category || (filters.propertyType !== "any" && filters.propertyType !== "commercial" ? filters.propertyType : "");
     if (category) {
       params.set("category", category);
     }

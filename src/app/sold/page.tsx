@@ -5,6 +5,7 @@ import { PropertyCard } from "@/components/property-card";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
 import { getListings } from "@/lib/api";
+import { cleanQueryForCategory, matchesTemplateCategory, normalizeCategory } from "@/lib/search-utils";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function SoldPage({
@@ -22,17 +23,23 @@ export default async function SoldPage({
 }) {
   const params = await searchParams;
   const agencySlug = await getRequestAgencySlug();
-  const { properties: soldProperties, total, page, totalPages } = await getListings({
+  const category = normalizeCategory(params.category);
+  const searchQuery = cleanQueryForCategory(params.q, category) || "";
+  const headingLabel = searchQuery || category || "";
+  const listingsResponse = await getListings({
     status: "SOLD",
-    q: params.q || "",
-    category: params.category || "",
+    q: searchQuery,
     minPrice: params.minPrice || "",
     maxPrice: params.maxPrice || "",
     bedrooms: params.bedrooms || "",
     bathrooms: params.bathrooms || "",
-    page: params.page || "1",
-    limit: 12,
+    page: category ? "1" : params.page || "1",
+    limit: category ? 96 : 12,
   }, agencySlug);
+  const soldProperties = listingsResponse.properties.filter((property) => matchesTemplateCategory(property, category));
+  const total = category ? soldProperties.length : listingsResponse.total;
+  const page = category ? 1 : listingsResponse.page;
+  const totalPages = category ? 1 : listingsResponse.totalPages;
   const nextPageParams = new URLSearchParams(
     Object.entries({ ...params, page: String(page + 1) })
       .filter(([, value]) => Boolean(value))
@@ -54,7 +61,7 @@ export default async function SoldPage({
               Explore our track record of premium results achieved for our clients across Australia's most prestigious markets.
             </p>
             <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
-              {total} completed sales{params.q ? ` matching "${params.q}"` : ""}
+              {total} completed sales{headingLabel ? ` matching "${headingLabel}"` : ""}
             </p>
           </div>
         </div>

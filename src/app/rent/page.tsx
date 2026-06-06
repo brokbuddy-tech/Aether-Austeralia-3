@@ -5,6 +5,7 @@ import { PropertyCard } from "@/components/property-card";
 import { StickyFilterBar } from "@/components/sticky-filter-bar";
 import { Navbar } from "@/components/navbar";
 import { getListings } from "@/lib/api";
+import { cleanQueryForCategory, matchesTemplateCategory, normalizeCategory } from "@/lib/search-utils";
 import { getRequestAgencySlug } from "@/lib/server-agency";
 
 export default async function RentPage({
@@ -22,18 +23,24 @@ export default async function RentPage({
 }) {
   const params = await searchParams;
   const agencySlug = await getRequestAgencySlug();
-  const { properties, total, page, totalPages } = await getListings({
+  const category = normalizeCategory(params.category);
+  const searchQuery = cleanQueryForCategory(params.q, category) || "";
+  const headingLabel = searchQuery || category || "";
+  const listingsResponse = await getListings({
     transactionType: "RENT",
     status: "ACTIVE",
-    q: params.q || "",
-    category: params.category || "",
+    q: searchQuery,
     minPrice: params.minPrice || "",
     maxPrice: params.maxPrice || "",
     bedrooms: params.bedrooms || "",
     bathrooms: params.bathrooms || "",
-    page: params.page || "1",
-    limit: 12,
+    page: category ? "1" : params.page || "1",
+    limit: category ? 96 : 12,
   }, agencySlug);
+  const properties = listingsResponse.properties.filter((property) => matchesTemplateCategory(property, category));
+  const total = category ? properties.length : listingsResponse.total;
+  const page = category ? 1 : listingsResponse.page;
+  const totalPages = category ? 1 : listingsResponse.totalPages;
   const nextPageParams = new URLSearchParams(
     Object.entries({ ...params, page: String(page + 1) })
       .filter(([, value]) => Boolean(value))
@@ -55,7 +62,7 @@ export default async function RentPage({
               Explore our exclusive collection of high-end lease opportunities across Australia's most coveted suburbs.
             </p>
             <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
-              {total} live rental listings{params.q ? ` matching "${params.q}"` : ""}
+              {total} live rental listings{headingLabel ? ` matching "${headingLabel}"` : ""}
             </p>
           </div>
         </div>

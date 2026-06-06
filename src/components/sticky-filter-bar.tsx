@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AmenityIcon } from "@/components/amenity-icon";
+import { cleanQueryForCategory, normalizeCategory } from "@/lib/search-utils";
 
 export function StickyFilterBar() {
   const router = useRouter();
@@ -43,6 +44,7 @@ export function StickyFilterBar() {
   useEffect(() => {
     const minPrice = searchParams.get("minPrice") || "";
     const maxPrice = searchParams.get("maxPrice") || "";
+    const category = normalizeCategory(searchParams.get("category"));
 
     let price = "Any Price";
     if (minPrice === "500000" && maxPrice === "1000000") price = "$500k - $1M";
@@ -52,9 +54,9 @@ export function StickyFilterBar() {
     if ((minPrice || maxPrice) && price === "Any Price") price = "Custom";
 
     setFilters({
-      location: searchParams.get("q") || "",
+      location: cleanQueryForCategory(searchParams.get("q"), category) || "",
       price,
-      type: searchParams.get("category") || "Any Type",
+      type: category || "Any Type",
       beds: searchParams.get("bedrooms") || "Any",
       bath: searchParams.get("bathrooms") || "Any",
       parking: "any",
@@ -77,7 +79,11 @@ export function StickyFilterBar() {
 
   const applySearch = () => {
     const params = new URLSearchParams(searchParams.toString());
-    const searchTerms = [filters.location.trim(), ...filters.amenities].filter(Boolean).join(" ");
+    const category = normalizeCategory(filters.type === "Any Type" ? undefined : filters.type);
+    const searchTerms = [
+      cleanQueryForCategory(filters.location.trim(), category),
+      ...filters.amenities,
+    ].filter(Boolean).join(" ");
 
     if (searchTerms) {
       params.set("q", searchTerms);
@@ -109,8 +115,8 @@ export function StickyFilterBar() {
     if (filters.beds !== "Any") params.set("bedrooms", filters.beds.replace("+", "")); else params.delete("bedrooms");
     if (filters.bath !== "Any") params.set("bathrooms", filters.bath.replace("+", "")); else params.delete("bathrooms");
 
-    if (filters.type !== "Any Type") {
-      params.set("category", filters.type);
+    if (category) {
+      params.set("category", category);
     } else {
       params.delete("category");
     }
