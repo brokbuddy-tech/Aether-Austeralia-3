@@ -119,7 +119,7 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full rounded-full h-14 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[9px] flex items-center justify-center gap-2 group transition-all hover:bg-primary hover:text-white hover:border-primary backdrop-blur-sm">
+        <Button variant="outline" className="w-full rounded-full h-14 border-[#111111] text-[#111111] font-bold uppercase tracking-[0.2em] text-[9px] flex items-center justify-center gap-2 group transition-all hover:bg-primary/10 hover:text-[#111111] hover:border-primary/40 backdrop-blur-sm">
           <FileText className="w-3.5 h-3.5" />
           VIEW DIGITAL BROCHURE
         </Button>
