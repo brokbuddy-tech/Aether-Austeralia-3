@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Mail, Phone, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -122,14 +122,13 @@ export function VelaAgentsPageContent({
 
       <section className="pb-32 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
             {filteredAgents.map((agent) => (
-              <Link
+              <article
                 key={agent.slug || agent.id || agent.name}
-                href={prefixAgencyPath(`/agents/${agent.slug || ""}`, agencySlug)}
-                className="group bg-white rounded-[2.5rem] overflow-hidden border border-primary/5 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-primary/5 bg-white shadow-sm transition-all duration-500 hover:shadow-2xl"
               >
-                <div className="relative aspect-[4/5] overflow-hidden">
+                <div className="relative aspect-[4/3] bg-muted">
                   <Image
                     src={getAgentImage(agent.slug || agent.name, agent.avatar)}
                     alt={agent.name}
@@ -137,33 +136,40 @@ export function VelaAgentsPageContent({
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-8 flex flex-col flex-1">
-                  <div className="mb-6">
-                    <h3 className="text-xl font-headline font-bold uppercase tracking-wider text-foreground">{agent.name}</h3>
-                    <p className="text-primary font-bold text-[10px] uppercase tracking-[0.3em] mt-1">
+                <div className="flex min-h-[276px] flex-1 flex-col space-y-4 p-6">
+                  <div>
+                    <p className="text-primary font-bold text-[10px] uppercase tracking-[0.3em]">
                       {agent.jobTitle || agent.title || agent.tagline || "Property Consultant"}
                     </p>
+                    <h3 className="mt-2 text-xl font-headline font-bold uppercase tracking-wider text-foreground">{agent.name}</h3>
+                    <p className="mt-2 line-clamp-2 text-muted-foreground font-light text-sm leading-relaxed">
+                      {agent.bio || `${agent.name} is part of the public team for ${displayName}.`}
+                    </p>
                   </div>
-                  <p className="text-muted-foreground font-light text-sm leading-relaxed mb-8 flex-1">
-                    {agent.bio || `${agent.name} is part of the public team for ${displayName}.`}
-                  </p>
-                  <div className="space-y-3 pt-6 border-t border-primary/5">
-                    <div className="flex flex-wrap gap-2">
-                      {(agent.languages || []).slice(0, 3).map((language) => (
-                        <span key={language} className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
-                          {language}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
-                      <span>{agent.totalListings ?? 0} listings</span>
-                      <span className="inline-flex items-center gap-2">
-                        View profile <ArrowRight className="w-3 h-3" />
-                      </span>
-                    </div>
+
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    {agent.email ? (
+                      <a href={`mailto:${agent.email}`} className="flex items-center gap-2 break-all hover:text-primary">
+                        <Mail className="h-4 w-4" />
+                        {agent.email}
+                      </a>
+                    ) : null}
+                    {agent.phone ? (
+                      <a href={`tel:${agent.phone}`} className="flex items-center gap-2 hover:text-primary">
+                        <Phone className="h-4 w-4" />
+                        {agent.phone}
+                      </a>
+                    ) : null}
                   </div>
+
+                  <Link
+                    href={prefixAgencyPath(`/agents/${agent.slug || ""}`, agencySlug)}
+                    className="mt-auto inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.25em] text-primary"
+                  >
+                    View profile <ArrowRight className="h-4 w-4" />
+                  </Link>
                 </div>
-              </Link>
+              </article>
             ))}
           </div>
 
