@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
@@ -53,6 +53,8 @@ export function NavbarClient({
 }: NavbarClientProps) {
   const pathname = usePathname();
   const agencySlug = resolveAgencySlugFromPathname(pathname);
+  const desktopNavRef = useRef<HTMLDivElement | null>(null);
+  const desktopLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const [open, setOpen] = useState(false);
   const [brandName, setBrandName] = useState(() => getDisplayName(initialSiteConfig));
   const [brandLogo, setBrandLogo] = useState<string | null>(initialSiteConfig?.profile?.logo || null);
@@ -60,6 +62,38 @@ export function NavbarClient({
   const [contactPhone, setContactPhone] = useState(() => getContactPhone(initialSiteConfig));
 
   const isDark = theme === "dark";
+  const isNavLinkActive = (href: string) => {
+    const prefixedHref = prefixAgencyPath(href, agencySlug);
+    return pathname === prefixedHref || pathname === href || pathname.startsWith(`${prefixedHref}/`) || pathname.startsWith(`${href}/`);
+  };
+  const activeNavName = navLinks.find((link) => isNavLinkActive(link.href))?.name;
+  const [activeUnderline, setActiveUnderline] = useState<{ left: number; width: number } | null>(null);
+
+  useEffect(() => {
+    const updateUnderline = () => {
+      if (!activeNavName || !desktopNavRef.current) {
+        setActiveUnderline(null);
+        return;
+      }
+
+      const activeLink = desktopLinkRefs.current[activeNavName];
+      if (!activeLink) {
+        setActiveUnderline(null);
+        return;
+      }
+
+      const navRect = desktopNavRef.current.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      setActiveUnderline({
+        left: linkRect.left - navRect.left,
+        width: linkRect.width,
+      });
+    };
+
+    updateUnderline();
+    window.addEventListener("resize", updateUnderline);
+    return () => window.removeEventListener("resize", updateUnderline);
+  }, [activeNavName]);
 
   useEffect(() => {
     setBrandName(getDisplayName(initialSiteConfig));
@@ -97,19 +131,36 @@ export function NavbarClient({
 
   return (
     <>
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] hidden md:flex items-center gap-12 bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
-        {navLinks.map((link) => (
-          <Link
-            key={link.name}
-            href={prefixAgencyPath(link.href, agencySlug)}
-            className={cn(
-              "text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors",
-              pathname === prefixAgencyPath(link.href, agencySlug) || pathname === link.href ? "text-primary" : "text-foreground"
-            )}
-          >
-            {link.name}
-          </Link>
-        ))}
+      <div ref={desktopNavRef} className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] hidden md:flex items-center gap-12 bg-white/50 backdrop-blur-md px-10 py-4 rounded-full border border-white/40 shadow-sm">
+        {activeUnderline && (
+          <span
+            className="pointer-events-none absolute bottom-3 h-0.5 rounded-full bg-primary transition-all duration-300 ease-out"
+            style={{
+              left: activeUnderline.left,
+              width: activeUnderline.width,
+            }}
+          />
+        )}
+        {navLinks.map((link) => {
+          const isActive = link.name === activeNavName;
+
+          return (
+            <Link
+              key={link.name}
+              href={prefixAgencyPath(link.href, agencySlug)}
+              ref={(node) => {
+                desktopLinkRefs.current[link.name] = node;
+              }}
+              aria-current={isActive ? "page" : undefined}
+              className={cn(
+                "relative py-1 text-[10px] uppercase font-bold tracking-[0.3em] hover:text-primary transition-colors",
+                isActive ? "text-primary" : "text-foreground"
+              )}
+            >
+              {link.name}
+            </Link>
+          );
+        })}
       </div>
 
       <header className="absolute top-0 left-0 right-0 z-[90] px-6 py-6 flex justify-between items-center">
@@ -162,7 +213,7 @@ export function NavbarClient({
                         onClick={() => setOpen(false)}
                         className={cn(
                           "text-lg uppercase font-bold tracking-[0.2em] transition-colors",
-                          pathname === prefixAgencyPath(link.href, agencySlug) || pathname === link.href ? "text-primary" : "text-foreground"
+                          isNavLinkActive(link.href) ? "text-primary" : "text-foreground"
                         )}
                       >
                         {link.name}
