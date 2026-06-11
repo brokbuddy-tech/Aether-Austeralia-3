@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,7 +8,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { getSiteConfig, hasMeaningfulSiteConfig, type SiteConfig } from "@/lib/public-site";
+import { getSiteConfig, hasMeaningfulSiteConfig, submitOrgInquiry, type SiteConfig } from "@/lib/public-site";
 import { prefixAgencyPath, resolveAgencySlugFromPathname } from "@/lib/agency-routing";
 
 function getDisplayName(siteConfig: SiteConfig | null) {
@@ -23,6 +23,8 @@ export function VelaContactPageContent({
   const pathname = usePathname();
   const agencySlug = resolveAgencySlugFromPathname(pathname);
   const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(initialSiteConfig);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitFeedback, setSubmitFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   useEffect(() => {
     setSiteConfig(initialSiteConfig);
@@ -57,6 +59,45 @@ export function VelaContactPageContent({
     "Phone available on request";
   const officeAddress = siteConfig?.profile?.officeAddress?.trim() || "Address shared on request";
   const officeTimings = siteConfig?.profile?.officeTimings?.trim() || "Available by appointment";
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitFeedback(null);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const firstName = String(formData.get("firstName") || "").trim();
+    const lastName = String(formData.get("lastName") || "").trim();
+    const subject = String(formData.get("subject") || "").trim();
+    const message = String(formData.get("message") || "").trim();
+
+    try {
+      await submitOrgInquiry({
+        name: [firstName, lastName].filter(Boolean).join(" "),
+        email: String(formData.get("email") || "").trim(),
+        phone: String(formData.get("phone") || "").trim(),
+        message: subject ? `Subject: ${subject}\n\n${message}` : message,
+        templateName: "Aether Australia 3",
+        formContext: "contact-page",
+      }, agencySlug);
+
+      form.reset();
+      setSubmitFeedback({
+        type: "success",
+        message: `Your inquiry has been sent. ${displayName} will respond shortly.`,
+      });
+    } catch (error) {
+      setSubmitFeedback({
+        type: "error",
+        message: error instanceof Error ? error.message : "Please try again in a moment.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-background relative overflow-hidden">
@@ -118,31 +159,43 @@ export function VelaContactPageContent({
           </div>
 
           <div className="glass-light p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/20">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">First Name</label>
-                  <Input className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder="Enter first name" />
+                  <Input name="firstName" className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder="Enter first name" required />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Last Name</label>
-                  <Input className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder="Enter last name" />
+                  <Input name="lastName" className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder="Enter last name" required />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Email Address</label>
-                <Input type="email" className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder="email@example.com" />
+                <Input name="email" type="email" className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder="email@example.com" required />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Phone</label>
+                <Input name="phone" type="tel" className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder="Your phone number" />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Subject</label>
-                <Input className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder={`How can ${displayName} help?`} />
+                <Input name="subject" className="rounded-xl border-primary/10 h-12 focus:ring-primary" placeholder={`How can ${displayName} help?`} required />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Your Message</label>
-                <Textarea className="rounded-xl border-primary/10 min-h-[150px] focus:ring-primary resize-none" placeholder="How can we assist you?" />
+                <Textarea name="message" className="rounded-xl border-primary/10 min-h-[150px] focus:ring-primary resize-none" placeholder="How can we assist you?" required minLength={10} />
               </div>
-              <Button className="w-full rounded-full py-7 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.3em] text-[11px] h-auto shadow-xl transition-all hover:scale-[1.02]">
-                Submit Inquiry
+              {submitFeedback ? (
+                <p
+                  className={submitFeedback.type === "success" ? "text-center text-sm font-semibold text-emerald-700" : "text-center text-sm font-semibold text-red-600"}
+                  aria-live="polite"
+                >
+                  {submitFeedback.message}
+                </p>
+              ) : null}
+              <Button type="submit" disabled={isSubmitting} className="w-full rounded-full py-7 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-[0.3em] text-[11px] h-auto shadow-xl transition-all hover:scale-[1.02] disabled:opacity-70">
+                {isSubmitting ? "Submitting..." : "Submit Inquiry"}
               </Button>
             </form>
 
