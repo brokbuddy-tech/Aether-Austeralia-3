@@ -180,14 +180,14 @@ export function DigitalBrochure({ property, galleryImages }: DigitalBrochureProp
                 </div>
 
                 <div className="flex gap-8">
-                  {property.beds !== undefined ? (
+                  {property.beds > 0 ? (
                     <div className="flex flex-col items-center gap-1">
                       <Bed className="w-5 h-5 text-primary" />
                       <span className="text-sm font-bold">{property.beds}</span>
                       <span className="text-[8px] uppercase font-bold tracking-widest text-muted-foreground">Beds</span>
                     </div>
                   ) : null}
-                  {property.baths !== undefined ? (
+                  {property.baths > 0 ? (
                     <div className="flex flex-col items-center gap-1">
                       <Bath className="w-5 h-5 text-primary" />
                       <span className="text-sm font-bold">{property.baths}</span>

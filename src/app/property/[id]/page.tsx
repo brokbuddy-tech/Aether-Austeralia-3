@@ -112,14 +112,14 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
             <div className="lg:col-span-2 space-y-12 md:space-y-16">
               {/* Metadata Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8">
-                {property.beds !== undefined && (
+                {property.beds > 0 && (
                   <div className="flex flex-col gap-2 p-4 md:p-6 rounded-2xl bg-muted/30 border border-primary/5">
                     <Bed className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                     <p className="text-xl md:text-2xl font-headline font-bold">{property.beds}</p>
                     <p className="text-[8px] md:text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Bedrooms</p>
                   </div>
                 )}
-                {property.baths !== undefined && (
+                {property.baths > 0 && (
                   <div className="flex flex-col gap-2 p-4 md:p-6 rounded-2xl bg-muted/30 border border-primary/5">
                     <Bath className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                     <p className="text-xl md:text-2xl font-headline font-bold">{property.baths}</p>

@@ -72,12 +72,12 @@ export function PropertyCard({ property }: { property: PropertyProps }) {
 
         {/* Metadata Overlay */}
         <div className="absolute bottom-4 left-4 flex gap-3 z-10">
-          {property.beds !== undefined && (
+          {property.beds > 0 && (
             <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">
               <Bed className="w-3.5 h-3.5" /> {property.beds}
             </div>
           )}
-          {property.baths !== undefined && (
+          {property.baths > 0 && (
             <div className="flex items-center gap-1.5 glass px-2 py-1 rounded text-white text-xs font-medium">
               <Bath className="w-3.5 h-3.5" /> {property.baths}
             </div>
